@@ -4,9 +4,12 @@ import Account from "./Account";
 import { ModeToggle } from "@/components/themes/ChangeTheme";
 import { auth } from "@/lib/auth/auth";
 import { Button } from "@/components/ui/button";
+import SearchBox from "./SearchBox";
+import MenuContext from "./menu_button/MenuContext";
 
 async function TopNavBar() {
   const session = await auth();
+  const u_name = session?.user?.name || "user";
   const image =
     session?.user?.image ||
     "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
@@ -22,7 +25,10 @@ async function TopNavBar() {
       <div className=" hidden md:flex">
         <NavigationMenuDemo></NavigationMenuDemo>
       </div>
-      <div className=" flex items-center gap-4">
+      {/* right side */}
+      <div className=" md:flex items-center gap-4 justify-between hidden">
+        {/* search field  */}
+        <SearchBox />
         {session?.user ? (
           <Account image={image} />
         ) : (
@@ -31,6 +37,10 @@ async function TopNavBar() {
           </Button>
         )}
         <ModeToggle />
+      </div>
+      {/* mobile screen menu button and context */}
+      <div className=" md:hidden flex items-center gap-2">
+        <MenuContext session={session}/>
       </div>
     </div>
   );

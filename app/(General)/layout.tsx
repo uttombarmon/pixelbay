@@ -1,5 +1,4 @@
 import TopNavBar from "@/components/customs/navbar/TopNavBar";
-import { ModeToggle } from "@/components/themes/ChangeTheme";
 
 export default function GeneralLayout({
   children,
@@ -7,7 +6,7 @@ export default function GeneralLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <div>
         <TopNavBar />
       </div>
