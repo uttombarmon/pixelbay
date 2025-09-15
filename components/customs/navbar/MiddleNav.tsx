@@ -18,6 +18,7 @@ export function NavigationMenuDemo() {
   return (
     <NavigationMenu viewport={false}>
       <NavigationMenuList>
+        {/* Mobile & Accessories */}
         <NavigationMenuItem>
           <NavigationMenuTrigger>Mobile & Accessories</NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -61,6 +62,7 @@ export function NavigationMenuDemo() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+        {/* Computers & Accessories */}
         <NavigationMenuItem>
           <NavigationMenuTrigger>Computers & Accessories</NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -96,6 +98,7 @@ export function NavigationMenuDemo() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+        {/* Gaming Gadgets */}
         <NavigationMenuItem>
           <NavigationMenuTrigger>Gaming Gadgets</NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -135,7 +138,8 @@ export function NavigationMenuDemo() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        {/* Entertainment Electronics */}
+        <NavigationMenuItem className=" hidden xl:block">
           <NavigationMenuTrigger>
             Entertainment Electronics
           </NavigationMenuTrigger>
@@ -162,6 +166,7 @@ export function NavigationMenuDemo() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+        {/* others  */}
         <NavigationMenuItem>
           <NavigationMenuTrigger>Others</NavigationMenuTrigger>
           <NavigationMenuContent>

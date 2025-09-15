@@ -191,18 +191,18 @@ const MenuProducts = async ({ session }: { session: any }) => {
       <div className="flex h-screen flex-1 flex-col justify-items-start border-e  border-gray-100">
         <div className="px-2 py-4 ">
           <ul className="space-y-1">
-            <li className=" bg-gray-100 active:bg-gray-300">
+            <li className="  active:bg-gray-300">
               <Link
                 href="/search?s=hot-products"
-                className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-700"
+                className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
               >
                 Hot Products
               </Link>
             </li>
-            <li className=" bg-gray-100 active:bg-gray-300">
+            <li className="  active:bg-gray-300">
               <Link
                 href="/search?s=latest-products"
-                className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-700"
+                className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 dark:hover:bg-gray-500 hover:bg-gray-100 hover:text-gray-700"
               >
                 Latest Products
               </Link>

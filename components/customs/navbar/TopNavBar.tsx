@@ -22,11 +22,11 @@ async function TopNavBar() {
         </i>
       </div>
       {/* middle nav  */}
-      <div className=" hidden md:flex">
+      <div className=" hidden lg:flex">
         <NavigationMenuDemo></NavigationMenuDemo>
       </div>
       {/* right side */}
-      <div className=" md:flex items-center gap-4 justify-between hidden">
+      <div className=" hidden lg:flex items-center gap-4 justify-between">
         {/* search field  */}
         <SearchBox />
         {session?.user ? (
@@ -39,8 +39,8 @@ async function TopNavBar() {
         <ModeToggle />
       </div>
       {/* mobile screen menu button and context */}
-      <div className=" md:hidden flex items-center gap-2">
-        <MenuContext session={session}/>
+      <div className=" lg:hidden flex items-center gap-2">
+        <MenuContext session={session} />
       </div>
     </div>
   );
