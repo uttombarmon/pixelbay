@@ -1,109 +1,23 @@
+// pixelbay_product_schema.ts
+// Drizzle ORM (Postgres) schema for PixelBay product domain
+// Single-file product-focused schema: categories, products, images, variants, inventory,
+// collections, tags, reviews, and auxiliary tables.
+
 import {
+  pgTable,
+  serial,
+  integer,
+  varchar,
+  text,
   boolean,
   timestamp,
-  pgTable,
-  text,
-  primaryKey,
-  integer,
-  serial,
-  pgEnum,
-  varchar,
   jsonb,
-  uuid,
   numeric,
+  uuid,
+  pgEnum,
 } from "drizzle-orm/pg-core";
-// import postgres from "postgres"
-// import { drizzle } from "drizzle-orm/postgres-js"
-import type { AdapterAccountType } from "@auth/core/adapters";
 import { sql } from "drizzle-orm";
 
-// const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle"
-// const pool = postgres(connectionString, { max: 1 })
-
-// export const db = drizzle(pool)
-
-export const users = pgTable("user", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: text("name"),
-  email: text("email").unique(),
-  emailVerified: timestamp("emailVerified", { mode: "date" }),
-  image: text("image"),
-});
-
-export const accounts = pgTable(
-  "account",
-  {
-    userId: text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    type: text("type").$type<AdapterAccountType>().notNull(),
-    provider: text("provider").notNull(),
-    providerAccountId: text("providerAccountId").notNull(),
-    refresh_token: text("refresh_token"),
-    access_token: text("access_token"),
-    expires_at: integer("expires_at"),
-    token_type: text("token_type"),
-    scope: text("scope"),
-    id_token: text("id_token"),
-    session_state: text("session_state"),
-  },
-  (account) => [
-    {
-      compoundKey: primaryKey({
-        columns: [account.provider, account.providerAccountId],
-      }),
-    },
-  ]
-);
-
-export const sessions = pgTable("session", {
-  sessionToken: text("sessionToken").primaryKey(),
-  userId: text("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  expires: timestamp("expires", { mode: "date" }).notNull(),
-});
-
-export const verificationTokens = pgTable(
-  "verificationToken",
-  {
-    identifier: text("identifier").notNull(),
-    token: text("token").notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  },
-  (verificationToken) => [
-    {
-      compositePk: primaryKey({
-        columns: [verificationToken.identifier, verificationToken.token],
-      }),
-    },
-  ]
-);
-
-export const authenticators = pgTable(
-  "authenticator",
-  {
-    credentialID: text("credentialID").notNull().unique(),
-    userId: text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    providerAccountId: text("providerAccountId").notNull(),
-    credentialPublicKey: text("credentialPublicKey").notNull(),
-    counter: integer("counter").notNull(),
-    credentialDeviceType: text("credentialDeviceType").notNull(),
-    credentialBackedUp: boolean("credentialBackedUp").notNull(),
-    transports: text("transports"),
-  },
-  (authenticator) => [
-    {
-      compositePK: primaryKey({
-        columns: [authenticator.userId, authenticator.credentialID],
-      }),
-    },
-  ]
-);
 // ----------------------
 // Enums
 // ----------------------
@@ -262,3 +176,20 @@ export const productSearch = pgTable("product_search", {
   metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
+
+export const productSchema = {
+  enums: { productStatus, variantStatus, visibilityStatus },
+  tables: {
+    categories,
+    products,
+    productImages,
+    productVariants,
+    inventory,
+    tags,
+    productTags,
+    collections,
+    collectionProducts,
+    reviews,
+    productSearch,
+  },
+};

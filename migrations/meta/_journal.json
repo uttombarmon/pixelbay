@@ -8,6 +8,13 @@
       "when": 1757657156358,
       "tag": "0000_nasty_guardian",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1758036087663,
+      "tag": "0001_woozy_bloodstrike",
+      "breakpoints": true
     }
   ]
 }

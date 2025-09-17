@@ -45,8 +45,8 @@ export const homepageCategories = [
 
 export default function Categories() {
   return (
-    <div className=" my-8 border rounded-lg shadow-md">
-      <h1 className=" text-xl md:text-2xl lg:text-3xl font-bold">
+    <div className=" py-8 border rounded-lg">
+      <h1 className=" text-xl md:text-2xl lg:text-3xl font-bold px-4">
         Top Category Gadgets
       </h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
