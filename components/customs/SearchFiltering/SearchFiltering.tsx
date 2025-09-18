@@ -9,7 +9,7 @@ const SearchFiltering = () => {
   return (
     <div className=" w-full bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-200 h-full">
       {/* Search Input form  */}
-      <form className=" w-2/3  mx-auto flex justify-center items-center py-4">
+      <form className=" w-4/5  mx-auto flex justify-center items-center py-4">
         <label htmlFor="Search">
           {/* <span className="text-sm font-medium text-gray-700"> Search </span> */}
 
@@ -46,7 +46,7 @@ const SearchFiltering = () => {
         </label>
       </form>
 
-      <div className="space-y-4 w-2/3 mx-auto">
+      <div className="space-y-4 w-4/5 mx-auto">
         {/* categories */}
         <CategoriesFilter />
         {/* sort by  */}
