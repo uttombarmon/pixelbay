@@ -1,7 +1,7 @@
 import SearchFiltering from "@/components/customs/SearchFiltering/SearchFiltering";
 import SearchProducts from "@/components/customs/SearchFiltering/SearchProducts";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import React from "react";
+import React, { Suspense } from "react";
 
 const SearchPageComponent = () => {
   return (
@@ -17,7 +17,9 @@ const SearchPageComponent = () => {
           Gadgets...
         </h1>
         <ScrollArea className=" w-full min-h-screen h-auto  border-b-2 border-amber-900">
-          <SearchProducts />
+          <Suspense fallback={<div>Loading search…</div>}>
+            <SearchProducts />
+          </Suspense>
         </ScrollArea>
       </div>
     </div>

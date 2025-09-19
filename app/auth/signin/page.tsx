@@ -28,13 +28,15 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import GoogleSignIn from "@/components/customs/auth/SignIn/GoogleSignIn";
 import { redirect } from "next/navigation";
+import FacebookSignIn from "@/components/customs/auth/SignIn/FacebookSignIn";
+import Link from "next/link";
 
 export default async function SignInPage() {
   const session = await auth();
   console.log(session);
-  if (session?.user) {
-    redirect("/");
-  }
+  // if (session?.user) {
+  //   redirect("/");
+  // }
   return (
     <div className="flex items-center justify-center min-h-screen px-4">
       <Card className="w-full max-w-md shadow-xl rounded-2xl">
@@ -50,30 +52,7 @@ export default async function SignInPage() {
           {/* 🔥 Social login buttons */}
           <div className="space-y-3">
             <GoogleSignIn />
-            <Button variant="outline" className="w-full flex gap-2">
-              <svg
-                className=" size-5"
-                xmlns="http://www.w3.org/2000/svg"
-                shape-rendering="geometricPrecision"
-                text-rendering="geometricPrecision"
-                image-rendering="optimizeQuality"
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                viewBox="0 0 509 509"
-              >
-                <g fill-rule="nonzero">
-                  <path
-                    fill="#0866FF"
-                    d="M509 254.5C509 113.94 395.06 0 254.5 0S0 113.94 0 254.5C0 373.86 82.17 474 193.02 501.51V332.27h-52.48V254.5h52.48v-33.51c0-86.63 39.2-126.78 124.24-126.78 16.13 0 43.95 3.17 55.33 6.33v70.5c-6.01-.63-16.44-.95-29.4-.95-41.73 0-57.86 15.81-57.86 56.91v27.5h83.13l-14.28 77.77h-68.85v174.87C411.35 491.92 509 384.62 509 254.5z"
-                  />
-                  <path
-                    fill="#fff"
-                    d="M354.18 332.27l14.28-77.77h-83.13V227c0-41.1 16.13-56.91 57.86-56.91 12.96 0 23.39.32 29.4.95v-70.5c-11.38-3.16-39.2-6.33-55.33-6.33-85.04 0-124.24 40.16-124.24 126.78v33.51h-52.48v77.77h52.48v169.24c19.69 4.88 40.28 7.49 61.48 7.49 10.44 0 20.72-.64 30.83-1.86V332.27h68.85z"
-                  />
-                </g>
-              </svg>
-              Continue with Facebook
-            </Button>
+            <FacebookSignIn />
           </div>
 
           {/* Separator */}
@@ -108,9 +87,9 @@ export default async function SignInPage() {
             </div>
 
             <div className="flex items-center justify-between text-sm">
-              <a href="#" className="text-blue-600 hover:underline">
+              <Link href="#" className="text-blue-600 hover:underline">
                 Forgot password?
-              </a>
+              </Link>
             </div>
 
             <Button type="submit" className="w-full">
@@ -119,9 +98,12 @@ export default async function SignInPage() {
 
             <div className="text-center text-sm text-gray-500">
               Don’t have an account?{" "}
-              <a href="/signup" className="text-blue-600 hover:underline">
+              <Link
+                href="/auth/signup"
+                className="text-blue-600 hover:underline"
+              >
                 Sign up
-              </a>
+              </Link>
             </div>
           </form>
         </CardContent>

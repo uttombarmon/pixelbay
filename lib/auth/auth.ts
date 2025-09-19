@@ -3,6 +3,7 @@ import NextAuth from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "../db/drizzle";
 import Google from "next-auth/providers/google";
+import Resend from "next-auth/providers/resend";
 // import { users } from "../db/schema/users";
 import { eq } from "drizzle-orm";
 import { users } from "../db/schema/schema";
@@ -20,6 +21,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           response_type: "code",
         },
       },
+    }),
+    Resend({
+      apiKey: process.env.AUTH_RESEND_KEY,
+      from: "no-reply@pixelbay.com",
     }),
   ],
   callbacks: {
@@ -128,8 +133,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   pages: {
-    signIn: "/a/signin",
-    error: "/a/signin", // Error code passed in query string as ?error=
+    signIn: "/auth/signup",
+    error: "/auth/signin", // Error code passed in query string as ?error=
   },
   session: {
     strategy: "jwt",
