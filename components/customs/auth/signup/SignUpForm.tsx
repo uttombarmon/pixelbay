@@ -14,12 +14,36 @@ const SignUpForm = () => {
       }}
     >
       <div className="grid gap-2">
+        <Label htmlFor="FirstName">First Name</Label>
+        <Input
+          id="firstname"
+          type="text"
+          name="firstname"
+          placeholder="Jhon"
+          required
+        />
+        <Label htmlFor="LastName">Last Name</Label>
+        <Input
+          id="lastname"
+          type="text"
+          name="lastname"
+          placeholder="Deo"
+          required
+        />
         <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           type="text"
           name="email"
           placeholder="you@example.com"
+          required
+        />
+        <Label htmlFor="email">Password</Label>
+        <Input
+          id="password"
+          type="password"
+          name="password"
+          placeholder="*****"
           required
         />
       </div>

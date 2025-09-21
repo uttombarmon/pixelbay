@@ -3,10 +3,11 @@ import NextAuth from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "../db/drizzle";
 import Google from "next-auth/providers/google";
-import Resend from "next-auth/providers/resend";
 // import { users } from "../db/schema/users";
 import { eq } from "drizzle-orm";
 import { users } from "../db/schema/schema";
+import Credentials from "@auth/core/providers/credentials";
+import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db),
@@ -22,9 +23,40 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         },
       },
     }),
-    Resend({
-      apiKey: process.env.AUTH_RESEND_KEY,
-      from: "no-reply@pixelbay.com",
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        firstName: { label: "First Name", type: "text" },
+        lastName: { label: "Last Name", type: "text" },
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Missing email or password");
+        }
+
+        // Find user in DB
+        const [user] = await db
+          .select()
+          .from(users)
+          .where(eq(users.email, (credentials.email as string).toLowerCase()));
+
+        if (!user) throw new Error("User not found");
+
+        // Check password
+        const isValid = await bcrypt.compare(
+          credentials?.password as string,
+          (user?.password as string)
+        );
+        if (!isValid) throw new Error("Invalid password");
+
+        return {
+          id: user.id,
+          name: `${user.firstName} ${user.lastName}`,
+          email: user.email,
+        };
+      },
     }),
   ],
   callbacks: {
