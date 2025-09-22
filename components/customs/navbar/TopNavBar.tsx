@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth/auth";
 import { Button } from "@/components/ui/button";
 import SearchBox from "./SearchBox";
 import MenuContext from "./menu_button/MenuContext";
+import Link from "next/link";
 
 async function TopNavBar() {
   const session = await auth();
@@ -17,9 +18,12 @@ async function TopNavBar() {
     <div className="w-full h-16 flex items-center justify-between px-4 border-b border-gray-300 dark:border-gray-700">
       {/* logo */}
       <div className=" font-bold text-2xl font-sans">
-        <i>
-          Pixel<span className=" text-red-400">Bay</span>
-        </i>
+        <Link href={"/"}>
+          {" "}
+          <i>
+            Pixel<span className=" text-red-400">Bay</span>
+          </i>
+        </Link>
       </div>
       {/* middle nav  */}
       <div className=" hidden lg:flex">

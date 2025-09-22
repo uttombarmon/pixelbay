@@ -7,6 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 import React from "react";
 
 const Account = async ({ image }: { image: string }) => {
@@ -22,9 +23,18 @@ const Account = async ({ image }: { image: string }) => {
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>My Cart</DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={"/dashboard"}>Dashboard</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={"/dashboard/profile"}>Profile</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={"/dashboard/mycart"}>My Cart</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={"/dashboard/billing"}>Billing</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem>Sign Out</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
