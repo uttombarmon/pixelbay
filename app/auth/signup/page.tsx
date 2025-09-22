@@ -32,7 +32,7 @@ export default function SignUpPage() {
             <FacebookSignIn />
           </div>
 
-          <div className="relative">
+          {/* <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
             </div>
@@ -41,10 +41,10 @@ export default function SignUpPage() {
                 Or continue with
               </span>
             </div>
-          </div>
+          </div> */}
 
           {/* Signup Form */}
-          <SignUpForm />
+          {/* <SignUpForm /> */}
         </CardContent>
 
         <CardFooter className="flex justify-center">

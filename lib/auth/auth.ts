@@ -23,54 +23,45 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         },
       },
     }),
-    Credentials({
-      name: "Credentials",
-      credentials: {
-        firstName: { label: "First Name", type: "text" },
-        lastName: { label: "Last Name", type: "text" },
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Missing email or password");
-        }
+    // Credentials({
+    //   name: "Credentials",
+    //   credentials: {
+    //     name: { label: "Last Name", type: "text" },
+    //     email: { label: "Email", type: "email" },
+    //     password: { label: "Password", type: "password" },
+    //   },
+    //   async authorize(credentials) {
+    //     console.log("credentials:", credentials);
+    //     console.log("Email:", credentials?.email);
+    //     console.log("Password:", credentials?.password);
+    //     if (!credentials?.email || !credentials?.password) {
+    //       throw new Error("Missing email or password");
+    //     }
 
-        // Find user in DB
-        const [user] = await db
-          .select()
-          .from(users)
-          .where(eq(users.email, (credentials.email as string).toLowerCase()));
+    //     // Find user in DB
+    //     const [user] = await db
+    //       .select()
+    //       .from(users)
+    //       .where(eq(users.email, (credentials.email as string).toLowerCase()));
 
-        if (!user) throw new Error("User not found");
+    //     if (!user) console.log("User not found");
 
-        // Check password
-        const isValid = await bcrypt.compare(
-          credentials?.password as string,
-          (user?.password as string)
-        );
-        if (!isValid) throw new Error("Invalid password");
+    //     // Check password
+    //     const isValid = await bcrypt.compare(
+    //       credentials?.password as string,
+    //       user?.password as string
+    //     );
+    //     if (!isValid) throw new Error("Invalid password");
 
-        return {
-          id: user.id,
-          name: `${user.firstName} ${user.lastName}`,
-          email: user.email,
-        };
-      },
-    }),
+    //     return {
+    //       id: user.id,
+    //       name: `${user?.name}`,
+    //       email: user.email,
+    //     };
+    //   },
+    // }),
   ],
   callbacks: {
-    // async authorized({ auth, request: { nextUrl } }) {
-    //   const session = auth;
-    //   // Check for a specific email or email domain
-    //   if (
-    //     session?.user?.email
-
-    //   ) {
-    //     return true;
-    //   }
-    //   return false;
-    // },
     async signIn({ user, account, profile }) {
       console.log("--- [signIn Callback] Debug ---");
       console.log("User object from provider/authorize:", user);
@@ -124,8 +115,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             const newUser = await db.insert(users).values({
               email: user.email!,
               emailVerified: new Date(),
-              // Add only properties that exist in your users schema below this line
-              // For example, if your schema has 'image', 'role', etc., include them; otherwise, remove them.
             });
             console.log("New OAuth user created:", newUser);
           } else {

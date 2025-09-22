@@ -1,29 +1,24 @@
 "use client";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { UserI } from "@/types/UserInterface";
+import Link from "next/link";
+// import { signIn } from "@/lib/auth/auth";
 import { signIn } from "next-auth/react";
-import React, { useState } from "react";
 
-const SignUpForm = () => {
+const SignInForm = () => {
   const [user, setUser] = useState({
-    name: "",
-    // role: "user",
     email: "",
     password: "",
   });
-  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputData = e.target.value;
-    setUser((prev) => ({ ...prev, name: inputData }));
-  };
   const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputData = e.target.value;
     setUser((prev) => ({ ...prev, email: inputData }));
   };
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputData = e.target.value;
-    setUser((prev) => ({ ...prev, password: inputData }));
+    setUser((prev) => ({ ...prev, passwordHash: inputData }));
   };
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,57 +28,53 @@ const SignUpForm = () => {
 
       if (!res) throw new Error("Signup failed");
 
-      // const data = await res.json();
       console.log("Signup success:", res);
     } catch (err) {
       console.error(err);
     }
   };
   return (
-    <form className="grid gap-4" onSubmit={handleFormSubmit}>
-      <div className="grid gap-2">
-        <Label htmlFor="Full Name">Full Name</Label>
-        <Input
-          id="name"
-          type="text"
-          name="name"
-          placeholder="Jhon Deo"
-          required
-          onChange={(e) => handleName(e)}
-        />
-        {/* <Label htmlFor="LastName">Last Name</Label>
-        <Input
-          id="lastname"
-          type="text"
-          name="lastname"
-          placeholder="Deo"
-          required
-          onChange={(e) => handleLastName(e)}
-        /> */}
+    <form className="space-y-4" onSubmit={handleFormSubmit}>
+      <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
         <Input
           id="email"
-          type="text"
-          name="email"
+          type="email"
           placeholder="you@example.com"
           required
           onChange={(e) => handleEmail(e)}
         />
-        <Label htmlFor="email">Password</Label>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="password">Password</Label>
         <Input
           id="password"
           type="password"
-          name="password"
-          placeholder="*****"
+          placeholder="••••••••"
           required
           onChange={(e) => handlePassword(e)}
         />
       </div>
+
+      <div className="flex items-center justify-between text-sm">
+        <Link href="#" className="text-blue-600 hover:underline">
+          Forgot password?
+        </Link>
+      </div>
+
       <Button type="submit" className="w-full">
-        {"Sign Up"}
+        Sign In
       </Button>
+
+      <div className="text-center text-sm text-gray-500">
+        Don’t have an account?{" "}
+        <Link href="/auth/signup" className="text-blue-600 hover:underline">
+          Sign up
+        </Link>
+      </div>
     </form>
   );
 };
 
-export default SignUpForm;
+export default SignInForm;

@@ -21,7 +21,12 @@ import { sql } from "drizzle-orm";
 // const pool = postgres(connectionString, { max: 1 })
 
 // export const db = drizzle(pool)
-
+export const roleEnum = pgEnum("role", ["user", "admin", "seller"]);
+// export const providerEnum = pgEnum("provider", [
+//   "google",
+//   "facebook",
+//   "credientials",
+// ]);
 export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
@@ -29,7 +34,9 @@ export const users = pgTable("user", {
   name: text("name"),
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
+  password: text("password"),
   image: text("image"),
+  role: roleEnum("role").default("user").notNull(),
 });
 
 export const accounts = pgTable(

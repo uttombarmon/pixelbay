@@ -7,11 +7,12 @@ import Image from "next/image";
 
 const GoogleSignIn = () => {
   const handleGoogleSignIn = async () => {
-    await signIn("google");
+    const res = await signIn("google");
+    console.log(res);
   };
   return (
     <Button
-      onClick={() => handleGoogleSignIn}
+      onClick={handleGoogleSignIn}
       variant="outline"
       className="w-full flex gap-2"
     >

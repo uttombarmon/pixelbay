@@ -15,6 +15,27 @@
       "when": 1758036087663,
       "tag": "0001_woozy_bloodstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1758522084863,
+      "tag": "0002_modern_triathlon",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1758522434141,
+      "tag": "0003_amused_human_fly",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1758523387022,
+      "tag": "0004_panoramic_riptide",
+      "breakpoints": true
     }
   ]
 }
