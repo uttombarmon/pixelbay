@@ -1,7 +1,7 @@
 import ProfilePage from "@/components/customs/user/profile/Profile";
 import React from "react";
 
-const Profile = () => {
+const Profile = async () => {
   return (
     <div>
       <ProfilePage />

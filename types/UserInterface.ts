@@ -1,7 +1,6 @@
 export interface UserI {
   id?: string; // UUID or cuid from DB
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   passwordHash?: string; // only if using credentials provider
   image?: string; // avatar/profile picture

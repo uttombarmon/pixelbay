@@ -1,30 +1,32 @@
-"use client";
-
-import { useState } from "react";
+// "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardHeader,
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import Form from "./Form";
+import { auth } from "@/lib/auth/auth";
 
-export default function ProfilePage() {
-  const [user, setUser] = useState({
-    name: "John Doe",
-    email: "johndoe@email.com",
-    role: "User",
-    image: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Updated user:", user);
-    // TODO: send update to backend
-  };
+const ProfilePage = async () => {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return (
+      <div className="text-center text-gray-500 mt-10">
+        You must be signed in to view this page.
+      </div>
+    );
+  }
+  const res = await fetch(
+    `http://localhost:3000/api/user?userId=${session?.user?.id}`
+  );
+  const { user } = await res.json();
+  if (!user) {
+    return (
+      <div className="text-center text-gray-500 mt-10">User not found.</div>
+    );
+  }
 
   return (
     <div className="grid gap-6 max-w-3xl mx-auto">
@@ -35,55 +37,20 @@ export default function ProfilePage() {
         </CardHeader>
         <CardContent className="flex items-center gap-4">
           <Avatar className="w-20 h-20">
-            <AvatarImage src={user.image} />
-            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+            <AvatarImage src={user?.image} />
+            <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div>
-            <p className="text-lg font-medium">{user.name}</p>
-            <p className="text-muted-foreground">{user.email}</p>
-            <p className="text-sm text-gray-500">Role: {user.role}</p>
+            <p className="text-lg font-medium">{user?.name}</p>
+            <p className="text-muted-foreground">{user?.email}</p>
+            <p className="text-sm text-gray-500">Role: {user?.role}</p>
           </div>
         </CardContent>
       </Card>
 
       {/* Update Profile Form */}
-      <Card>
-        <CardHeader>
-          <h3 className="text-lg font-semibold">Update Information</h3>
-        </CardHeader>
-        <form onSubmit={handleSubmit}>
-          <CardContent className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                value={user.name}
-                onChange={(e) => setUser({ ...user, name: e.target.value })}
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={user.email}
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
-              />
-            </div>
-
-            <div className="grid gap-2">
-              <Label htmlFor="password">New Password</Label>
-              <Input id="password" type="password" placeholder="••••••••" />
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button type="submit" className="w-full">
-              Save Changes
-            </Button>
-          </CardFooter>
-        </form>
-      </Card>
+      <Form userData={user} />
     </div>
   );
-}
+};
+export default ProfilePage;
