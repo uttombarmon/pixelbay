@@ -13,17 +13,19 @@ import {
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
+import { signOut } from "next-auth/react";
 
 const links = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
   { href: "/dashboard/orders", label: "My Orders", icon: ShoppingBag },
   { href: "/dashboard/wishlist", label: "Wishlist", icon: Heart },
   { href: "/dashboard/profile", label: "Profile", icon: User },
-  { href: "/dashboard/settings", label: "Settings", icon: Settings },
+  // { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
 
 export default function UserSidebar() {
   const pathname = usePathname();
+  const handleLogout = () => signOut();
 
   return (
     <Card className="h-full w-64 bg-white dark:bg-neutral-900 shadow-lg rounded-2xl border border-neutral-200 dark:border-neutral-800">
@@ -45,7 +47,10 @@ export default function UserSidebar() {
             </Link>
           ))}
 
-          <button className="mt-6 flex items-center gap-3 px-4 py-2 rounded-xl text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors">
+          <button
+            className="mt-6 flex items-center gap-3 px-4 py-2 rounded-xl text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors"
+            onClick={handleLogout}
+          >
             <LogOut className="h-5 w-5" />
             Logout
           </button>

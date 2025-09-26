@@ -34,9 +34,17 @@ export const users = pgTable("user", {
   name: text("name"),
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
-  password: text("password"),
   image: text("image"),
   role: roleEnum("role").default("user").notNull(),
+});
+
+export const address = pgTable("address", {
+  id: serial("id").primaryKey().notNull(),
+  address1: varchar("name", { length: 100 }).notNull(),
+  address2: varchar("address1", { length: 100 }),
+  city: varchar("city", { length: 120 }).notNull(),
+  country: varchar("country", { length: 120 }).notNull(),
+  postcode: integer().notNull(),
 });
 
 export const accounts = pgTable(
@@ -125,16 +133,37 @@ export const visibilityStatus = pgEnum("visibility_status", [
   "hidden",
 ]);
 
+export const customers = pgTable("customers", {
+  id: serial("id").primaryKey(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const addresses = pgTable("addresses", {
+  id: serial("id").primaryKey(),
+  customer_id: integer("customer_id")
+    .notNull()
+    .references(() => customers.id, { onDelete: "cascade" }),
+  address1: varchar("address1", { length: 200 }).notNull(),
+  address2: varchar("address2", { length: 200 }),
+  city: varchar("city", { length: 120 }).notNull(),
+  country: varchar("country", { length: 120 }).notNull(),
+  postcode: varchar("postcode", { length: 20 }).notNull(),
+  phone: varchar("phone", { length: 20 }),
+  is_default: boolean("is_default").default(false),
+});
+
 // ----------------------
 // Categories
 // ----------------------
 export const categories = pgTable("categories", {
   id: serial("id").primaryKey(),
-  parent_id: integer("parent_id"), // optional self-ref; handle in app/query layer
   name: varchar("name", { length: 200 }).notNull(),
   slug: varchar("slug", { length: 200 }).notNull(),
-  description: text("description"),
-  depth: integer("depth").default(0).notNull(),
   path: text("path"),
   metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
   created_at: timestamp("created_at").notNull().defaultNow(),
@@ -153,10 +182,12 @@ export const products = pgTable("products", {
   status: productStatus("status").notNull().default("draft"),
   visibility: visibilityStatus("visibility").notNull().default("visible"),
   brand: varchar("brand", { length: 160 }),
-  category_id: integer("category_id"),
+  category_id: integer("category_id").references(() => categories.id),
   attributes: jsonb("attributes").default(sql`'{}'::jsonb`),
   metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
-  created_by: uuid("created_by"),
+  created_by: text("created_by") // seller userId
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
@@ -166,7 +197,9 @@ export const products = pgTable("products", {
 // ----------------------
 export const productImages = pgTable("product_images", {
   id: serial("id").primaryKey(),
-  product_id: integer("product_id").notNull(),
+  product_id: integer("product_id")
+    .notNull()
+    .references(() => products.id, { onDelete: "cascade" }),
   url: text("url").notNull(),
   alt: varchar("alt", { length: 300 }),
   position: integer("position").default(0).notNull(),
@@ -178,7 +211,9 @@ export const productImages = pgTable("product_images", {
 // ----------------------
 export const productVariants = pgTable("product_variants", {
   id: serial("id").primaryKey(),
-  product_id: integer("product_id").notNull(),
+  product_id: integer("product_id")
+    .notNull()
+    .references(() => products.id, { onDelete: "cascade" }),
   sku: varchar("sku", { length: 100 }).notNull(),
   title: varchar("title", { length: 300 }),
   attributes: jsonb("attributes").default(sql`'{}'::jsonb`),
@@ -188,9 +223,7 @@ export const productVariants = pgTable("product_variants", {
   currency: varchar("currency", { length: 3 }).notNull().default("USD"),
   compare_at_price: numeric("compare_at_price", { precision: 12, scale: 2 }),
   cost_price: numeric("cost_price", { precision: 12, scale: 2 }),
-  weight_grams: integer("weight_grams"),
-  dimensions: jsonb("dimensions").default(sql`'{}'::jsonb`),
-  is_active: boolean("is_active").notNull().default(true),
+  stock: integer("stock").notNull().default(0),
   status: variantStatus("status").notNull().default("active"),
   visibility: visibilityStatus("visibility").notNull().default("visible"),
   created_at: timestamp("created_at").notNull().defaultNow(),
@@ -198,48 +231,38 @@ export const productVariants = pgTable("product_variants", {
 });
 
 // ----------------------
-// Inventory (per variant)
+// Orders
 // ----------------------
-export const inventory = pgTable("inventory", {
-  variant_id: integer("variant_id").primaryKey(),
-  quantity: integer("quantity").notNull().default(0),
-  safety_stock: integer("safety_stock").notNull().default(0),
-  location: varchar("location", { length: 120 }),
+export const orders = pgTable("orders", {
+  id: serial("id").primaryKey(),
+  customer_id: integer("customer_id")
+    .notNull()
+    .references(() => customers.id),
+  status: varchar("status", { length: 50 }).notNull().default("pending"),
+  total_amount: numeric("total_amount", { precision: 12, scale: 2 })
+    .notNull()
+    .default("0.00"),
+  currency: varchar("currency", { length: 3 }).notNull().default("USD"),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
 
 // ----------------------
-// Tags & tag mapping
+// Order items (join orders & products)
 // ----------------------
-export const tags = pgTable("tags", {
+export const orderItems = pgTable("order_items", {
   id: serial("id").primaryKey(),
-  name: varchar("name", { length: 120 }).notNull(),
-  slug: varchar("slug", { length: 120 }).notNull(),
-  created_at: timestamp("created_at").notNull().defaultNow(),
-});
-
-export const productTags = pgTable("product_tags", {
-  product_id: integer("product_id").notNull(),
-  tag_id: integer("tag_id").notNull(),
-});
-
-// ----------------------
-// Collections & mapping
-// ----------------------
-export const collections = pgTable("collections", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 200 }).notNull(),
-  slug: varchar("slug", { length: 200 }).notNull(),
-  description: text("description"),
-  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
-  visibility: visibilityStatus("visibility").notNull().default("visible"),
-  created_at: timestamp("created_at").notNull().defaultNow(),
-});
-
-export const collectionProducts = pgTable("collection_products", {
-  collection_id: integer("collection_id").notNull(),
-  product_id: integer("product_id").notNull(),
-  position: integer("position").default(0).notNull(),
+  order_id: integer("order_id")
+    .notNull()
+    .references(() => orders.id, { onDelete: "cascade" }),
+  product_id: integer("product_id")
+    .notNull()
+    .references(() => products.id),
+  variant_id: integer("variant_id").references(() => productVariants.id),
+  quantity: integer("quantity").notNull().default(1),
+  unit_price: numeric("unit_price", { precision: 12, scale: 2 }).notNull(),
+  total_price: numeric("total_price", { precision: 12, scale: 2 }).notNull(),
 });
 
 // ----------------------
@@ -247,25 +270,17 @@ export const collectionProducts = pgTable("collection_products", {
 // ----------------------
 export const reviews = pgTable("reviews", {
   id: serial("id").primaryKey(),
-  user_id: uuid("user_id").notNull(),
-  product_id: integer("product_id").notNull(),
+  customer_id: integer("customer_id")
+    .notNull()
+    .references(() => customers.id),
+  product_id: integer("product_id")
+    .notNull()
+    .references(() => products.id),
   rating: integer("rating").notNull(),
   title: varchar("title", { length: 200 }),
   body: text("body"),
   is_public: boolean("is_public").notNull().default(true),
   metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
   created_at: timestamp("created_at").notNull().defaultNow(),
-  updated_at: timestamp("updated_at").notNull().defaultNow(),
-});
-
-// ----------------------
-// Search & denormalized fields (optional)
-// ----------------------
-export const productSearch = pgTable("product_search", {
-  product_id: integer("product_id").primaryKey(),
-  title: varchar("title", { length: 300 }).notNull(),
-  description_text: text("description_text"),
-  tags: jsonb("tags").default(sql`'[]'::jsonb`),
-  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
