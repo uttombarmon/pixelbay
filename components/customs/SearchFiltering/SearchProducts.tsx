@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ProductCard from "@/components/customs/home/Popular/ProductCard";
 import { useSearchParams } from "next/navigation";
 // import { productsData } from "@/types/ProductCard";
 // import { productsData } from "../home/newArrivals/NewArrivals";

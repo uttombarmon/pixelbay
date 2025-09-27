@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { CircleCheckIcon, CircleHelpIcon, CircleIcon } from "lucide-react";
 
 import {
   NavigationMenu,
@@ -10,11 +9,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { getAllCategories } from "@/lib/apiClients/categorie";
 import { useEffect, useState } from "react";
-import CategorieItems from "./CategorieItems";
 
 export function NavigationMenuDemo({ categories }: { categories: any }) {
   const [categoriess, setCategoriess] = useState([]);

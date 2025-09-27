@@ -7,8 +7,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Plus, Edit, Trash2 } from "lucide-react";
-import ProductForm from "./AddProductModal";
+import { Edit, Trash2 } from "lucide-react";
+
 import { auth } from "@/lib/auth/auth";
 import AddProductButton from "./AddProductButton";
 import { Button } from "@/components/ui/button";

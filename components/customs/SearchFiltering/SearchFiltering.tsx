@@ -1,4 +1,3 @@
-import { SearchIcon } from "lucide-react";
 import React from "react";
 import CategoriesFilter from "./CategoriesFilter";
 import SortByFilter from "./SortByFilter";

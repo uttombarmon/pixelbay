@@ -9,7 +9,6 @@ import {
   Heart,
   User,
   LogOut,
-  Settings,
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
