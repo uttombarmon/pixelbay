@@ -55,8 +55,8 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
     <NavigationMenu viewport={false}>
       {categoriess?.length >= 1 ? (
         <NavigationMenuList>
-          {categoriess.map((categorie) => (
-            <NavigationMenuItem key={categorie?.id}>
+          {categoriess.map((categorie:any) => (
+            <NavigationMenuItem key={categorie?.id || categorie?.name}>
               <NavigationMenuTrigger>{categorie?.name}</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
