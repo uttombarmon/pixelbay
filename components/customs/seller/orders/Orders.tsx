@@ -70,7 +70,7 @@ export default function SellerOrdersPage() {
             </TableHeader>
             <TableBody>
               {sellerOrders.map((order) => (
-                <TableRow key={order.id}>
+                <TableRow key={order.products}>
                   <TableCell className="font-medium">{order.id}</TableCell>
                   <TableCell>{order.buyer}</TableCell>
                   <TableCell>{order.products}</TableCell>

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import SearchBox from "./SearchBox";
 import MenuContext from "./menu_button/MenuContext";
 import Link from "next/link";
+import { getAllCategories } from "@/lib/apiClients/categorie";
 
 async function TopNavBar() {
   const session = await auth();
@@ -14,6 +15,7 @@ async function TopNavBar() {
   const image =
     session?.user?.image ||
     "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
+    const categories = await getAllCategories();
   return (
     <div className="w-full h-16 flex items-center justify-between px-4 border-b border-gray-300 dark:border-gray-700">
       {/* logo */}
@@ -27,7 +29,7 @@ async function TopNavBar() {
       </div>
       {/* middle nav  */}
       <div className=" hidden lg:flex">
-        <NavigationMenuDemo></NavigationMenuDemo>
+        <NavigationMenuDemo categories={categories}></NavigationMenuDemo>
       </div>
       {/* right side */}
       <div className=" hidden lg:flex items-center gap-4 justify-between">

@@ -20,7 +20,9 @@ export default async function SellerLayout({
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 p-6 overflow-x-auto lg:overflow-x-hidden">
+          {children}
+        </main>
       </div>
     </SessionProvider>
   );

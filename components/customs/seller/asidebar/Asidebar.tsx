@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+
+import React, { useState } from "react";
 import {
   Home,
   Package,
@@ -7,11 +8,13 @@ import {
   Users,
   DollarSign,
   Settings,
+  Menu,
+  X,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
-
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   { name: "Overview", href: "/seller", icon: Home },
@@ -24,27 +27,59 @@ const navItems = [
 
 const Asidebar = () => {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
   return (
-    <aside className="w-64 border-r bg-muted/40 p-6">
-      <h2 className="text-2xl font-bold mb-6">My Shop</h2>
-      <nav className="space-y-2">
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition hover:bg-accent",
-              pathname === item.href
-                ? "bg-accent text-accent-foreground"
-                : "text-muted-foreground"
-            )}
-          >
-            <item.icon className="h-4 w-4" />
-            {item.name}
-          </Link>
-        ))}
-      </nav>
-    </aside>
+    <>
+      {/* Mobile Header */}
+      <div className="lg:hidden flex items-center justify-between px-4 py-3 border-b bg-background">
+        <h2 className="text-xl font-bold">My Shop</h2>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle Menu"
+        >
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </Button>
+      </div>
+
+      {/* Sidebar */}
+      <aside
+        className={cn(
+          "fixed lg:static top-0 left-0 h-full lg:h-auto w-64 border-r bg-muted/40 p-6 z-50 transform transition-transform duration-200",
+          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        )}
+      >
+        <h2 className="text-2xl font-bold mb-6 hidden lg:block">My Shop</h2>
+        <nav className="space-y-2">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition hover:bg-accent",
+                pathname === item.href
+                  ? "bg-accent text-accent-foreground"
+                  : "text-muted-foreground"
+              )}
+              onClick={() => setOpen(false)} // close on mobile click
+            >
+              <item.icon className="h-4 w-4" />
+              {item.name}
+            </Link>
+          ))}
+        </nav>
+      </aside>
+
+      {/* Overlay for mobile */}
+      {open && (
+        <div
+          className="fixed inset-0 bg-black/50 lg:hidden z-40"
+          onClick={() => setOpen(false)}
+        />
+      )}
+    </>
   );
 };
 

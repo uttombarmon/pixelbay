@@ -7,7 +7,7 @@ import {
   products,
   productVariants,
 } from "@/lib/db/schema/schema";
-import { eq } from "drizzle-orm";
+import { and, eq, gt, gte, sql } from "drizzle-orm";
 
 export async function GET(req: NextRequest) {
   try {
@@ -28,6 +28,7 @@ export async function GET(req: NextRequest) {
         title: productsTable.title,
         slug: productsTable.slug,
         status: productsTable.status,
+        price: sql`MIN(${productVariants.price})`.as("price"),
         visibility: productsTable.visibility,
         category_id: productsTable.category_id,
         created_by: productsTable.created_by,
@@ -35,8 +36,23 @@ export async function GET(req: NextRequest) {
         updated_at: productsTable.updated_at,
       })
       .from(productsTable)
-      .where(eq(productsTable.created_by, userId));
-    console.log("products: ", productList);
+      .leftJoin(
+        productVariants,
+        eq(productVariants.product_id, productsTable.id)
+      )
+      .where(eq(productsTable.created_by, userId))
+      .groupBy(
+        productsTable.id,
+        productsTable.title,
+        productsTable.slug,
+        productsTable.status,
+        productsTable.visibility,
+        productsTable.category_id,
+        productsTable.created_by,
+        productsTable.created_at,
+        productsTable.updated_at
+      );
+
     if (productList.length === 0) {
       return NextResponse.json({ error: "Not Found Data" }, { status: 404 });
     }

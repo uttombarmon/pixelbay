@@ -11,6 +11,7 @@ import { Plus, Edit, Trash2 } from "lucide-react";
 import ProductForm from "./AddProductModal";
 import { auth } from "@/lib/auth/auth";
 import AddProductButton from "./AddProductButton";
+import { Button } from "@/components/ui/button";
 
 export default async function ProductPage() {
   const session = await auth();
@@ -62,9 +63,9 @@ export default async function ProductPage() {
                 {products.map((product: any) => (
                   <TableRow key={product.id}>
                     <TableCell>
-                      {product.image ? (
+                      {product?.images?.length >= 1 ? (
                         <img
-                          src={product.image}
+                          src={product.images[0]}
                           alt={product.title}
                           className="w-12 h-12 rounded-md object-cover"
                         />
@@ -89,13 +90,13 @@ export default async function ProductPage() {
                         {product.status}
                       </span>
                     </TableCell>
-                    <TableCell className="text-right flex justify-end gap-2">
-                      <button className="btn-outline btn-sm flex items-center gap-1">
+                    <TableCell className=" flex justify-between gap-2 items-center my-auto">
+                      <Button className="" variant={"outline"} size={"sm"}>
                         <Edit className="w-4 h-4" /> Edit
-                      </button>
-                      <button className="btn-destructive btn-sm flex items-center gap-1">
+                      </Button>
+                      <Button className="btn-sm bg-red-400" size={"sm"}>
                         <Trash2 className="w-4 h-4" /> Delete
-                      </button>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
