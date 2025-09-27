@@ -3,7 +3,7 @@ import { customers } from "@/lib/db/schema/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
-export default async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const sellerId = searchParams?.get("sid");
   const customerId = searchParams?.get("cid");
