@@ -11,11 +11,9 @@ import { getAllCategories } from "@/lib/apiClients/categorie";
 
 async function TopNavBar() {
   const session = await auth();
-  const u_name = session?.user?.name || "user";
-  const image =
-    session?.user?.image ||
-    "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
-    const categories = await getAllCategories();
+  const user = session?.user;
+  const u_name = user?.name || "user";
+  const categories = await getAllCategories();
   return (
     <div className="w-full h-16 flex items-center justify-between px-4 border-b border-gray-300 dark:border-gray-700">
       {/* logo */}
@@ -36,10 +34,10 @@ async function TopNavBar() {
         {/* search field  */}
         <SearchBox />
         {session?.user ? (
-          <Account image={image} />
+          <Account user={user} />
         ) : (
           <Button variant="outline" size="sm" asChild>
-            <a href="/signin">Sign In</a>
+            <Link href="/auth/signin">Sign In</Link>
           </Button>
         )}
         <ModeToggle />

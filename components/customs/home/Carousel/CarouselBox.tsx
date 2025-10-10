@@ -33,6 +33,8 @@ const CarouselBox = () => {
             fill
             alt="slide1"
             quality={60}
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute w-full h-full z-10 bg-gradient-to-r from-red-800/50 to-black/50 flex justify-between">
             <div className=" w-full md:w-1/2 relative flex flex-col justify-center h-full text-gray-300 gap-4">
@@ -75,6 +77,8 @@ const CarouselBox = () => {
             fill
             quality={60}
             alt="slide2"
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute inset-0 bg-gradient-to-r to-red-800/50 from-black/50 flex flex-col items-center justify-center text-center px-4">
             <h2 className="text-gray-100 text-2xl md:text-4xl font-bold drop-shadow-lg">
@@ -98,6 +102,8 @@ const CarouselBox = () => {
             fill
             quality={60}
             alt="slide3"
+            priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           <div className="absolute inset-0 bg-gradient-to-br to-red-800/50 from-black/50 flex flex-col items-center justify-center text-center px-4">
             <h2 className="text-gray-100 text-2xl md:text-4xl font-bold drop-shadow-lg">

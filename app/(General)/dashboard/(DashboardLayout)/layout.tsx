@@ -1,12 +1,23 @@
-"use client";
 import UserSidebar from "@/components/customs/user/userSidebar/UserSidebar";
+import { auth } from "@/lib/auth/auth";
 import { SessionProvider } from "next-auth/react";
+import { redirect } from "next/navigation";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+  const userRole = session?.user?.role;
+  if (
+    userRole !== "user" ||
+    userRole === undefined ||
+    userRole === null ||
+    !session
+  ) {
+    redirect("/");
+  }
   return (
     <SessionProvider>
       <div className="flex min-h-screen bg-gray-50 dark:bg-neutral-950">

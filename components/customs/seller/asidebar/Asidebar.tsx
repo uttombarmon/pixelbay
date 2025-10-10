@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { SignOutButton } from "../../buttons/SignOutButton";
 
 const navItems = [
   { name: "Overview", href: "/seller", icon: Home },
@@ -69,6 +70,9 @@ const Asidebar = () => {
               {item.name}
             </Link>
           ))}
+          <li className="flex items-center gap-3 rounded-lg pl-8 py-2 text-sm font-medium transition hover:bg-accent">
+            <SignOutButton>SignOut</SignOutButton>
+          </li>
         </nav>
       </aside>
 

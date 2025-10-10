@@ -1,13 +1,9 @@
-// import { sessions } from "./../db/schema/authSchema";
 import NextAuth from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { db } from "../db/drizzle";
 import Google from "next-auth/providers/google";
-// import { users } from "../db/schema/users";
 import { eq } from "drizzle-orm";
 import { users } from "../db/schema/schema";
-import Credentials from "@auth/core/providers/credentials";
-import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db),
@@ -131,16 +127,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return false; // Deny sign-in if database operation fails
         }
       }
-      // For Credentials provider, if authorize returns a user, then signIn should generally return true
-      // unless you have other global signIn rules.
       console.log("[signIn Callback] Allowing sign-in.");
       return true;
     },
     async jwt({ token, user }) {
       if (user) {
+        const [dbUser] = await db
+          .select({ role: users.role })
+          .from(users)
+          .where(eq(users.email, user.email!));
         token.id = user.id;
         token.name = user.name;
         token.picture = user.image;
+        token.role = dbUser?.role || "user";
       }
       return token;
     },
@@ -149,17 +148,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.id = token.id as string;
         session.user.name = token.name;
         session.user.image = token.picture;
+        session.user.role = token.role;
       }
       return session;
     },
   },
   pages: {
     signIn: "/auth/signup",
-    error: "/auth/signin", // Error code passed in query string as ?error=
+    error: "/auth/signin",
   },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60,
+    maxAge: 24 * 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
 });

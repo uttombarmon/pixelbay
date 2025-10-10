@@ -1,11 +1,22 @@
 import Asidebar from "@/components/customs/seller/asidebar/Asidebar";
+import { auth } from "@/lib/auth/auth";
 import { SessionProvider } from "next-auth/react";
-
+import { redirect } from "next/navigation";
 export default async function SellerLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+  const userRole = session?.user?.role;
+  if (
+    userRole !== "admin" ||
+    userRole === undefined ||
+    userRole === null ||
+    !session
+  ) {
+    redirect("/");
+  }
   return (
     <SessionProvider>
       <div className="flex min-h-screen bg-gray-50 dark:bg-neutral-950">
