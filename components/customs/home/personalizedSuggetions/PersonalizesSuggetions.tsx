@@ -16,7 +16,7 @@ export function PersonalizedSuggestions() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${process.env.API_URL}/api/suggestions`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/suggestions`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

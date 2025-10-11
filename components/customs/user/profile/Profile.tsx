@@ -13,7 +13,7 @@ const ProfilePage = async () => {
     );
   }
   const res = await fetch(
-    `${process.env.API_URL}/api/user?userId=${session?.user?.id}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/user?userId=${session?.user?.id}`
   );
   const { user } = await res.json();
   if (!user) {

@@ -72,7 +72,7 @@ const SearchProducts = () => {
   console.log(searchParamText);
   useEffect(() => {
     const gadgetsSetFunc = async () => {
-      const response = await fetch(`${process.env.API_URL}/api/search?s=${searchParamText}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/search?s=${searchParamText}`);
       const products = await response.json();
       console.log(products);
       // if (searchParamText) {
