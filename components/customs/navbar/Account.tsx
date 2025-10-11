@@ -46,7 +46,7 @@ const Account = async ({ user }: { user: any }) => {
               <Link href={"/dashboard/billing"}>Billing</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <SignOutButton>Exit</SignOutButton>
+              <SignOutButton>Sign Out</SignOutButton>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

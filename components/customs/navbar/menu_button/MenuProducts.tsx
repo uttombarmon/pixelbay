@@ -353,7 +353,7 @@ const MenuProducts = async ({ session }: { session: any }) => {
                   <span>{session?.user?.name}</span>
                 </Link>
 
-                <SignOutButton />
+                <SignOutButton></SignOutButton>
               </div>
             ) : (
               <Link
