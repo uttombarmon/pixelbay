@@ -86,7 +86,7 @@ export default function ProductForm({ userId }: { userId: string }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Post data to your API
-    const res = await fetch(`/api/seller/products?userId=${userId}`, {
+    const res = await fetch(`${process.env.API_URL}/api/seller/products?userId=${userId}`, {
       method: "POST",
       body: JSON.stringify(formData),
       headers: { "Content-Type": "application/json" },
