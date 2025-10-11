@@ -29,7 +29,7 @@ export default async function CustomerDetailsPage({
   const customer = await getCustomerById(params.id);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-accent-foreground">
       {/* Profile Card */}
       <Card>
         <CardHeader>
