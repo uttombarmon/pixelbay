@@ -1,9 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import Form from "./Form";
 import { auth } from "@/lib/auth/auth";
 
@@ -16,9 +12,7 @@ const ProfilePage = async () => {
       </div>
     );
   }
-  const res = await fetch(
-    `http://localhost:3000/api/user?userId=${session?.user?.id}`
-  );
+  const res = await fetch(`/api/user?userId=${session?.user?.id}`);
   const { user } = await res.json();
   if (!user) {
     return (

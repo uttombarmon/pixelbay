@@ -21,7 +21,7 @@ export default async function ProductPage() {
   if (userId) {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/seller/products?userId=${userId}`
+        `/api/seller/products?userId=${userId}`
       );
       products = await response.json();
       console.log(products);

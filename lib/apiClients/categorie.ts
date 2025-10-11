@@ -1,5 +1,5 @@
 export async function addCategory() {
-  const res = await fetch("http://localhost:3000/api/seller/categories", {
+  const res = await fetch("/api/seller/categories", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -15,7 +15,7 @@ export async function addCategory() {
   return data;
 }
 export async function getAllCategories() {
-  const response = await fetch("http://localhost:3000/api/seller/categories");
+  const response = await fetch("/api/seller/categories");
   const data = await response.json();
   return data;
 }
