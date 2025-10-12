@@ -31,7 +31,7 @@ export const users = pgTable("user", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  name: text("name"),
+  name: varchar("name"),
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
@@ -237,7 +237,7 @@ export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
   customer_id: integer("customer_id")
     .notNull()
-    .references(() => customers.id),
+    .references(() => users.id),
   status: varchar("status", { length: 50 }).notNull().default("pending"),
   total_amount: numeric("total_amount", { precision: 12, scale: 2 })
     .notNull()
@@ -270,14 +270,13 @@ export const orderItems = pgTable("order_items", {
 // ----------------------
 export const reviews = pgTable("reviews", {
   id: serial("id").primaryKey(),
-  customer_id: integer("customer_id")
+  customer_id: text("customer_id")
     .notNull()
-    .references(() => customers.id),
+    .references(() => users.id),
   product_id: integer("product_id")
     .notNull()
     .references(() => products.id),
   rating: integer("rating").notNull(),
-  title: varchar("title", { length: 200 }),
   body: text("body"),
   is_public: boolean("is_public").notNull().default(true),
   metadata: jsonb("metadata").default(sql`'{}'::jsonb`),

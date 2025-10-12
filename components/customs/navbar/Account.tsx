@@ -11,7 +11,6 @@ import Link from "next/link";
 import { SignOutButton } from "../buttons/SignOutButton";
 
 const Account = async ({ user }: { user: any }) => {
-  console.log(user);
   return (
     <div>
       {user?.role == "admin" ? (

@@ -1,4 +1,5 @@
 import TopNavBar from "@/components/customs/navbar/TopNavBar";
+import { SessionProvider } from "next-auth/react";
 
 export default function GeneralLayout({
   children,
@@ -13,7 +14,9 @@ export default function GeneralLayout({
       </header>
 
       {/* Main content */}
-      <main className="">{children}</main>
+      <main className="">
+        <SessionProvider>{children}</SessionProvider>
+      </main>
     </div>
   );
 }
