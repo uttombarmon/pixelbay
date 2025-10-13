@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db/drizzle";
 import {
   products,
@@ -8,17 +8,14 @@ import {
   reviews,
 } from "@/lib/db/schema/schema";
 import { eq } from "drizzle-orm";
-interface RouteContext {
-  params: {
-    id: string;
-  };
-}
+
 export async function GET(
-  req: Request,
-  context: RouteContext
-): Promise<NextResponse<any>> {
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+){
   try {
-    const productId = parseInt(context.params.id);
+    const { id } = await params;
+    const productId = parseInt(id);
 
     if (isNaN(productId)) {
       return NextResponse.json(
