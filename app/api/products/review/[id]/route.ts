@@ -8,13 +8,14 @@ import { auth } from "@/lib/auth/auth";
 // ✅ PATCH — Update a review
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const reviewId = Number(params.id);
+  const reviewId = Number(id);
   const { rating, body } = await req.json();
   if (!session.user.id)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -66,13 +67,14 @@ export async function PATCH(
 // ✅ DELETE — Delete a review
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const session = await auth();
   if (!session?.user)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const reviewId = Number(params.id);
+  const reviewId = Number(id);
   if (!session.user.id)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
