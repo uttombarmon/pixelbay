@@ -283,3 +283,34 @@ export const reviews = pgTable("reviews", {
   created_at: timestamp("created_at").notNull().defaultNow(),
   updated_at: timestamp("updated_at").notNull().defaultNow(),
 });
+
+// ----------------------
+// Cart (belongs to customer)
+// ----------------------
+export const carts = pgTable("carts", {
+  id: serial("id").primaryKey(),
+  customer_id: text("customer_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  metadata: jsonb("metadata").default(sql`'{}'::jsonb`),
+  created_at: timestamp("created_at").notNull().defaultNow(),
+  updated_at: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// ----------------------
+// Cart items (join carts & products)
+// ----------------------
+export const cartItems = pgTable("cart_items", {
+  id: serial("id").primaryKey(),
+  cart_id: integer("cart_id")
+    .notNull()
+    .references(() => carts.id, { onDelete: "cascade" }),
+  product_id: integer("product_id")
+    .notNull()
+    .references(() => products.id, { onDelete: "cascade" }),
+  variant_id: integer("variant_id").references(() => productVariants.id),
+  quantity: integer("quantity").notNull().default(1),
+  unit_price: numeric("unit_price", { precision: 12, scale: 2 }).notNull(),
+  total_price: numeric("total_price", { precision: 12, scale: 2 }).notNull(),
+  added_at: timestamp("added_at").notNull().defaultNow(),
+});

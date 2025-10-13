@@ -1,14 +1,58 @@
 "use client";
 import React from "react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import * as motion from "motion/react-client";
 import ProductReviews from "./Reviews";
 import ProductImageGallery from "./ImageGallery";
 import ReviewForm from "./ReviewForm";
+import { toast } from "sonner";
 
 const Details = ({ product }: { product: any }) => {
+  const [cart, setCart] = React.useState<any>({
+    product_id: product?.id,
+    variant_id: product?.variants?.[0]?.id,
+    quantity: 1,
+    unit_price: product?.variants?.[0]?.price || 0,
+  });
+  const setVariant = (variantId: number) => {
+    const variant = product.variants.find((v: any) => v.id === variantId);
+    if (variant) {
+      setCart((prev: any) => ({
+        ...prev,
+        variant_id: variant.id,
+        unit_price: variant.price,
+      }));
+    }
+  };
+  // const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = parseInt(e.target.value, 10);
+  //   if (!isNaN(value) && value > 0) {
+  //     setCart((prev: any) => ({ ...prev, quantity: value }));
+  //   }
+  // };
+  const addToCart = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/carts/items`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cart),
+        }
+      );
+      if (response.ok || response.status === 202) {
+        const data = await response.json();
+        toast.warning(data.message || "Added to cart");
+        console.log(data.message);
+      } else if (response.status === 201) {
+        toast.success("Added to cart");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+  };
   return (
     <>
       <motion.div
@@ -60,6 +104,7 @@ const Details = ({ product }: { product: any }) => {
                     <span
                       key={v.id}
                       className="px-3 py-1 rounded-full border border-gray-300"
+                      onClick={() => setVariant(v.id)}
                     >
                       {v.title || v.sku} - ${v.price}
                     </span>
@@ -73,7 +118,7 @@ const Details = ({ product }: { product: any }) => {
                 !product?.variants?.length || product?.variants[0].stock <= 0
               }
               className="w-fit mt-6"
-              onClick={() => console.log("Added to cart:", product.id)}
+              onClick={() => addToCart()}
             >
               Add to Cart
             </Button>
