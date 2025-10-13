@@ -6,6 +6,7 @@ import ProductReviews from "./Reviews";
 import ProductImageGallery from "./ImageGallery";
 import ReviewForm from "./ReviewForm";
 import { toast } from "sonner";
+import Link from "next/link";
 
 const Details = ({ product }: { product: any }) => {
   const [cart, setCart] = React.useState<any>({
@@ -122,6 +123,13 @@ const Details = ({ product }: { product: any }) => {
             >
               Add to Cart
             </Button>
+            <Link
+              href={`/./payment?productId=${product?.id}&variantId=${cart?.variant_id}&quantity=${cart?.quantity}`}
+            >
+              <Button className="w-fit mt-6 bg-blue-600 text-white">
+                Buy Now
+              </Button>
+            </Link>
           </div>
         </motion.div>
       </motion.div>
