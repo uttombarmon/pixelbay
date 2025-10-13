@@ -8,13 +8,17 @@ import {
   reviews,
 } from "@/lib/db/schema/schema";
 import { eq } from "drizzle-orm";
-
+interface RouteContext {
+  params: {
+    id: string;
+  };
+}
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
-) {
+  context: RouteContext
+): Promise<NextResponse<any>> {
   try {
-    const productId = parseInt(params.id);
+    const productId = parseInt(context.params.id);
 
     if (isNaN(productId)) {
       return NextResponse.json(
