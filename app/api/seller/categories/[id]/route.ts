@@ -7,11 +7,11 @@ export const dynamic = "force-dynamic";
 // PUT (Update) a category by ID
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // const { id } = await params;
-    const paramsId = Number(context.params.id);
+    const { id } = await params;
+    const paramsId = Number(id);
 
     if (isNaN(paramsId)) {
       return NextResponse.json(
@@ -61,11 +61,11 @@ export async function PUT(
 // DELETE a category by ID
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // const { id } = await params;
-    const paramsId = Number(context.params.id);
+    const { id } = await params;
+    const paramsId = Number(id);
     if (isNaN(paramsId)) {
       return NextResponse.json(
         { error: "Invalid category ID" },
