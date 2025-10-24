@@ -1,15 +1,15 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db/drizzle";
-import { desc } from "drizzle-orm";
 import { categories } from "@/lib/db/schema/schema";
+import { asc } from "drizzle-orm";
 
 export async function GET() {
   try {
     const allCategories = await db
       .select()
       .from(categories)
-      .orderBy(desc(categories.created_at));
-
+      .orderBy(asc(categories.id));
+    console.log("all categories:", allCategories);
     return NextResponse.json(allCategories, { status: 200 });
   } catch (error) {
     console.error("Error fetching categories:", error);

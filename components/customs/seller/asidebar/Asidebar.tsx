@@ -10,6 +10,7 @@ import {
   Settings,
   Menu,
   X,
+  LayoutGrid,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -24,6 +25,7 @@ const navItems = [
   { name: "Customers", href: "/seller/customers", icon: Users },
   { name: "Earnings", href: "/seller/earnings", icon: DollarSign },
   { name: "Settings", href: "/seller/settings", icon: Settings },
+  { name: "Categories", href: "/seller/categories", icon: LayoutGrid },
 ];
 
 const Asidebar = () => {
