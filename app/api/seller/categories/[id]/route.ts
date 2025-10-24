@@ -9,9 +9,10 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const id = parseInt(params.id, 10);
+    const {id} = await params;
+    const paramsId = parseInt(id);
 
-    if (isNaN(id)) {
+    if (isNaN(paramsId)) {
       return NextResponse.json(
         { error: "Invalid category ID" },
         { status: 400 }
@@ -36,7 +37,7 @@ export async function PUT(
         path: body.path,
         metadata: body.metadata,
       })
-      .where(eq(categories.id, id))
+      .where(eq(categories.id, paramsId))
       .returning();
 
     if (updatedCategory.length === 0) {
@@ -62,14 +63,15 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const id = parseInt(params.id, 10);
-    if (isNaN(id)) {
+        const {id} = await params;
+    const paramsId = parseInt(id);
+    if (isNaN(paramsId)) {
       return NextResponse.json(
         { error: "Invalid category ID" },
         { status: 400 }
       );
     }
-    await db.delete(categories).where(eq(categories.id, id));
+    await db.delete(categories).where(eq(categories.id, paramsId));
     return NextResponse.json({ message: "Category deleted" }, { status: 200 });
   } catch (error) {
     console.error("Error deleting category:", error);
