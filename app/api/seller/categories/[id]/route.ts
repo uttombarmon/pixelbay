@@ -2,15 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db/drizzle";
 import { categories } from "@/lib/db/schema/schema";
 import { eq } from "drizzle-orm";
+export const dynamic = "force-dynamic";
 
 // PUT (Update) a category by ID
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
-    const {id} = await params;
-    const paramsId = parseInt(id);
+    // const { id } = await params;
+    const paramsId = Number(context.params.id);
 
     if (isNaN(paramsId)) {
       return NextResponse.json(
@@ -60,11 +61,11 @@ export async function PUT(
 // DELETE a category by ID
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
-        const {id} = await params;
-    const paramsId = parseInt(id);
+    // const { id } = await params;
+    const paramsId = Number(context.params.id);
     if (isNaN(paramsId)) {
       return NextResponse.json(
         { error: "Invalid category ID" },
