@@ -1,15 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db/drizzle";
 import { categories } from "@/lib/db/schema/schema";
 import { eq } from "drizzle-orm";
 
 // PUT (Update) a category by ID
 export async function PUT(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
     const id = parseInt(params.id, 10);
+
     if (isNaN(id)) {
       return NextResponse.json(
         { error: "Invalid category ID" },
@@ -57,10 +58,24 @@ export async function PUT(
 
 // DELETE a category by ID
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const id = parseInt(params.id, 10);
-  await db.delete(categories).where(eq(categories.id, id));
-  return NextResponse.json({ message: "Category deleted" }, { status: 200 });
+  try {
+    const id = parseInt(params.id, 10);
+    if (isNaN(id)) {
+      return NextResponse.json(
+        { error: "Invalid category ID" },
+        { status: 400 }
+      );
+    }
+    await db.delete(categories).where(eq(categories.id, id));
+    return NextResponse.json({ message: "Category deleted" }, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    return NextResponse.json(
+      { error: "Failed to delete category" },
+      { status: 500 }
+    );
+  }
 }
