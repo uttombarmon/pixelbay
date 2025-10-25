@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,6 +28,7 @@ interface Image {
 }
 
 interface ProductFormData {
+  id?: number;
   title: string;
   slug: string;
   short_description: string;
@@ -46,27 +47,56 @@ interface Category {
   name: string;
 }
 
-// interface Props {
-//   categories: Category[];
-//   existingOptions: { brands: string[]; attributes: Record<string, string[]> };
-// }
+type ProductFormProps = {
+  userId: string;
+  productToEdit?: ProductFormData | null;
+  onClose: () => void;
+};
 
-export default function ProductForm({ userId }: { userId: string }) {
-  const [formData, setFormData] = useState<ProductFormData>({
-    title: "",
-    slug: "",
-    short_description: "",
-    description: "",
-    brand: "",
-    category_id: null,
-    status: "draft",
-    visibility: "visible",
-    attributes: {},
-    images: [],
-    variants: [],
-  });
+const INITIAL_STATE: ProductFormData = {
+  title: "",
+  slug: "",
+  short_description: "",
+  description: "",
+  brand: "",
+  category_id: null,
+  status: "draft",
+  visibility: "visible",
+  attributes: {},
+  images: [],
+  variants: [],
+};
+
+export default function ProductForm({
+  userId,
+  productToEdit,
+  onClose,
+}: ProductFormProps) {
+  const [formData, setFormData] = useState<ProductFormData>(
+    productToEdit || INITIAL_STATE
+  );
   const [showLimitError, setShowLimitError] = useState(false);
-
+  const isEditing = !!productToEdit;
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products/${productToEdit?.id}`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch product");
+        }
+        const data = await response.json();
+        setFormData(data);
+      } catch (error) {
+        console.error(error);
+        toast.error("Error fetching product.");
+      }
+    };
+    if (isEditing) {
+      fetchProduct();
+    }
+  }, []);
   const addVariant = () => {
     setFormData((prev) => ({
       ...prev,
@@ -84,29 +114,46 @@ export default function ProductForm({ userId }: { userId: string }) {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Post data to your API
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products?userId=${userId}`,
-      {
-        method: "POST",
+
+    const url = isEditing
+      ? `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products/${productToEdit.id}`
+      : `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products?userId=${userId}`;
+
+    const method = isEditing ? "PUT" : "POST";
+
+    try {
+      const res = await fetch(url, {
+        method: method,
         body: JSON.stringify(formData),
         headers: { "Content-Type": "application/json" },
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(
+          errorData.error ||
+            `Failed to ${isEditing ? "update" : "create"} product`
+        );
       }
-    );
-    if (!res.ok) {
-      throw new Error("Failed to create product");
+
+      toast.success(
+        `Product ${isEditing ? "updated" : "created"} successfully!`
+      );
+      onClose();
+      // You might want to trigger a re-fetch of the product list here
+      // e.g., by calling a function passed down via props.
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message || `An error occurred.`);
     }
-    toast.success("Product Created");
-    // const data = await res.json();
-    // console.log(data);
   };
 
   return (
     <Card className="w-full lg:min-w-3xl mx-auto space-y-6 p-6">
       <CardHeader>
-        <CardTitle>Create Product</CardTitle>
+        <CardTitle>{isEditing ? "Edit Product" : "Create Product"}</CardTitle>
       </CardHeader>
       <CardContent>
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -194,56 +241,57 @@ export default function ProductForm({ userId }: { userId: string }) {
                 <Button type="button" onClick={addVariant}>
                   + Add Variant
                 </Button>
-                {formData.variants.map((v, i) => (
-                  <div key={i} className="space-y-2 p-3 border rounded-md">
-                    <Input
-                      placeholder="SKU"
-                      value={v.sku}
-                      onChange={(e) => {
-                        const newVariants = [...formData.variants];
-                        newVariants[i].sku = e.target.value;
-                        setFormData({ ...formData, variants: newVariants });
-                      }}
-                    />
-                    <Input
-                      placeholder="Title"
-                      value={v.title}
-                      onChange={(e) => {
-                        const newVariants = [...formData.variants];
-                        newVariants[i].title = e.target.value;
-                        setFormData({ ...formData, variants: newVariants });
-                      }}
-                    />
-                    <Label>Price</Label>
-                    <Input
-                      type="number"
-                      placeholder="Price"
-                      value={v.price}
-                      onChange={(e) => {
-                        const newVariants = [...formData.variants];
-                        newVariants[i].price = Number(e.target.value);
-                        setFormData({ ...formData, variants: newVariants });
-                      }}
-                    />
-                    <Label>Stock Number</Label>
-                    <Input
-                      type="number"
-                      placeholder="Stock"
-                      value={v.stock}
-                      onChange={(e) => {
-                        const newVariants = [...formData.variants];
-                        newVariants[i].stock = Number(e.target.value);
-                        setFormData({ ...formData, variants: newVariants });
-                      }}
-                    />
-                  </div>
-                ))}
+                {formData.variants &&
+                  formData?.variants?.map((v, i) => (
+                    <div key={i} className="space-y-2 p-3 border rounded-md">
+                      <Input
+                        placeholder="SKU"
+                        value={v.sku}
+                        onChange={(e) => {
+                          const newVariants = [...formData.variants];
+                          newVariants[i].sku = e.target.value;
+                          setFormData({ ...formData, variants: newVariants });
+                        }}
+                      />
+                      <Input
+                        placeholder="Title"
+                        value={v.title}
+                        onChange={(e) => {
+                          const newVariants = [...formData.variants];
+                          newVariants[i].title = e.target.value;
+                          setFormData({ ...formData, variants: newVariants });
+                        }}
+                      />
+                      <Label>Price</Label>
+                      <Input
+                        type="number"
+                        placeholder="Price"
+                        value={v.price}
+                        onChange={(e) => {
+                          const newVariants = [...formData.variants];
+                          newVariants[i].price = Number(e.target.value);
+                          setFormData({ ...formData, variants: newVariants });
+                        }}
+                      />
+                      <Label>Stock Number</Label>
+                      <Input
+                        type="number"
+                        placeholder="Stock"
+                        value={v.stock}
+                        onChange={(e) => {
+                          const newVariants = [...formData.variants];
+                          newVariants[i].stock = Number(e.target.value);
+                          setFormData({ ...formData, variants: newVariants });
+                        }}
+                      />
+                    </div>
+                  ))}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
 
           <Button type="submit" className="mt-4 w-full">
-            Create Product
+            {isEditing ? "Save Changes" : "Create Product"}
           </Button>
         </form>
       </CardContent>
