@@ -314,3 +314,61 @@ export const cartItems = pgTable("cart_items", {
   total_price: numeric("total_price", { precision: 12, scale: 2 }).notNull(),
   added_at: timestamp("added_at").notNull().defaultNow(),
 });
+
+// Payment Status Enum
+export const paymentStatusEnum = pgEnum("payment_status", [
+  "pending",
+  "completed",
+  "failed",
+  "refunded",
+]);
+
+// Payment Method Enum
+export const paymentMethodEnum = pgEnum("payment_method", [
+  "card",
+  "paypal",
+  "bank_transfer",
+  "cod",
+]);
+
+// Payment Methods Table (Customer Saved Methods)
+export const paymentMethods = pgTable("payment_methods", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id", { length: 255 }).references(() => users.id, {
+    onDelete: "cascade",
+  }),
+  methodType: paymentMethodEnum("method_type").notNull(),
+  provider: varchar("provider", { length: 255 }).notNull(), // ex: Visa, MasterCard, PayPal
+  accountNumber: varchar("account_number", { length: 255 }).notNull(),
+  expiryDate: varchar("expiry_date", { length: 10 }), // MM/YY format (optional for non-cards)
+  isDefault: boolean("is_default").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Payment Info Table (Stores actual payments done per order)
+export const payments = pgTable("payments", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id").notNull(),
+  userId: varchar("user_id", { length: 255 }).references(() => users.id),
+  paymentMethodId: integer("payment_method_id").references(
+    () => paymentMethods.id,
+    { onDelete: "set null" }
+  ),
+  amount: integer("amount").notNull(), // amount in cents for precision
+  currency: varchar("currency", { length: 10 }).default("USD").notNull(),
+  status: paymentStatusEnum("status").default("pending").notNull(),
+  transactionId: varchar("transaction_id", { length: 255 }), // from payment gateway
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Payment Transactions (Full log of each payment step/attempt)
+export const paymentTransactions = pgTable("payment_transactions", {
+  id: serial("id").primaryKey(),
+  paymentId: integer("payment_id")
+    .references(() => payments.id, { onDelete: "cascade" })
+    .notNull(),
+  status: paymentStatusEnum("status").notNull(),
+  message: text("message"), // optional response or error message
+  createdAt: timestamp("created_at").defaultNow(),
+});
