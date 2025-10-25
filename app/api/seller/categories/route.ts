@@ -9,7 +9,7 @@ export async function GET() {
       .select()
       .from(categories)
       .orderBy(asc(categories.id));
-    console.log("all categories:", allCategories);
+    // console.log("all categories:", allCategories);
     return NextResponse.json(allCategories, { status: 200 });
   } catch (error) {
     console.error("Error fetching categories:", error);

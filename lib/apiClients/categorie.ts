@@ -14,7 +14,6 @@ export async function addCategory() {
   );
 
   const data = await res.json();
-  console.log("Created:", data);
   return data;
 }
 export async function getAllCategories() {
