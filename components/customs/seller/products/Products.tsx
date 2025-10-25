@@ -58,6 +58,19 @@ export default function ProductPage() {
     setEditingProduct(product);
     setIsDialogOpen(true);
   };
+  const handleDeleteClick = async (productId: number) => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products/${productId}`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (!res.ok) {
+      throw new Error("Failed to delete product");
+    }
+    toast.success("Product Deleted");
+    fetchProducts(); // Re-fetch products after delete
+  };
 
   return (
     <div className="grid gap-6">
@@ -124,7 +137,11 @@ export default function ProductPage() {
                       >
                         <Edit className="w-4 h-4" /> Edit
                       </Button>
-                      <Button variant="destructive" size={"sm"}>
+                      <Button
+                        variant="destructive"
+                        size={"sm"}
+                        onClick={() => handleDeleteClick(product.id)}
+                      >
                         <Trash2 className="w-4 h-4" /> Delete
                       </Button>
                     </TableCell>

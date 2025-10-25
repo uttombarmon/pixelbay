@@ -109,7 +109,7 @@ export async function PUT(
     delete productData.updated_at;
     let clearVariants;
     if (variants) {
-      clearVariants = variants.map((v:any) => {
+      clearVariants = variants.map((v: any) => {
         delete v.created_at;
         delete v.updated_at;
         return v;
@@ -173,8 +173,9 @@ export async function PUT(
 }
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const session = await auth();
   const role = session?.user?.role;
   const userId = session?.user?.id;
@@ -187,7 +188,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const productId = parseInt(params.id, 10);
+  const productId = parseInt(id, 10);
   if (isNaN(productId)) {
     return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
   }
