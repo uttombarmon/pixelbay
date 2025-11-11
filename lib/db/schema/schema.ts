@@ -176,8 +176,8 @@ export const categories = pgTable("categories", {
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   title: varchar("title", { length: 300 }).notNull(),
-  slug: varchar("slug", { length: 300 }).notNull(),
-  short_description: varchar("short_description", { length: 512 }),
+  slug: varchar("slug", { length: 1000 }).notNull(),
+  short_description: varchar("short_description", { length: 2000 }),
   description: text("description"),
   status: productStatus("status").notNull().default("draft"),
   visibility: visibilityStatus("visibility").notNull().default("visible"),

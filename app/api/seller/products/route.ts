@@ -93,6 +93,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const userId = req.nextUrl.searchParams.get("userId");
+  console.log("slug: ", body?.slug);
   if (userId) {
     const newProduct = await db
       .insert(products)

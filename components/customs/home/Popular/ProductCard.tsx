@@ -1,38 +1,14 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { productsData } from "@/types/ProductCard";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 function ProductCard({ product }: { product: productsData }) {
   return (
-    <a href="#" className="group relative block overflow-hidden rounded-xl">
-      {/* <button className="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75">
-        <span className="sr-only">Wishlist</span>
-
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="currentColor"
-          className="size-4"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-          />
-        </svg>
-      </button> */}
+    <Link
+      href="#"
+      className="group relative block overflow-hidden rounded-xl h-full"
+    >
       {product?.discount && (
         <span className="absolute -top-2px -right-px rounded-tr-xl rounded-bl-3xl bg-rose-600 px-6 py-4 font-medium tracking-widest text-white uppercas z-10">
           Save {product?.discount}%
@@ -46,7 +22,7 @@ function ProductCard({ product }: { product: productsData }) {
 
       <div className="relative w-full h-72 sm:h-72 bg-gray-50 overflow-hidden flex items-center justify-center">
         <Image
-          src={product?.image}
+          src={product?.image || product?.slug}
           alt={product?.title}
           width={300}
           height={400}
@@ -65,8 +41,10 @@ function ProductCard({ product }: { product: productsData }) {
           )}
         </p>
 
-        <h3 className="mt-1.5 text-lg font-medium text-gray-900">
-          {product?.title}
+        <h3 className="mt-1.5 text-lg font-medium text-gray-900 h-12">
+          {product?.title.length > 50
+            ? `${product.title.slice(0, 50)}...`
+            : product.title}
         </h3>
 
         {/* <p className="mt-1.5 line-clamp-3 text-gray-700">
@@ -88,7 +66,7 @@ function ProductCard({ product }: { product: productsData }) {
           </button>
         </form>
       </div>
-    </a>
+    </Link>
   );
 }
 
