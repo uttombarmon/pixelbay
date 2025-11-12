@@ -3,7 +3,6 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
@@ -16,6 +15,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import ProductDialog from "./ProductDialog";
 import { toast } from "sonner";
+import Product from "./Product";
 
 export default function ProductPage() {
   const { data: session } = useSession();
@@ -24,6 +24,7 @@ export default function ProductPage() {
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  console.log(products);
   const fetchProducts = useCallback(async () => {
     if (!userId) return;
     try {
@@ -46,7 +47,7 @@ export default function ProductPage() {
   const handleDialogClose = () => {
     setEditingProduct(null);
     setIsDialogOpen(false);
-    fetchProducts(); // Re-fetch products after add/edit
+    fetchProducts();
   };
 
   const handleAddClick = () => {
@@ -69,7 +70,7 @@ export default function ProductPage() {
       throw new Error("Failed to delete product");
     }
     toast.success("Product Deleted");
-    fetchProducts(); // Re-fetch products after delete
+    fetchProducts();
   };
 
   return (
@@ -94,7 +95,7 @@ export default function ProductPage() {
                 <TableRow>
                   <TableHead>Image</TableHead>
                   <TableHead>Name</TableHead>
-                  <TableHead>Category</TableHead>
+                  <TableHead>Variants</TableHead>
                   <TableHead>Price</TableHead>
                   <TableHead>Stock</TableHead>
                   <TableHead>Status</TableHead>
@@ -103,49 +104,7 @@ export default function ProductPage() {
               </TableHeader>
               <TableBody>
                 {products.map((product: any) => (
-                  <TableRow key={product.id}>
-                    <TableCell>
-                      {product?.images?.length >= 1 ? (
-                        <img
-                          src={product.images[0]}
-                          alt={product.title}
-                          className="w-12 h-12 rounded-md object-cover"
-                        />
-                      ) : (
-                        <div className="w-12 h-12 bg-gray-200 rounded-md" />
-                      )}
-                    </TableCell>
-                    <TableCell className="font-medium">
-                      {product.title.length > 20
-                        ? product.title.slice(0, 20) + "..."
-                        : product.title}
-                    </TableCell>
-                    <TableCell>{product.category_id}</TableCell>
-                    <TableCell>${product.price ?? 0}</TableCell>
-                    <TableCell>{product.stock ?? 0}</TableCell>
-                    <TableCell>
-                      <ToggleStatusButton
-                        productId={product.id}
-                        initialStatus={product.status}
-                      />
-                    </TableCell>
-                    <TableCell className=" flex justify-between gap-2 items-center my-auto">
-                      <Button
-                        variant={"outline"}
-                        size={"sm"}
-                        onClick={() => handleEditClick(product)}
-                      >
-                        <Edit className="w-4 h-4" /> Edit
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size={"sm"}
-                        onClick={() => handleDeleteClick(product.id)}
-                      >
-                        <Trash2 className="w-4 h-4" /> Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+                   <Product key={product.id} product={product} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>
                 ))}
               </TableBody>
             </Table>

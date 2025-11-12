@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
         slug: productsTable.slug,
         status: productsTable.status,
         price: sql`MIN(${productVariants.price})`.as("price"),
+        variants: sql<any>`json_agg(${productVariants})`.as("variants"),
         visibility: productsTable.visibility,
         category_id: productsTable.category_id,
         created_by: productsTable.created_by,
