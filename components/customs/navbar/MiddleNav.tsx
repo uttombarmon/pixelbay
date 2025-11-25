@@ -20,13 +20,12 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
     const handleResize = () => setWindowWidth(window.innerWidth);
 
     window.addEventListener("resize", handleResize);
-    const categoriesFunc = async () => {
-      console.log(window.innerWidth);
+
+    const categoriesFunc = () => {
       setWindowWidth(window.innerWidth);
       const others = categories.filter(
         (citem: any) => citem?.name?.toLowerCase() == "others"
       );
-      console.log(others);
       const all = categories.filter(
         (citem: any) => citem?.name?.toLowerCase() !== "others"
       );
@@ -34,28 +33,27 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
 
       if (windowWidth > 1000 && windowWidth < 1200) {
         alls = all?.slice(0, 3);
-        // setCategoriess();
         alls?.push(others[0]);
       }
       if (windowWidth > 1200) {
         alls = all?.slice(0, 4);
-        // setCategoriess();
         alls?.push(others[0]);
       }
-      console.log(alls);
       setCategoriess(alls);
     };
+
+    categoriesFunc();
+
     return () => {
       window.removeEventListener("resize", handleResize);
-      categoriesFunc;
     };
-  }, [windowWidth]);
+  }, [windowWidth, categories]);
 
   return (
     <NavigationMenu viewport={false}>
       {categoriess?.length >= 1 ? (
         <NavigationMenuList>
-          {categoriess.map((categorie:any) => (
+          {categoriess.map((categorie: any) => (
             <NavigationMenuItem key={categorie?.id || categorie?.name}>
               <NavigationMenuTrigger>{categorie?.name}</NavigationMenuTrigger>
               <NavigationMenuContent>
