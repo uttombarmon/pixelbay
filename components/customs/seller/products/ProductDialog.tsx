@@ -2,6 +2,7 @@
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import ProductForm from "./ProductForm";
+import { AddProductForm } from "./AddProductForm";
 
 export default function ProductDialog({
   userId,
@@ -22,14 +23,15 @@ export default function ProductDialog({
         <DialogTitle>
           {productToEdit ? "Edit Product" : "Create Product"}
         </DialogTitle>
-        <ProductForm
+        <AddProductForm />
+        {/* <ProductForm
           userId={userId}
           productToEdit={productToEdit}
           onClose={() => {
             onOpenChange(false);
             onClose();
           }}
-        />
+        /> */}
       </DialogContent>
     </Dialog>
   );

@@ -87,14 +87,15 @@ const PopularProducts = async () => {
       </div>
       <Carousel className=" w-9/12 md:w-11/12  mx-auto">
         <CarouselContent>
-          {productsData.map((product: productsData) => (
-            <CarouselItem
-              key={product?.id}
-              className=" flex md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
-            >
-              <ProductCard key={product.id} product={product} />
-            </CarouselItem>
-          ))}
+          {productsData?.length > 0 &&
+            productsData?.map((product: productsData) => (
+              <CarouselItem
+                key={product?.id}
+                className=" flex md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+              >
+                <ProductCard key={product.id} product={product} />
+              </CarouselItem>
+            ))}
         </CarouselContent>
         <CarouselPrevious />
         <CarouselNext />

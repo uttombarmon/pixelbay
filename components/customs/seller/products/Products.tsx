@@ -81,6 +81,9 @@ export default function ProductPage() {
         <Button onClick={handleAddClick}>
           <Plus className="w-4 h-4 mr-2" /> Add Product
         </Button>
+        <Button onClick={handleAddClick}>
+          <Plus className="w-4 h-4 mr-2" /> Add Product2
+        </Button>
       </div>
       {products?.error == "Not Found Data" ? (
         <p>Not Found Data</p>
@@ -104,7 +107,12 @@ export default function ProductPage() {
               </TableHeader>
               <TableBody>
                 {products.map((product: any) => (
-                   <Product key={product.id} product={product} handleEditClick={handleEditClick} handleDeleteClick={handleDeleteClick}/>
+                  <Product
+                    key={product.id}
+                    product={product}
+                    handleEditClick={handleEditClick}
+                    handleDeleteClick={handleDeleteClick}
+                  />
                 ))}
               </TableBody>
             </Table>
