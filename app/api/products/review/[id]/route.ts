@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db/drizzle";
-import { reviews, customers } from "@/lib/db/schema/schema";
+import { reviews } from "@/lib/db/schema/schema";
 import { eq, and } from "drizzle-orm";
 import { auth } from "@/lib/auth/auth";
 
@@ -26,16 +26,6 @@ export async function PATCH(
   //     { status: 400 }
   //   );
   try {
-    const [customer] = await db
-      .select()
-      .from(customers)
-      .where(eq(customers.userId, session.user.id));
-
-    if (!customer || !customer.id)
-      return NextResponse.json(
-        { error: "Customer not found" },
-        { status: 404 }
-      );
     // Update only if it's the user's own review
     const updated = await db
       .update(reviews)
@@ -43,7 +33,7 @@ export async function PATCH(
       .where(
         and(
           eq(reviews.id, reviewId),
-          eq(reviews.customer_id, String(customer.id))
+          eq(reviews.user_id, session.user.id)
         )
       )
       .returning();
@@ -79,23 +69,12 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const [customer] = await db
-      .select()
-      .from(customers)
-      .where(eq(customers.userId, session.user.id));
-
-    if (!customer || !customer.id)
-      return NextResponse.json(
-        { error: "Customer not found" },
-        { status: 404 }
-      );
-
     const deleted = await db
       .delete(reviews)
       .where(
         and(
           eq(reviews.id, reviewId),
-          eq(reviews.customer_id, String(customer.id))
+          eq(reviews.user_id, session.user.id)
         )
       )
       .returning();

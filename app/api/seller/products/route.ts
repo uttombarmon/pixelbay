@@ -107,6 +107,7 @@ export async function POST(req: NextRequest) {
         category_id: body.category_id,
         status: body.status,
         visibility: body.visibility,
+        gadgetType: body.gadgetType || "other",
         attributes: body.attributes,
         created_by: userId,
       })

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 import { db } from "@/lib/db/drizzle";
-import { reviews, customers, users } from "@/lib/db/schema/schema";
+import { reviews, users } from "@/lib/db/schema/schema";
 import { eq, desc } from "drizzle-orm";
 
 // ✅ GET — Fetch all reviews or by product
@@ -17,10 +17,10 @@ export async function GET(req: Request) {
         rating: reviews.rating,
         body: reviews.body,
         created_at: reviews.created_at,
-        customer: customers.id,
+        user: users.name,
       })
       .from(reviews)
-      .leftJoin(users, eq(reviews.customer_id, users.id))
+      .leftJoin(users, eq(reviews.user_id, users.id))
       .orderBy(desc(reviews.created_at));
 
     if (productId) query.where(eq(reviews.product_id, Number(productId)));
@@ -58,23 +58,11 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-    const [c_user] = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, session.user.id));
-    console.log("c_user: ", c_user);
-
-    if (!c_user)
-      return NextResponse.json(
-        { error: "Customer not found" },
-        { status: 404 }
-      );
-
     const [newReview] = await db
       .insert(reviews)
       .values({
         product_id,
-        customer_id: c_user.id,
+        user_id: session.user.id,
         rating,
         body,
         is_public: true,

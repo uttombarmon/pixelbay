@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/drizzle";
-import { customers } from "@/lib/db/schema/schema";
+import { users } from "@/lib/db/schema/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -11,8 +11,8 @@ export async function GET(req: NextRequest) {
     if (sellerId && customerId) {
       const customer = await db
         .select()
-        .from(customers)
-        .where(eq(customers.id, Number(customerId)))
+        .from(users)
+        .where(eq(users.id, customerId))
         .limit(1);
     }
   } catch (error) {

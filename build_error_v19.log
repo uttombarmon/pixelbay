@@ -1,0 +1,28 @@
+
+> pixelbay@0.1.0 build
+> next build --turbopack
+
+   ▲ Next.js 15.5.7 (Turbopack)
+   - Environments: .env.local, .env
+
+   Creating an optimized production build ...
+ ✓ Finished writing to disk in 116ms
+ ✓ Compiled successfully in 14.8s
+   Linting and checking validity of types ...
+   Collecting page data ...
+unhandledRejection Error: Failed to load external module next/dist/compiled/next-server/pages-turbo.runtime.prod.js: Error: Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:
+  - react:      19.1.2
+  - react-dom:  19.1.0
+Learn more: https://react.dev/warnings/version-mismatch
+    at Context.externalRequire [as x] (D:\NextJSProjects\pixelbay\.next\server\chunks\ssr\[turbopack]_runtime.js:501:15)
+    at __TURBOPACK__module__evaluation__ (D:\NextJSProjects\pixelbay\.next\server\chunks\ssr\[root-of-the-server]__02313dad._.js:1:16796)
+    at instantiateModule (D:\NextJSProjects\pixelbay\.next\server\chunks\ssr\[turbopack]_runtime.js:702:9)
+    at getOrInstantiateModuleFromParent (D:\NextJSProjects\pixelbay\.next\server\chunks\ssr\[turbopack]_runtime.js:725:12)
+    at Context.commonJsRequire [as r] (D:\NextJSProjects\pixelbay\.next\server\chunks\ssr\[turbopack]_runtime.js:236:12)
+    at __TURBOPACK__module__evaluation__ (D:\NextJSProjects\pixelbay\.next\server\chunks\ssr\[root-of-the-server]__02313dad._.js:1:16976)
+    at instantiateModule (D:\NextJSProjects\pixelbay\.next\server\chunks\ssr\[turbopack]_runtime.js:702:9)
+    at getOrInstantiateModuleFromParent (D:\NextJSProjects\pixelbay\.next\server\chunks\ssr\[turbopack]_runtime.js:725:12)
+    at Context.commonJsRequire [as r] (D:\NextJSProjects\pixelbay\.next\server\chunks\ssr\[turbopack]_runtime.js:236:12)
+    at __TURBOPACK__module__evaluation__ (D:\NextJSProjects\pixelbay\.next\server\chunks\ssr\[root-of-the-server]__02313dad._.js:1:17025) {
+  type: 'Error'
+}

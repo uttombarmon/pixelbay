@@ -31,15 +31,16 @@ export async function POST(req: Request) {
       );
 
     // find or create cart
+    // find or create cart
     let [cart] = await db
       .select()
       .from(carts)
-      .where(eq(carts.customer_id, String(customer.id)));
+      .where(eq(carts.user_id, String(customer.id)));
 
     if (!cart) {
       [cart] = await db
         .insert(carts)
-        .values({ customer_id: String(customer.id) })
+        .values({ user_id: String(customer.id) })
         .returning();
     }
     // check if product already exists in cart
@@ -49,8 +50,7 @@ export async function POST(req: Request) {
       .where(
         and(
           eq(cartItems.cart_id, cart.id),
-          eq(cartItems.product_id, Number(product_id)),
-          variant_id ? eq(cartItems.variant_id, Number(variant_id)) : undefined
+          eq(cartItems.variant_id, Number(variant_id))
         )
       );
 
@@ -71,12 +71,11 @@ export async function POST(req: Request) {
       .insert(cartItems)
       .values({
         cart_id: Number(cart.id),
-        product_id: Number(product_id),
-        variant_id: variant_id ? Number(variant_id) : null,
+        variant_id: Number(variant_id),
         quantity: Number(quantity),
-        unit_price: Number(unit_price),
-        total_price: Number(unit_price) * Number(quantity),
-      } as any)
+        unit_price: String(unit_price),
+        total_price: String(Number(unit_price) * Number(quantity)),
+      })
       .returning();
 
     return NextResponse.json(newItem, { status: 201 });

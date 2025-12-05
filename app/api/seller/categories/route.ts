@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const newCategory = await db
+    const [newCategory] = (await db
       .insert(categories)
       .values({
         name: body.name,
@@ -40,9 +40,9 @@ export async function POST(req: Request) {
         path: body.path || null,
         metadata: body.metadata || {},
       })
-      .returning();
+      .returning()) as any[];
 
-    return NextResponse.json(newCategory[0], { status: 201 });
+    return NextResponse.json(newCategory, { status: 201 });
   } catch (error) {
     console.error("Error creating category:", error);
     return NextResponse.json(

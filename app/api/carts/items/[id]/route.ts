@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db/drizzle";
-import { cartItems, carts, customers, products } from "@/lib/db/schema/schema";
+import { cartItems, carts, products, productVariants } from "@/lib/db/schema/schema";
 import { auth } from "@/lib/auth/auth";
 import { eq } from "drizzle-orm";
 
@@ -10,18 +10,10 @@ export async function GET() {
     if (!session?.user?.id)
       return NextResponse.json({ error: "Not signed in" }, { status: 401 });
 
-    const [customer] = await db
-      .select()
-      .from(customers)
-      .where(eq(customers.userId, session.user.id));
-
-    if (!customer || !customer.id)
-      return NextResponse.json({ error: "Customer not found" }, { status: 404 });
-
     const [cart] = await db
       .select()
       .from(carts)
-      .where(eq(carts.customer_id, String(customer.id)));
+      .where(eq(carts.user_id, session.user.id));
 
     if (!cart)
       return NextResponse.json({ items: [] }); // empty cart
@@ -32,9 +24,11 @@ export async function GET() {
         quantity: cartItems.quantity,
         total_price: cartItems.total_price,
         product: products,
+        variant: productVariants,
       })
       .from(cartItems)
-      .leftJoin(products, eq(cartItems.product_id, products.id))
+      .leftJoin(productVariants, eq(cartItems.variant_id, productVariants.id))
+      .leftJoin(products, eq(productVariants.product_id, products.id))
       .where(eq(cartItems.cart_id, cart.id));
 
     return NextResponse.json(items);
