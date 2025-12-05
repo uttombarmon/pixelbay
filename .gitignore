@@ -44,3 +44,7 @@ next-env.d.ts
 
 #build errors
 *.log
+build_error.log
+build_error_final.log
+build_error_v19.log
+build_error_v19_try2.log
