@@ -3,6 +3,7 @@
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import ProductForm from "./ProductForm";
 import { AddProductForm } from "./AddProductForm";
+import { AddProductFormm } from "./product-form";
 
 export default function ProductDialog({
   userId,
@@ -23,7 +24,8 @@ export default function ProductDialog({
         <DialogTitle>
           {productToEdit ? "Edit Product" : "Create Product"}
         </DialogTitle>
-        <AddProductForm />
+        <AddProductFormm />
+        {/* <AddProductForm /> */}
         {/* <ProductForm
           userId={userId}
           productToEdit={productToEdit}
