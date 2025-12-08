@@ -4,6 +4,8 @@ import { db } from "../db/drizzle";
 import Google from "next-auth/providers/google";
 import { eq } from "drizzle-orm";
 import { users } from "../db/schema/schema";
+import Credentials from "@auth/core/providers/credentials";
+import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db),
@@ -19,43 +21,43 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         },
       },
     }),
-    // Credentials({
-    //   name: "Credentials",
-    //   credentials: {
-    //     name: { label: "Last Name", type: "text" },
-    //     email: { label: "Email", type: "email" },
-    //     password: { label: "Password", type: "password" },
-    //   },
-    //   async authorize(credentials) {
-    //     console.log("credentials:", credentials);
-    //     console.log("Email:", credentials?.email);
-    //     console.log("Password:", credentials?.password);
-    //     if (!credentials?.email || !credentials?.password) {
-    //       throw new Error("Missing email or password");
-    //     }
+    Credentials({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
-    //     // Find user in DB
-    //     const [user] = await db
-    //       .select()
-    //       .from(users)
-    //       .where(eq(users.email, (credentials.email as string).toLowerCase()));
+        const email = credentials.email as string;
+        const password = credentials.password as string;
 
-    //     if (!user) console.log("User not found");
+        try {
+          const [user] = await db
+            .select()
+            .from(users)
+            .where(eq(users.email, email.toLowerCase()));
 
-    //     // Check password
-    //     const isValid = await bcrypt.compare(
-    //       credentials?.password as string,
-    //       user?.password as string
-    //     );
-    //     if (!isValid) throw new Error("Invalid password");
+          if (!user || !user.password) {
+            return null;
+          }
 
-    //     return {
-    //       id: user.id,
-    //       name: `${user?.name}`,
-    //       email: user.email,
-    //     };
-    //   },
-    // }),
+          const passwordsMatch = await bcrypt.compare(password, user.password);
+
+          if (passwordsMatch) {
+            return user;
+          }
+
+          return null;
+        } catch (error) {
+          console.error("Auth error:", error);
+          return null;
+        }
+      },
+    }),
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
@@ -154,7 +156,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   pages: {
-    signIn: "/auth/signup",
+    signIn: "/auth/signin",
     error: "/auth/signin",
   },
   session: {

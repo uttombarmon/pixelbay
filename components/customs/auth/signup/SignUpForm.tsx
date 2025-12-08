@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { UserI } from "@/types/UserInterface";
 import { signIn } from "next-auth/react";
 import React, { useState } from "react";
+import { registerUser } from "@/lib/actions/auth";
 
 const SignUpForm = () => {
   const [user, setUser] = useState({
@@ -29,14 +30,32 @@ const SignUpForm = () => {
     e.preventDefault();
 
     try {
-      const res = signIn("credentials", user);
+      const formData = new FormData();
+      formData.append("name", user.name);
+      formData.append("email", user.email);
+      formData.append("password", user.password);
 
-      if (!res) throw new Error("Signup failed");
+      const result = await registerUser(formData);
 
-      // const data = await res.json();
-      console.log("Signup success:", res);
+      if (result.error) {
+        console.error(result.error);
+        // You might want to show this error to the user via state/toast
+        return;
+      }
+
+      console.log("Registration success");
+
+      // Sign in after successful registration
+      const res = await signIn("credentials", {
+        redirect: true,
+        callbackUrl: "/",
+        email: user.email,
+        password: user.password,
+      });
+
+      console.log("Sign in result:", res);
     } catch (err) {
-      console.error(err);
+      console.error("Signup error:", err);
     }
   };
   return (

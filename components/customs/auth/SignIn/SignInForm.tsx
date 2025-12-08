@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 // import { signIn } from "@/lib/auth/auth";
 import { signIn } from "next-auth/react";
 
@@ -18,15 +19,27 @@ const SignInForm = () => {
   };
   const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputData = e.target.value;
-    setUser((prev) => ({ ...prev, passwordHash: inputData }));
+    setUser((prev) => ({ ...prev, password: inputData }));
   };
+  const router = useRouter();
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const res = signIn("credentials", user);
+      const res = await signIn("credentials", {
+        redirect: false,
+        callbackUrl: "/",
+        email: user.email,
+        password: user.password,
+      });
 
-      if (!res) throw new Error("Signup failed");
+      if (res?.error) {
+        throw new Error("Login failed");
+      }
+
+      if (res?.url) {
+        router.push(res.url);
+      }
 
       console.log("Signup success:", res);
     } catch (err) {

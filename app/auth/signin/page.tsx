@@ -39,16 +39,16 @@ export default async function SignInPage() {
           </div>
 
           {/* Separator */}
-          {/* <div className="relative flex items-center py-2">
+          <div className="relative flex items-center py-2">
             <Separator className="flex-1" />
             <span className="px-2 text-sm md:text-base lg:text-lg  text-gray-500">
               or continue with
             </span>
             <Separator className="flex-1" />
-          </div> */}
+          </div>
 
           {/* Email + Password form */}
-          {/* <SignInForm /> */}
+          <SignInForm />
         </CardContent>
       </Card>
     </div>

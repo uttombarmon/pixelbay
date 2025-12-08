@@ -8,8 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import SignUpForm from "@/components/customs/auth/signup/SignUpForm";
-import GoogleSignIn from "@/components/customs/auth/SignIn/GoogleSignIn";
-import FacebookSignIn from "@/components/customs/auth/SignIn/FacebookSignIn";
+// import GoogleSignIn from "@/components/customs/auth/SignIn/GoogleSignIn";
+// import FacebookSignIn from "@/components/customs/auth/SignIn/FacebookSignIn";
 
 export default function SignUpPage() {
   return (
@@ -26,11 +26,11 @@ export default function SignUpPage() {
         </CardHeader>
 
         <CardContent className="grid gap-4">
-          {/* Social Auth */}
+          {/* Social Auth
           <div className="grid grid-cols-2 gap-3">
             <GoogleSignIn />
             <FacebookSignIn />
-          </div>
+          </div> */}
 
           {/* <div className="relative">
             <div className="absolute inset-0 flex items-center">
@@ -44,7 +44,7 @@ export default function SignUpPage() {
           </div> */}
 
           {/* Signup Form */}
-          {/* <SignUpForm /> */}
+          <SignUpForm />
         </CardContent>
 
         <CardFooter className="flex justify-center">
