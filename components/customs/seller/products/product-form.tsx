@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 
 import {
   Form,
@@ -27,7 +27,17 @@ import {
   fieldLabels,
   type GadgetType,
 } from "@/types/form-config";
-
+interface Variant {
+  sku: string;
+  variantName?: string;
+  color?: string;
+  storageVariant?: string;
+  ramVariant?: string;
+  regionVariant?: string;
+  price: number;
+  currency: string;
+  stock: number;
+}
 export type ProductFormValues = {
   // Product level
   title: string;
@@ -45,15 +55,7 @@ export type ProductFormValues = {
   warrantyDescription?: string;
 
   // Variant level
-  sku: string;
-  variantName?: string;
-  color?: string;
-  storageVariant?: string;
-  ramVariant?: string;
-  regionVariant?: string;
-  price: number;
-  currency: string;
-  stock: number;
+  variants: Variant[];
 
   // Spec level (dynamic by gadget type)
   [key: string]: any;
@@ -84,17 +86,25 @@ export function AddProductFormm({
       condition: "new",
       warrantyType: "standard",
       warrantyMonths: 12,
-      sku: "",
-      variantName: "",
-      color: "",
-      storageVariant: "",
-      ramVariant: "",
-      regionVariant: "",
-      price: 0,
-      currency: "USD",
-      stock: 0,
+      variants: [
+        {
+          sku: "",
+          variantName: "",
+          color: "",
+          storageVariant: "",
+          ramVariant: "",
+          regionVariant: "",
+          price: 0,
+          currency: "USD",
+          stock: 0,
+        },
+      ],
       ...defaultValues,
     },
+  });
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "variants",
   });
 
   const gadgetType: GadgetType = form.watch("gadgetType");
@@ -103,8 +113,11 @@ export function AddProductFormm({
   const handleSubmit = (values: ProductFormValues) => {
     const parsed: ProductFormValues = {
       ...values,
-      price: Number(values.price) || 0,
-      stock: Number(values.stock) || 0,
+      variants: values.variants.map((v) => ({
+        ...v,
+        price: Number(v.price) || 0,
+        stock: Number(v.stock) || 0,
+      })),
       warrantyMonths: values.warrantyMonths
         ? Number(values.warrantyMonths)
         : undefined,
@@ -504,165 +517,222 @@ export function AddProductFormm({
         </div>
 
         {/* ==================== VARIANT SECTION ==================== */}
-        <div className="border-t pt-6">
-          <h2 className="text-lg font-semibold mb-4">Variant & Pricing</h2>
-
-          {/* SKU & Variant Name */}
-          <div className="grid gap-6 md:grid-cols-2 mb-4">
-            <FormField
-              control={form.control}
-              name="sku"
-              rules={{ required: "SKU is required" }}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>SKU</FormLabel>
-                  <FormControl>
-                    <Input placeholder="PROD-001-BLK-256GB" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="variantName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Variant Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="iPhone 16 Pro Max - Space Black - 256GB"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* ==================== VARIANT SECTION ==================== */}
+        <div className="border-t pt-6 rounded-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Variant & Pricing</h2>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                append({
+                  sku: "",
+                  variantName: "",
+                  color: "",
+                  storageVariant: "",
+                  ramVariant: "",
+                  regionVariant: "",
+                  price: 0,
+                  currency: "USD",
+                  stock: 0,
+                })
+              }
+            >
+              + Add Variant
+            </Button>
           </div>
 
-          {/* Variant Options */}
-          <div className="grid gap-6 md:grid-cols-2 mb-4">
-            <FormField
-              control={form.control}
-              name="color"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Color</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Space Black" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+          <div className="space-y-2">
+            {fields.map((field, index) => (
+              <div
+                key={field.id}
+                className="relative p-6 border rounded-lg  shadow-sm transition-all hover:shadow-md"
+              >
+                <div className="absolute right-4 top-4">
+                  {fields.length > 1 && (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      onClick={() => remove(index)}
+                    >
+                      Remove
+                    </Button>
+                  )}
+                </div>
 
-            <FormField
-              control={form.control}
-              name="storageVariant"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Storage</FormLabel>
-                  <FormControl>
-                    <Input placeholder="256GB" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                <div className="mb-4">
+                  <h3 className="text-sm font-medium text-gray-500">
+                    Variant #{index + 1}
+                  </h3>
+                </div>
 
-          <div className="grid gap-6 md:grid-cols-2 mb-4">
-            <FormField
-              control={form.control}
-              name="ramVariant"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>RAM</FormLabel>
-                  <FormControl>
-                    <Input placeholder="8GB" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                {/* SKU & Variant Name */}
+                <div className="grid gap-6 md:grid-cols-2 mb-4">
+                  <FormField
+                    control={form.control}
+                    name={`variants.${index}.sku`}
+                    rules={{ required: "SKU is required" }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>SKU</FormLabel>
+                        <FormControl>
+                          <Input placeholder="PROD-001-BLK-256GB" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-            <FormField
-              control={form.control}
-              name="regionVariant"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Region</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Global" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                  <FormField
+                    control={form.control}
+                    name={`variants.${index}.variantName`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Variant Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="iPhone 16 Pro Max - Space Black - 256GB"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-          {/* Pricing & Stock */}
-          <div className="grid gap-6 md:grid-cols-3">
-            <FormField
-              control={form.control}
-              name="price"
-              rules={{
-                required: "Price is required",
-                validate: (v) =>
-                  Number(v) >= 0 || "Price must be a positive number",
-              }}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      step="0.01"
-                      min={0}
-                      placeholder="999.99"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                {/* Variant Options */}
+                <div className="grid gap-6 md:grid-cols-2 mb-4">
+                  <FormField
+                    control={form.control}
+                    name={`variants.${index}.color`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Color</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Space Black" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-            <FormField
-              control={form.control}
-              name="currency"
-              rules={{ required: "Currency is required" }}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Currency</FormLabel>
-                  <FormControl>
-                    <Input maxLength={3} placeholder="USD" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <FormField
+                    control={form.control}
+                    name={`variants.${index}.storageVariant`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Storage</FormLabel>
+                        <FormControl>
+                          <Input placeholder="256GB" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-            <FormField
-              control={form.control}
-              name="stock"
-              rules={{
-                required: "Stock is required",
-                validate: (v) =>
-                  Number(v) >= 0 || "Stock must be a positive number",
-              }}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Stock Quantity</FormLabel>
-                  <FormControl>
-                    <Input type="number" min={0} placeholder="100" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                <div className="grid gap-6 md:grid-cols-2 mb-4">
+                  <FormField
+                    control={form.control}
+                    name={`variants.${index}.ramVariant`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>RAM</FormLabel>
+                        <FormControl>
+                          <Input placeholder="8GB" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name={`variants.${index}.regionVariant`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Region</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Global" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Pricing & Stock */}
+                <div className="grid gap-6 md:grid-cols-3">
+                  <FormField
+                    control={form.control}
+                    name={`variants.${index}.price`}
+                    rules={{
+                      required: "Price is required",
+                      validate: (v) =>
+                        Number(v) >= 0 || "Price must be a positive number",
+                    }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Price</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            step="0.01"
+                            min={0}
+                            placeholder="999.99"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name={`variants.${index}.currency`}
+                    rules={{ required: "Currency is required" }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Currency</FormLabel>
+                        <FormControl>
+                          <Input maxLength={3} placeholder="USD" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name={`variants.${index}.stock`}
+                    rules={{
+                      required: "Stock is required",
+                      validate: (v) =>
+                        Number(v) >= 0 || "Stock must be a positive number",
+                    }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Stock Quantity</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            min={0}
+                            placeholder="100"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
