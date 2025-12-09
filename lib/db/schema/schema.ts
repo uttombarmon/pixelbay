@@ -223,27 +223,27 @@ export const techSpecifications = pgTable("tech_specifications", {
   
   // Display
   displaySize: decimal("display_size", { precision: 5, scale: 2 }), // in inches
-  displayTech: varchar("display_tech", { length: 100 }), // e.g., "AMOLED", "IPS LCD", "Mini-LED"
-  displayResolution: varchar("display_resolution", { length: 100 }), // e.g., "2560x1600"
+  displayTech: varchar("display_tech", { length: 300 }), // e.g., "AMOLED", "IPS LCD", "Mini-LED" - increased for detailed specs
+  displayResolution: varchar("display_resolution", { length: 150 }), // e.g., "2560x1600"
   refreshRate: integer("refresh_rate"), // in Hz
   colorDepth: varchar("color_depth", { length: 50 }), // e.g., "10-bit"
   brightness: integer("brightness"), // in nits
-  screenCoating: varchar("screen_coating", { length: 100 }), // e.g., "Gorilla Glass Victus 2"
+  screenCoating: varchar("screen_coating", { length: 200 }), // e.g., "Gorilla Glass Victus 2"
   
   // Battery
   batteryCapacity: integer("battery_capacity"), // in mAh
   batteryType: varchar("battery_type", { length: 100 }), // e.g., "Li-Po", "Li-ion"
-  batteryLife: varchar("battery_life", { length: 100 }), // e.g., "20 hours"
-  fastCharging: varchar("fast_charging", { length: 100 }), // e.g., "120W"
-  wirelessCharging: boolean("wireless_charging").default(false),
+  batteryLife: varchar("battery_life", { length: 200 }), // e.g., "20 hours"
+  fastCharging: varchar("fast_charging", { length: 200 }), // e.g., "120W" - increased for detailed charging specs
+  wirelessCharging: varchar("wireless_charging", { length: 255 }), // e.g., "15W wireless (MagSafe)"
   
   // Camera (for devices with cameras)
-  rearCameraMP: varchar("rear_camera_mp", { length: 100 }), // e.g., "200MP"
-  rearCameraAperture: varchar("rear_camera_aperture", { length: 50 }), // e.g., "f/1.7"
-  frontCameraMP: varchar("front_camera_mp", { length: 100 }),
-  frontCameraAperture: varchar("front_camera_aperture", { length: 50 }),
-  videoCapability: varchar("video_capability", { length: 100 }), // e.g., "8K@60fps"
-  opticalZoom: varchar("optical_zoom", { length: 50 }),
+  rearCameraMP: varchar("rear_camera_mp", { length: 500 }), // e.g., "200MP" - increased for multi-camera specs
+  rearCameraAperture: varchar("rear_camera_aperture", { length: 100 }), // e.g., "f/1.7"
+  frontCameraMP: varchar("front_camera_mp", { length: 300 }),
+  frontCameraAperture: varchar("front_camera_aperture", { length: 100 }),
+  videoCapability: varchar("video_capability", { length: 300 }), // e.g., "8K@60fps" - increased for detailed specs
+  opticalZoom: varchar("optical_zoom", { length: 100 }),
   
   // Audio
   speakerCount: integer("speaker_count"),
@@ -252,15 +252,15 @@ export const techSpecifications = pgTable("tech_specifications", {
   microphone: varchar("microphone", { length: 100 }), // e.g., "Dual with noise cancellation"
   
   // Connectivity
-  bluetooth: varchar("bluetooth", { length: 50 }), // e.g., "5.4"
-  wifi: varchar("wifi", { length: 50 }), // e.g., "WiFi 7"
+  bluetooth: varchar("bluetooth", { length: 100 }),
+  wifi: varchar("wifi", { length: 150 }), // e.g., "WiFi 7"
   nfc: boolean("nfc").default(false),
-  usb: varchar("usb", { length: 100 }), // e.g., "USB-C 3.2"
-  ports: text("ports"), // JSON array of ports
+  usb: varchar("usb", { length: 150 }), // e.g., "USB-C 3.2"
+  ports: varchar("ports", { length: 300 }), // JSON array of ports
   
   // Network
-  cellular: varchar("cellular", { length: 100 }), // e.g., "5G sub-6 GHz"
-  sim: varchar("sim", { length: 100 }), // e.g., "Nano SIM + eSIM"
+  cellular: varchar("cellular", { length: 300 }), // e.g., "5G sub-6 GHz"
+  sim: varchar("sim", { length: 300 }), // e.g., "Nano SIM + eSIM"
   
   // Physical
   weight: decimal("weight", { precision: 6, scale: 2 }), // in grams
@@ -268,7 +268,7 @@ export const techSpecifications = pgTable("tech_specifications", {
   material: varchar("material", { length: 255 }), // e.g., "Aluminum frame with glass back"
   
   // Durability
-  ipRating: varchar("ip_rating", { length: 20 }), // e.g., "IP68"
+  ipRating: varchar("ip_rating", { length: 200 }), // e.g., "IP68"
   mrlRating: varchar("mrl_rating", { length: 20 }), // Military spec
   dropProtection: varchar("drop_protection", { length: 100 }), // e.g., "Gorilla Glass with drop protection"
   

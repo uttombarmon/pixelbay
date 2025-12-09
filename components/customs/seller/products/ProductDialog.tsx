@@ -1,8 +1,8 @@
 "use client";
 
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import ProductForm from "./ProductForm";
-import { AddProductForm } from "./AddProductForm";
+// import ProductForm from "./ProductForm";
+// import { AddProductForm } from "./AddProductForm";
 import { AddProductFormm } from "./product-form";
 
 export default function ProductDialog({
@@ -24,7 +24,12 @@ export default function ProductDialog({
         <DialogTitle>
           {productToEdit ? "Edit Product" : "Create Product"}
         </DialogTitle>
-        <AddProductFormm />
+        <AddProductFormm
+          defaultValues={productToEdit}
+          onSubmit={() => {
+            onClose();
+          }}
+        />
         {/* <AddProductForm /> */}
         {/* <ProductForm
           userId={userId}

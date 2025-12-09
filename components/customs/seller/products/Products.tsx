@@ -37,6 +37,7 @@ export default function ProductPage() {
       if (!response.ok) {
         setProducts([]);
         setLoading(false);
+        return;
       }
       const data = await response.json();
       setProducts(data);
@@ -62,9 +63,27 @@ export default function ProductPage() {
     setIsDialogOpen(true);
   };
 
-  const handleEditClick = (product: any) => {
-    setEditingProduct(product);
-    setIsDialogOpen(true);
+  const handleEditClick = async (product: any) => {
+    try {
+      // Fetch full product details including tech specs
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products/${product.id}`
+      );
+
+      if (!response.ok) {
+        toast.error("Failed to fetch product details");
+        return;
+      }
+
+      const fullProductData = await response.json();
+      console.log("Full product data:", fullProductData);
+
+      setEditingProduct(fullProductData);
+      setIsDialogOpen(true);
+    } catch (error) {
+      console.error("Error fetching product details:", error);
+      toast.error("Error loading product details");
+    }
   };
   const handleDeleteClick = async (productId: number) => {
     const res = await fetch(

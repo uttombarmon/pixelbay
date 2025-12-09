@@ -20,15 +20,13 @@ const ToggleVariants = ({
       value={variant?.id}
       onChange={handleVariantChange}
       disabled={loading}
-      className={`px-2 py-1 text-xs rounded-full outline-none ${
-        status === "active"
-          ? "bg-green-100 text-green-700"
-          : "bg-red-100 text-red-700"
-      } ${loading ? "opacity-60 cursor-wait" : "cursor-pointer"}`}
+      className={`px-2 py-1 text-xs rounded-md border outline-none ${
+        loading ? "opacity-60 cursor-wait" : "cursor-pointer"
+      }`}
     >
-      {variants.map((v: any) => (
+      {variants?.map((v: any) => (
         <option key={v.id} value={v.id}>
-          {v.title}
+          {v.variantName || v.sku || `Variant ${v.id}`}
         </option>
       ))}
     </select>

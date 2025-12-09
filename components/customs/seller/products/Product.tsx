@@ -15,9 +15,16 @@ const Product = ({
   handleEditClick: any;
   handleDeleteClick: any;
 }) => {
-  const [variant, setVariant] = useState(product.variants[0]);
+  console.log(product);
+  const [variant, setVariant] = useState(
+    product.variants && product.variants.length > 0 ? product.variants[0] : null
+  );
   const [price, setPrice] = useState(product.price);
-  const [stock, setStock] = useState(product.variants[0].stock);
+  const [stock, setStock] = useState(
+    product.variants && product.variants.length > 0
+      ? product.variants[0].stock
+      : 0
+  );
   useEffect(() => {
     if (variant) {
       setPrice(variant.price);
@@ -29,8 +36,16 @@ const Product = ({
       <TableCell>
         {product?.images?.length >= 1 ? (
           <img
-            src={product.images[0]}
-            alt={product.title}
+            src={
+              typeof product.images[0] === "string"
+                ? product.images[0]
+                : product.images[0]?.url
+            }
+            alt={
+              typeof product.images[0] === "string"
+                ? product.title
+                : product.images[0]?.alt || product.title
+            }
             className="w-12 h-12 rounded-md object-cover"
           />
         ) : (
@@ -43,7 +58,11 @@ const Product = ({
           : product.title}
       </TableCell>
       <TableCell>
-        <ToggleVariants variant={variant} variants={product.variants} setVariant={setVariant}/>
+        <ToggleVariants
+          variant={variant}
+          variants={product.variants}
+          setVariant={setVariant}
+        />
       </TableCell>
       <TableCell>${price ?? 0}</TableCell>
       <TableCell>{stock ?? 0}</TableCell>

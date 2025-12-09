@@ -6,6 +6,7 @@ import {
   products,
   productVariants,
   techSpecifications,
+  productImages,
 } from "@/lib/db/schema/schema";
 import { ProductFormValues } from "@/components/customs/seller/products/product-form"; // Type import might need adjustment based on export
 import { revalidatePath } from "next/cache";
@@ -147,6 +148,16 @@ export async function createProduct(data: any) {
       }));
 
       await db.insert(productVariants).values(variantsData);
+    }
+
+    // 4. Insert Images
+    if (data.images && data.images.length > 0) {
+      const imagesData = data.images.map((img: any) => ({
+        product_id: newProduct.id,
+        url: img.url,
+        alt: img.alt,
+      }));
+      await db.insert(productImages).values(imagesData);
     }
 
     revalidatePath("/seller/products"); // Adjust path as needed

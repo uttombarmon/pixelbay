@@ -15,6 +15,20 @@
       "when": 1765216684216,
       "tag": "0001_peaceful_lyja",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1765279049452,
+      "tag": "0002_sharp_pyro",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1765280271096,
+      "tag": "0003_tired_carnage",
+      "breakpoints": true
     }
   ]
 }

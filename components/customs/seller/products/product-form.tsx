@@ -40,6 +40,10 @@ interface Variant {
   currency: string;
   stock: number;
 }
+export interface ProductImage {
+  url: string;
+  alt: string;
+}
 export type ProductFormValues = {
   // Product level
   title: string;
@@ -58,6 +62,7 @@ export type ProductFormValues = {
 
   // Variant level
   variants: Variant[];
+  images: ProductImage[];
 
   // Spec level (dynamic by gadget type)
   [key: string]: any;
@@ -102,12 +107,69 @@ export function AddProductFormm({
           stock: 0,
         },
       ],
+      images: [
+        {
+          url: "",
+          alt: "",
+        },
+      ],
       ...defaultValues,
     },
   });
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: variantFields,
+    append: appendVariant,
+    remove: removeVariant,
+  } = useFieldArray({
     control: form.control,
     name: "variants",
+  });
+
+  // Reset form when defaultValues (editing product) changes
+  React.useEffect(() => {
+    if (defaultValues) {
+      console.log("Resetting form with values:", defaultValues);
+      form.reset({
+        ...defaultValues,
+        gadgetType: defaultValues.gadgetType || "smartphone",
+        status: defaultValues.status || "draft",
+        visibility: defaultValues.visibility || "visible",
+        condition: defaultValues.condition || "new",
+        warrantyType: defaultValues.warrantyType || "standard",
+        variants: defaultValues.variants?.length
+          ? defaultValues.variants
+          : [
+              {
+                sku: "",
+                variantName: "",
+                color: "",
+                storageVariant: "",
+                ramVariant: "",
+                regionVariant: "",
+                price: 0,
+                currency: "USD",
+                stock: 0,
+              },
+            ],
+        images: defaultValues.images?.length
+          ? defaultValues.images
+          : [
+              {
+                url: "",
+                alt: "",
+              },
+            ],
+      });
+    }
+  }, [defaultValues, form]);
+
+  const {
+    fields: imageFields,
+    append: appendImage,
+    remove: removeImage,
+  } = useFieldArray({
+    control: form.control,
+    name: "images", // @ts-ignore
   });
 
   const gadgetType: GadgetType = form.watch("gadgetType");
@@ -155,15 +217,48 @@ export function AddProductFormm({
     // Usually the form calls the action directly or passes it up.
     // Since the prompt is "make the api which store data", and I made the action, I should probably call it here.
 
+    // If defaultValues has an ID, we are updating
+    const isEditing = !!defaultValues && "id" in defaultValues;
+
     startTransition(async () => {
-      const result = await createProduct(parsed);
+      let result;
+      if (isEditing) {
+        // Update logic via API
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products/${defaultValues.id}`,
+            {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(parsed),
+            }
+          );
+          if (!res.ok) {
+            const err = await res.json();
+            result = { error: err.error || "Failed to update product" };
+          } else {
+            result = await res.json();
+            // ensure success structure if needed
+            if (!result.error) result = { success: true };
+          }
+        } catch (error: any) {
+          result = { error: error.message };
+        }
+      } else {
+        // Create logic via Server Action
+        result = await createProduct(parsed);
+      }
+
       if (result.error) {
         toast.error(result.error);
       } else {
-        toast.success("Product created successfully!");
-        // Optional: Redirect or reset form
+        toast.success(
+          isEditing
+            ? "Product updated successfully!"
+            : "Product created successfully!"
+        );
         if (onSubmit) {
-          onSubmit(parsed); // Call parent if needed (e.g. to close modal or refresh list)
+          onSubmit(parsed);
         }
       }
     });
@@ -538,7 +633,78 @@ export function AddProductFormm({
           </div>
         </div>
 
-        {/* ==================== VARIANT SECTION ==================== */}
+        {/* ==================== IMAGES SECTION ==================== */}
+        <div className="border-t pt-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Product Images</h2>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => appendImage({ url: "", alt: "" })}
+            >
+              + Add Image
+            </Button>
+          </div>
+          <div className="space-y-4">
+            {imageFields.map((field, index) => (
+              <div
+                key={field.id}
+                className="flex gap-4 items-end border p-4 rounded-md relative group"
+              >
+                {imageFields.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-100 text-red-600 hover:bg-red-200"
+                    onClick={() => removeImage(index)}
+                  >
+                    &times;
+                  </Button>
+                )}
+                <div className="flex-1">
+                  <FormField
+                    control={form.control}
+                    name={`images.${index}.url` as any}
+                    rules={{ required: "Image URL is required" }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="sr-only">Image URL</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="https://example.com/image.jpg"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="flex-1">
+                  <FormField
+                    control={form.control}
+                    name={`images.${index}.alt` as any}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="sr-only">Alt Text</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Alt Text (Description)"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* ==================== VARIANT SECTION ==================== */}
         <div className="border-t pt-6 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
@@ -548,7 +714,7 @@ export function AddProductFormm({
               variant="outline"
               size="sm"
               onClick={() =>
-                append({
+                appendVariant({
                   sku: "",
                   variantName: "",
                   color: "",
@@ -566,19 +732,19 @@ export function AddProductFormm({
           </div>
 
           <div className="space-y-2">
-            {fields.map((field, index) => (
+            {variantFields.map((field, index) => (
               <div
                 key={field.id}
                 className="relative p-6 border rounded-lg  shadow-sm transition-all hover:shadow-md"
               >
                 <div className="absolute right-4 top-4">
-                  {fields.length > 1 && (
+                  {variantFields.length > 1 && (
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
                       className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                      onClick={() => remove(index)}
+                      onClick={() => removeVariant(index)}
                     >
                       Remove
                     </Button>
