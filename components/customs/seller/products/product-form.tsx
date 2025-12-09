@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { useForm, useFieldArray } from "react-hook-form";
+import { createProduct } from "@/lib/actions/product";
+import { toast } from "sonner";
 
 import {
   Form,
@@ -72,6 +74,7 @@ export function AddProductFormm({
   onSubmit,
   submitting,
 }: ProductFormProps) {
+  const [isPending, startTransition] = React.useTransition();
   const form = useForm<ProductFormValues>({
     defaultValues: {
       title: "",
@@ -147,7 +150,23 @@ export function AddProductFormm({
     });
 
     console.log("Parsed form data:", parsed);
-    onSubmit?.(parsed);
+    // onSubmit?.(parsed); // Validating if parent passed this, but we are moving to direct action call here or keeping it flexible?
+    // The instructions say "Integrate createProduct action into product-form.tsx".
+    // Usually the form calls the action directly or passes it up.
+    // Since the prompt is "make the api which store data", and I made the action, I should probably call it here.
+
+    startTransition(async () => {
+      const result = await createProduct(parsed);
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        toast.success("Product created successfully!");
+        // Optional: Redirect or reset form
+        if (onSubmit) {
+          onSubmit(parsed); // Call parent if needed (e.g. to close modal or refresh list)
+        }
+      }
+    });
   };
 
   const renderSpecField = (fieldName: string) => {
@@ -213,7 +232,7 @@ export function AddProductFormm({
                 <FormItem>
                   <FormLabel>Product Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Apple iPhone 16 Pro Max" {...field} />
+                    <Input placeholder="Title" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -249,7 +268,7 @@ export function AddProductFormm({
                 <FormItem>
                   <FormLabel>Brand</FormLabel>
                   <FormControl>
-                    <Input placeholder="Apple" {...field} />
+                    <Input placeholder="Apple, Google..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -263,7 +282,10 @@ export function AddProductFormm({
                 <FormItem>
                   <FormLabel>Model Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="iPhone 16 Pro Max" {...field} />
+                    <Input
+                      placeholder="iPhone 16 Pro Max, Pixel 7 Pro..."
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -761,9 +783,9 @@ export function AddProductFormm({
           <Button variant="outline">Cancel</Button>
           <Button
             type="submit"
-            disabled={submitting || form.formState.isSubmitting}
+            disabled={submitting || form.formState.isSubmitting || isPending}
           >
-            {submitting || form.formState.isSubmitting
+            {submitting || form.formState.isSubmitting || isPending
               ? "Saving..."
               : "Save Product"}
           </Button>

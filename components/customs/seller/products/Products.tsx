@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Edit, Plus, Trash2 } from "lucide-react";
+import { Edit, Loader2, Plus, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import ToggleStatusButton from "./ToggleStatusButton";
@@ -21,19 +21,26 @@ export default function ProductPage() {
   const { data: session } = useSession();
   const userId = session?.user?.id ?? "";
   const [products, setProducts] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   console.log(products);
   const fetchProducts = useCallback(async () => {
+    setLoading(true);
     if (!userId) return;
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products?userId=${userId}`
       );
-      if (!response.ok) throw new Error("Failed to fetch products");
+      // if (!response.ok) throw new Error("Failed to fetch products");
+      if (!response.ok) {
+        setProducts([]);
+        setLoading(false);
+      }
       const data = await response.json();
       setProducts(data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
       toast.error("Error fetching products.");
@@ -81,12 +88,18 @@ export default function ProductPage() {
         <Button onClick={handleAddClick}>
           <Plus className="w-4 h-4 mr-2" /> Add Product
         </Button>
-        <Button onClick={handleAddClick}>
+        {/* <Button onClick={handleAddClick}>
           <Plus className="w-4 h-4 mr-2" /> Add Product2
-        </Button>
+        </Button> */}
       </div>
-      {products?.error == "Not Found Data" ? (
-        <p>Not Found Data</p>
+      {loading ? (
+        <div className="flex h-[calc(100vh-10rem)] items-center justify-center items-center">
+          <Loader2 className="w-8 h-8 animate-spin" />
+        </div>
+      ) : products?.error == "Not Found Data" ? (
+        <div className="flex h-[calc(100vh-10rem)] items-center justify-center items-center">
+          <p className="text-2xl font-bold">No Data Found</p>
+        </div>
       ) : (
         <Card>
           <CardHeader>
