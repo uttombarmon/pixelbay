@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import * as motion from "motion/react-client";
 
 export default function ReviewForm({ productId }: { productId: number }) {
   const { data: session } = useSession();
+  const router = useRouter();
   const [rating, setRating] = useState(0);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -39,6 +41,11 @@ export default function ReviewForm({ productId }: { productId: number }) {
         setTitle("");
         setBody("");
         setRating(0);
+
+        // Refresh the page to show the new review
+        setTimeout(() => {
+          router.refresh();
+        }, 1000);
       } else {
         setMessage(`❌ ${data.error || "Something went wrong."}`);
       }
