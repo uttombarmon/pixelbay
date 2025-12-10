@@ -5,44 +5,63 @@ import {
   productVariants,
 } from "@/lib/db/schema/schema";
 import { NextRequest, NextResponse } from "next/server";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, and, asc, desc } from "drizzle-orm";
 
 export async function GET(req: NextRequest) {
   try {
-    const response = await db
+    // Fetch products with their minimum price and first image only
+    const popularProducts = await db
       .select({
         id: productsTable.id,
         title: productsTable.title,
         slug: productsTable.slug,
-        productImage: productImages.url,
+        brand: productsTable.brand,
+        gadgetType: productsTable.gadgetType,
         status: productsTable.status,
-        price: sql`MIN(${productVariants.price})`.as("price"),
+        // Get minimum price from variants using raw SQL
+        price: sql<string>`(
+          SELECT MIN(price)::text
+          FROM product_variants 
+          WHERE product_variants.product_id = products.id
+        )`.as("price"),
+        // Get first image URL (by position) using raw SQL
+        productImage: sql<string>`(
+          SELECT url 
+          FROM product_images 
+          WHERE product_images.product_id = products.id
+          ORDER BY product_images.position ASC
+          LIMIT 1
+        )`.as("productImage"),
       })
       .from(productsTable)
-      .leftJoin(
-        productVariants,
-        eq(productVariants.product_id, productsTable.id)
-      )
-      .leftJoin(
-        productImages,
-        eq(productImages.product_id, productsTable.id)
-      )
       .where(eq(productsTable.status, "active"))
-      .groupBy(
-        productsTable.id,
-        productsTable.title,
-        productsTable.slug,
-        productsTable.status,
-        productImages.url
-      );
-    if (response?.length > 0) {
-      return NextResponse.json(response);
+      .orderBy(desc(productsTable.created_at))
+      .limit(20); // Limit to 20 popular products for performance
+
+    // console.log("Fetched popular products:", popularProducts.length);
+    
+    // Log first product to debug
+    // if (popularProducts.length > 0) {
+    //   console.log("First product sample:", JSON.stringify(popularProducts[0], null, 2));
+    // }
+
+    if (popularProducts && popularProducts.length > 0) {
+      return NextResponse.json(popularProducts, { 
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+        },
+      });
     }
-    return NextResponse.json({ message: "Not Found!" }, { status: 202 });
-  } catch (err) {
-    console.error(err);
+
     return NextResponse.json(
-      { error: "Failed to fetch products" },
+      { message: "No products found" },
+      { status: 404 }
+    );
+  } catch (err) {
+    console.error("Error fetching popular products:", err);
+    return NextResponse.json(
+      { error: "Failed to fetch products", details: (err as Error).message },
       { status: 500 }
     );
   }

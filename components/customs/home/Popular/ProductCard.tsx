@@ -1,3 +1,4 @@
+"use client";
 import { productsData } from "@/types/ProductCard";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,7 +7,7 @@ import React from "react";
 function ProductCard({ product }: { product: productsData }) {
   return (
     <Link
-      href="#"
+      href={`/product/${product?.id}`}
       className="group relative block overflow-hidden rounded-xl h-full"
     >
       {product?.discount && (
@@ -21,14 +22,25 @@ function ProductCard({ product }: { product: productsData }) {
       )}
 
       <div className="relative w-full h-72 sm:h-72 bg-gray-50 overflow-hidden flex items-center justify-center">
-        <Image
-          src={product?.productImage}
-          alt={product?.title}
-          width={300}
-          height={400}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className=" transition duration-500 group-hover:scale-105"
-        />
+        {product?.productImage ? (
+          <Image
+            src={product?.productImage}
+            alt={product?.title}
+            width={300}
+            height={400}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className=" transition duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <Image
+            src="https://i.postimg.cc/50pg7Lhv/Image-not-found.png"
+            alt="Image not found"
+            width={300}
+            height={400}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className=" transition duration-500 group-hover:scale-105"
+          />
+        )}
       </div>
 
       <div className="relative border border-gray-100 bg-white p-6">

@@ -6,6 +6,7 @@ import {
   productVariants,
   categories,
   reviews,
+  techSpecifications,
 } from "@/lib/db/schema/schema";
 import { eq } from "drizzle-orm";
 
@@ -31,6 +32,14 @@ export async function GET(
 
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    }
+
+    // Fetch tech specs if available
+    let techSpecs = null;
+    if (product.techSpecId) {
+      techSpecs = await db.query.techSpecifications.findFirst({
+        where: eq(techSpecifications.id, product.techSpecId),
+      });
     }
 
     // Fetch related data in parallel for performance
@@ -59,6 +68,7 @@ export async function GET(
       variants,
       category,
       reviews: reviewsList,
+      techSpecs,
     };
 
     return NextResponse.json(fullProductData, { status: 200 });
