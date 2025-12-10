@@ -6,7 +6,7 @@ export interface productsData {
   price: number;
   orginal_price?: number;
   currency: string;
-  image: string;
+  productImage: string;
   category: string;
   date?: string;
 }

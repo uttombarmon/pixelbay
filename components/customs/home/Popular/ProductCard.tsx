@@ -22,7 +22,7 @@ function ProductCard({ product }: { product: productsData }) {
 
       <div className="relative w-full h-72 sm:h-72 bg-gray-50 overflow-hidden flex items-center justify-center">
         <Image
-          src={product?.image || product?.slug}
+          src={product?.productImage}
           alt={product?.title}
           width={300}
           height={400}

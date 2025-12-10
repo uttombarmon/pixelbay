@@ -8,32 +8,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
-import { productsData } from "@/types/ProductCard";
-import { db } from "@/lib/db/drizzle";
-import {
-  products as productsTable,
-  productVariants,
-} from "@/lib/db/schema/schema";
-import { eq, sql } from "drizzle-orm";
+import { fetchPopularProducts } from "@/lib/apiClients/fetchPopularProducts";
 
 const PopularProducts = async () => {
-  const productsData = await db
-    .select({
-      id: productsTable.id,
-      title: productsTable.title,
-      slug: productsTable.slug,
-      status: productsTable.status,
-      price: sql`MIN(${productVariants.price})`.as("price"),
-    })
-    .from(productsTable)
-    .leftJoin(productVariants, eq(productVariants.product_id, productsTable.id))
-    .where(eq(productsTable.status, "active"))
-    .groupBy(
-      productsTable.id,
-      productsTable.title,
-      productsTable.slug,
-      productsTable.status
-    );
+  const productsData = await fetchPopularProducts();
 
   return (
     <div>
