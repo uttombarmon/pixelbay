@@ -1,0 +1,156 @@
+{
+  "title": "iPhone 16 Pro Max",
+  "slug": "iphone-16-pro-max-titanium-black-256gb",
+  "brand": "Apple",
+  "model": "A2849",
+  "gadgetType": "smartphone",
+  "status": "active",
+  "visibility": "visible",
+  "condition": "new",
+  "shortDescription": "The most advanced iPhone ever with A18 Pro chip, titanium design, and advanced camera system.",
+  "description": "iPhone 16 Pro Max features a stunning 6.9-inch Super Retina XDR display, powerful A18 Pro chip with 6-core CPU and 6-core GPU, advanced triple-camera system with 48MP main camera, and all-day battery life. Built with aerospace-grade titanium for ultimate durability.",
+  
+  "warrantyType": "standard",
+  "warrantyMonths": 12,
+  "warrantyDescription": "1-year limited warranty covering manufacturing defects. Includes 90 days of complimentary technical support.",
+  
+  "category_id": null,
+  
+  "images": [
+    {
+      "url": "https://images.unsplash.com/photo-1592286927505-b0c2fc1f57f8?w=800",
+      "alt": "iPhone 16 Pro Max - Front view"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1611472173362-3f53dbd65d80?w=800",
+      "alt": "iPhone 16 Pro Max - Back view"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1603921326210-6edd2d7d0faa?w=800",
+      "alt": "iPhone 16 Pro Max - Side view"
+    }
+  ],
+  
+  "variants": [
+    {
+      "sku": "IPH16PM-TBK-256GB",
+      "variantName": "Titanium Black - 256GB",
+      "color": "Titanium Black",
+      "storageVariant": "256GB",
+      "ramVariant": "8GB",
+      "regionVariant": "Global",
+      "price": 1199.99,
+      "currency": "USD",
+      "stock": 50
+    },
+    {
+      "sku": "IPH16PM-TBK-512GB",
+      "variantName": "Titanium Black - 512GB",
+      "color": "Titanium Black",
+      "storageVariant": "512GB",
+      "ramVariant": "8GB",
+      "regionVariant": "Global",
+      "price": 1399.99,
+      "currency": "USD",
+      "stock": 30
+    },
+    {
+      "sku": "IPH16PM-TNT-1TB",
+      "variantName": "Titanium Natural - 1TB",
+      "color": "Titanium Natural",
+      "storageVariant": "1TB",
+      "ramVariant": "8GB",
+      "regionVariant": "Global",
+      "price": 1599.99,
+      "currency": "USD",
+      "stock": 20
+    }
+  ],
+  
+  "processor": "Apple A18 Pro (3nm)",
+  "processorCores": 6,
+  "processorThreads": 6,
+  "processorSpeed": "3.78 GHz",
+  "processorArch": "ARMv9-A",
+  
+  "ram": 8,
+  "ramType": "LPDDR5X",
+  "ramSpeed": "8533 MHz",
+  
+  "storage": 256,
+  "storageType": "NVMe",
+  "storageInterface": "PCIe 4.0",
+  "storageExpansion": "None",
+  
+  "gpu": "Apple GPU (6-core)",
+  "gpuMemory": null,
+  "gpuMemoryType": "Shared",
+  
+  "displaySize": "6.9",
+  "displayTech": "LTPO Super Retina XDR OLED",
+  "displayResolution": "2868 x 1320 (460 ppi)",
+  "refreshRate": 120,
+  "colorDepth": "HDR10, Dolby Vision",
+  "brightness": 2000,
+  "screenCoating": "Ceramic Shield with oleophobic coating",
+  
+  "batteryCapacity": 4685,
+  "batteryType": "Li-Ion",
+  "batteryLife": "Up to 33 hours video playback",
+  "fastCharging": "USB-C PD (20W - 50% in 30 min)",
+  "wirelessCharging": "MagSafe 25W, Qi2 15W",
+  
+  "rearCameraMP": "48MP (f/1.78) Main + 48MP (f/2.2) Ultra Wide + 12MP (f/2.8) 5x Telephoto",
+  "rearCameraAperture": "f/1.78 (Main), f/2.2 (UW), f/2.8 (Tele)",
+  "frontCameraMP": "12MP (f/1.9)",
+  "frontCameraAperture": "f/1.9",
+  "videoCapability": "4K@24/25/30/60fps, 1080p@25/30/60/120/240fps, ProRes, LOG",
+  "opticalZoom": "5x optical zoom in, 2x optical zoom out, 25x digital zoom",
+  
+  "speakerCount": 2,
+  "speakerWatts": "Stereo speakers",
+  "audioCodec": "AAC, MP3, Apple Lossless, FLAC, Dolby Atmos, Dolby Digital Plus",
+  "microphone": "4 microphones with beamforming",
+  
+  "bluetooth": "5.3",
+  "wifi": "Wi-Fi 7 (802.11be), Wi-Fi 6E",
+  "nfc": true,
+  "usb": "USB-C (USB 3.1 Gen 2 - up to 10 Gbps)",
+  "ports": "USB-C",
+  "cellular": "5G NR, LTE-A, GSM, CDMA",
+  "sim": "Dual SIM (nano-SIM + eSIM), eSIM only (USA)",
+  
+  "weight": "221",
+  "dimensions": "163 x 77.6 x 8.25 mm",
+  "material": "Titanium frame, Ceramic Shield front, Textured matte glass back",
+  "ipRating": "IP68 (6m for 30 min)",
+  "mrlRating": null,
+  "dropProtection": "Ceramic Shield - 4x better drop performance",
+  
+  "operatingSystem": "iOS 18",
+  "maxOSUpdate": "iOS 23 (estimated)",
+  "softwareSupport": 5,
+  
+  "antutuScore": 1650000,
+  "geekbenchScore": 7500,
+  "fps": null,
+  "thermalDesignPower": null,
+  "maxTemperature": null,
+  
+  "attributes": {
+    "features": [
+      "Dynamic Island",
+      "Always-On display",
+      "ProMotion technology",
+      "Action button",
+      "Camera Control button",
+      "Face ID",
+      "Emergency SOS via satellite",
+      "Crash Detection",
+      "Apple Intelligence"
+    ],
+    "colors": ["Titanium Black", "Titanium Natural", "Titanium White", "Titanium Blue"],
+    "inBox": ["iPhone", "USB-C Cable", "Documentation"],
+    "madeIn": "China/India"
+  }
+}
