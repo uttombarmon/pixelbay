@@ -30,15 +30,6 @@ export default function ProductDialog({
             onClose();
           }}
         />
-        {/* <AddProductForm /> */}
-        {/* <ProductForm
-          userId={userId}
-          productToEdit={productToEdit}
-          onClose={() => {
-            onOpenChange(false);
-            onClose();
-          }}
-        /> */}
       </DialogContent>
     </Dialog>
   );

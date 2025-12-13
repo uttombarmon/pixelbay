@@ -1,5 +1,5 @@
 import React from "react";
-import ProductCard from "../Popular/ProductCard";
+import ProductCard from "../../shared/Products/ProductCard";
 import {
   Carousel,
   CarouselContent,

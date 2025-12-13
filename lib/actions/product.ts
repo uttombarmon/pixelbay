@@ -8,7 +8,7 @@ import {
   techSpecifications,
   productImages,
 } from "@/lib/db/schema/schema";
-import { ProductFormValues } from "@/components/customs/seller/products/product-form"; // Type import might need adjustment based on export
+import { ProductFormValues } from "@/components/customs/seller/products/AddProduct/product-form"; // Type import might need adjustment based on export
 import { revalidatePath } from "next/cache";
 
 // We need to define the type here or import it from the form component if exported

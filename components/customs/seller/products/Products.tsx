@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import ToggleStatusButton from "./ToggleStatusButton";
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import ProductDialog from "./ProductDialog";
+import ProductDialog from "./AddProduct/ProductDialog";
 import { toast } from "sonner";
 import Product from "./Product";
 
