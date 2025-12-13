@@ -17,7 +17,8 @@ export const productsData = [
     orginal_price: 349.0,
     price: 314.1,
     currency: "USD",
-    image: "https://m.media-amazon.com/images/I/61nqNujSF2L._AC_UY218_.jpg",
+    productImage:
+      "https://m.media-amazon.com/images/I/61nqNujSF2L._AC_UY218_.jpg",
     category: "Gaming",
   },
   {
@@ -28,7 +29,8 @@ export const productsData = [
     orginal_price: 449.0,
     price: 368.18,
     currency: "USD",
-    image: "https://m.media-amazon.com/images/I/71p5V8+OnfL._AC_UY218_.jpg",
+    productImage:
+      "https://m.media-amazon.com/images/I/71p5V8+OnfL._AC_UY218_.jpg",
     category: "Cameras",
   },
   {
@@ -39,7 +41,8 @@ export const productsData = [
     orginal_price: 159.0,
     price: 135.15,
     currency: "USD",
-    image: "https://m.media-amazon.com/images/I/613kTHJ4g7L._AC_UY218_.jpg",
+    productImage:
+      "https://m.media-amazon.com/images/I/613kTHJ4g7L._AC_UY218_.jpg",
     category: "E-Readers",
   },
   {
@@ -50,7 +53,8 @@ export const productsData = [
     orginal_price: 759.0,
     price: 667.92,
     currency: "USD",
-    image: "https://m.media-amazon.com/images/I/61uXaDuE-iL._AC_UL320_.jpg",
+    productImage:
+      "https://m.media-amazon.com/images/I/61uXaDuE-iL._AC_UL320_.jpg",
     category: "Drones",
   },
   {
@@ -61,7 +65,8 @@ export const productsData = [
     orginal_price: 229.0,
     price: 183.2,
     currency: "USD",
-    image: "https://m.media-amazon.com/images/I/81L4FpeS3VL._AC_UY218_.jpg",
+    productImage:
+      "https://m.media-amazon.com/images/I/81L4FpeS3VL._AC_UY218_.jpg",
     category: "Gaming Accessories",
   },
   {
@@ -72,7 +77,7 @@ export const productsData = [
     orginal_price: 199.0,
     price: 149.25,
     currency: "USD",
-    image:
+    productImage:
       "https://m.media-amazon.com/images/I/61pjv-70W+L._AC_SY300_SX300_.jpg",
     category: "Speakers",
   },
