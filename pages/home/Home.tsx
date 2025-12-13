@@ -11,7 +11,7 @@ import React from "react";
 const HomePage = () => {
   return (
     <>
-      <main className="flex flex-col min-w-screen">
+      <main className="flex flex-col">
         {/* carousel in header  */}
         <CarouselBox />
         <Categories />
