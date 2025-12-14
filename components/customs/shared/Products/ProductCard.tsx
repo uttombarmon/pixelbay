@@ -3,13 +3,12 @@ import { productsData } from "@/types/ProductCard";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import ProductCardButton from "./ProductCardButton";
 
 function ProductCard({ product }: { product: productsData }) {
+  console.log(product);
   return (
-    <Link
-      href={`/product/${product?.id}`}
-      className="group relative block overflow-hidden rounded-xl h-full"
-    >
+    <div className="group relative block overflow-hidden rounded-xl h-full">
       {product?.discount && (
         <span className="absolute -top-2px -right-px rounded-tr-xl rounded-bl-3xl bg-rose-600 px-6 py-4 font-medium tracking-widest text-white uppercas z-10">
           Save {product?.discount}%
@@ -21,27 +20,29 @@ function ProductCard({ product }: { product: productsData }) {
         </span>
       )}
 
-      <div className="relative w-full h-72 sm:h-72 bg-gray-50 overflow-hidden flex items-center justify-center">
-        {product?.productImage ? (
-          <Image
-            src={product?.productImage}
-            alt={product?.title}
-            width={300}
-            height={400}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className=" transition duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <Image
-            src="https://i.postimg.cc/50pg7Lhv/Image-not-found.png"
-            alt="Image not found"
-            width={300}
-            height={400}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className=" transition duration-500 group-hover:scale-105"
-          />
-        )}
-      </div>
+      <Link href={`/product/${product?.id}`}>
+        <div className="relative w-full h-72 sm:h-72 bg-gray-50 overflow-hidden flex items-center justify-center">
+          {product?.productImage ? (
+            <Image
+              src={product?.productImage}
+              alt={product?.title}
+              width={300}
+              height={400}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className=" transition duration-500 group-hover:scale-105"
+            />
+          ) : (
+            <Image
+              src="https://i.postimg.cc/50pg7Lhv/Image-not-found.png"
+              alt="Image not found"
+              width={300}
+              height={400}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className=" transition duration-500 group-hover:scale-105"
+            />
+          )}
+        </div>
+      </Link>
 
       <div className="relative border border-gray-100 bg-white p-6">
         <p className="text-gray-700">
@@ -65,20 +66,11 @@ function ProductCard({ product }: { product: productsData }) {
           corporis iste.
         </p> */}
 
-        <form className="mt-4 flex gap-4">
-          <button className="block w-full rounded-sm bg-gray-200 px-1 md:px-4 py-3 text-sm font-medium text-gray-900 transition hover:scale-105">
-            Add to Cart
-          </button>
-
-          <button
-            type="button"
-            className="block w-full rounded-sm bg-gray-900 px-4 py-3 text-sm font-medium text-white transition hover:scale-105"
-          >
-            Buy Now
-          </button>
-        </form>
+        <div className="mt-4 flex gap-4">
+          <ProductCardButton />
+        </div>
       </div>
-    </Link>
+    </div>
   );
 }
 
