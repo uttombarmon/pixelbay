@@ -5,6 +5,7 @@ export interface productsData {
   discount?: number;
   price: number;
   orginal_price?: number;
+  variantId?: number;
   currency: string;
   productImage: string;
   category: string;

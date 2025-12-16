@@ -67,7 +67,7 @@ function ProductCard({ product }: { product: productsData }) {
         </p> */}
 
         <div className="mt-4 flex gap-4">
-          <ProductCardButton />
+          <ProductCardButton productId={product?.id} />
         </div>
       </div>
     </div>

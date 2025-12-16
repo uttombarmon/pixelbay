@@ -19,6 +19,13 @@ export async function GET(req: NextRequest) {
         gadgetType: productsTable.gadgetType,
         status: productsTable.status,
         // Get minimum price from variants using raw SQL
+        variantId: sql<string>`(
+          SELECT id
+          FROM product_variants
+          WHERE product_variants.product_id = products.id
+          ORDER BY price ASC
+          LIMIT 1
+        )`.as("variantId"),
         price: sql<string>`(
           SELECT MIN(price)::text
           FROM product_variants 

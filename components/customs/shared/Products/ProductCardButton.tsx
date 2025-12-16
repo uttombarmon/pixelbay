@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ProductCardButton = () => {
-  const addToCart = () => {};
+const ProductCardButton = ({ productId }: { productId: number | string }) => {
+  const addToCart = () => {
+    const cartItems = localStorage.getItem("cartItems");
+    if (cartItems) {
+      const parsedCartItems = JSON.parse(cartItems);
+      parsedCartItems.push(productId);
+      localStorage.setItem("cartItems", JSON.stringify(parsedCartItems));
+    } else {
+      localStorage.setItem("cartItems", JSON.stringify([productId]));
+    }
+    console.log(cartItems);
+  };
   const buyNow = () => {};
   return (
     <>

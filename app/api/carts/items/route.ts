@@ -9,7 +9,7 @@ export async function POST(req: Request) {
     const session = await auth();
     const body = await req.json();
     const { product_id, variant_id, quantity, unit_price } = body;
-    if (!product_id || !variant_id || !quantity || !unit_price) {
+    if (!product_id || !variant_id || !unit_price) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
