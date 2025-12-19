@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 
-const ProductCardButton = ({ productId }: { productId: number | string }) => {
-  const addToCart = () => {
-    const cartItems = localStorage.getItem("cartItems");
-    if (cartItems) {
-      const parsedCartItems = JSON.parse(cartItems);
-      parsedCartItems.push(productId);
-      localStorage.setItem("cartItems", JSON.stringify(parsedCartItems));
-    } else {
-      localStorage.setItem("cartItems", JSON.stringify([productId]));
-    }
-    console.log(cartItems);
-  };
-  const buyNow = () => {};
+const ProductCardButton = ({
+  addToCart,
+  buyNow,
+}: {
+  addToCart: () => void;
+  buyNow: () => void;
+}) => {
   return (
     <>
       <button

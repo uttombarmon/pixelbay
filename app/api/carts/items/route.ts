@@ -74,7 +74,7 @@ export async function POST(req: Request) {
         variant_id: Number(variant_id),
         quantity: Number(quantity),
         unit_price: String(unit_price),
-        total_price: String(Number(unit_price) * Number(quantity)),
+        product_id: Number(product_id),
       })
       .returning();
 

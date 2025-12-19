@@ -736,12 +736,14 @@ export const cartItems = pgTable(
     cart_id: integer("cart_id")
       .notNull()
       .references(() => carts.id, { onDelete: "cascade" }),
+    product_id: integer("product_id")
+      .notNull()
+      .references(() => products.id, { onDelete: "cascade" }),
     variant_id: integer("variant_id")
       .notNull()
       .references(() => productVariants.id, { onDelete: "cascade" }),
     quantity: integer("quantity").notNull().default(1),
     unit_price: numeric("unit_price", { precision: 12, scale: 2 }).notNull(),
-    total_price: numeric("total_price", { precision: 12, scale: 2 }).notNull(),
     added_at: timestamp("added_at").notNull().defaultNow(),
   },
   (table) => [index("idx_cart_id").on(table.cart_id)]

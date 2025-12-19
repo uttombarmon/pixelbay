@@ -4,9 +4,43 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import ProductCardButton from "./ProductCardButton";
+import { addToCartItem } from "@/lib/apiClients/products/AddToCard";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 function ProductCard({ product }: { product: productsData }) {
-  console.log(product);
+  const addToCart = async () => {
+    const res = await addToCartItem(
+      product?.id as number,
+      product?.variantId as number,
+      1,
+      product?.price as number
+    );
+    // console.log(res);
+    if (!res) {
+      toast.error("Failed to add to cart");
+      return;
+    } else if (res?.message?.toString().toLowerCase().includes("already")) {
+      toast.info("Already in cart!");
+      return;
+    }
+    toast.success("Added to cart");
+    // const cartItems = localStorage.getItem("cartItems");
+    // if (cartItems) {
+    //   const parsedCartItems = JSON.parse(cartItems);
+    //   parsedCartItems.push({
+    //     productId: product?.id,
+    //     variantId: product?.variantId,
+    //   });
+    //   localStorage.setItem("cartItems", JSON.stringify(parsedCartItems));
+    // } else {
+    //   localStorage.setItem("cartItems", JSON.stringify([productId]));
+    // }
+    // console.log(cartItems);
+  };
+  const buyNow = () => {
+    redirect(`/product/buy/${product?.id}`);
+  };
   return (
     <div className="group relative block overflow-hidden rounded-xl h-full">
       {product?.discount && (
@@ -67,7 +101,7 @@ function ProductCard({ product }: { product: productsData }) {
         </p> */}
 
         <div className="mt-4 flex gap-4">
-          <ProductCardButton productId={product?.id} />
+          <ProductCardButton addToCart={addToCart} buyNow={buyNow} />
         </div>
       </div>
     </div>
