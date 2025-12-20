@@ -20,6 +20,9 @@ function ProductCard({ product }: { product: productsData }) {
     if (!res) {
       toast.error("Failed to add to cart");
       return;
+    } else if (res?.error == "Not signed in") {
+      toast.error("Please sign in to add to cart");
+      return;
     } else if (res?.message?.toString().toLowerCase().includes("already")) {
       toast.info("Already in cart!");
       return;
@@ -39,7 +42,9 @@ function ProductCard({ product }: { product: productsData }) {
     // console.log(cartItems);
   };
   const buyNow = () => {
-    redirect(`/product/buy/${product?.id}`);
+    redirect(
+      `/payment?productId=${product?.id}&variantId=${product?.variantId}&quantity=1`
+    );
   };
   return (
     <div className="group relative block overflow-hidden rounded-xl h-full">
