@@ -26,7 +26,7 @@ const wishlistItems = [
   },
 ];
 
-export default function WishlistPage() {
+export default function MyCarts() {
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6">
       {/* Header */}

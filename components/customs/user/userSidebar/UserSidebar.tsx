@@ -16,8 +16,8 @@ import { signOut } from "next-auth/react";
 
 const links = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard },
+  { href: "/dashboard/mycart", label: "My Cart", icon: Heart },
   { href: "/dashboard/orders", label: "My Orders", icon: ShoppingBag },
-  { href: "/dashboard/wishlist", label: "Wishlist", icon: Heart },
   { href: "/dashboard/profile", label: "Profile", icon: User },
   // { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
