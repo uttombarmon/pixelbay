@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ShoppingBag, Heart, Clock } from "lucide-react";
+import { ShoppingBag, Heart, Clock, ShoppingCart } from "lucide-react";
 import { BillingsTable } from "./Billings";
 import { ReviewsTable } from "./Reviews";
 import { useSession } from "next-auth/react";
@@ -11,7 +11,7 @@ export default function UserDashboardPage() {
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
-  const [stats, setStats] = useState({ orders: 0, wishlist: 0 });
+  const [stats, setStats] = useState({ orders: 0, cartlist: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -67,23 +67,23 @@ export default function UserDashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Wishlist */}
+        {/* Cart */}
         <Card className="relative overflow-hidden border-none shadow-lg bg-gradient-to-br from-pink-500/10 to-rose-500/10 backdrop-blur-xl transition-all hover:scale-[1.02]">
           <div className="absolute inset-0 bg-white/40 dark:bg-black/40 z-0" />
           <CardHeader className="relative z-10 flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-              Wishlist
+              My Cart
             </CardTitle>
             <div className="p-2 bg-pink-500/20 rounded-full">
-              <Heart className="h-5 w-5 text-pink-600 dark:text-pink-400" />
+              <ShoppingCart className="h-5 w-5 text-pink-600 dark:text-pink-400" />
             </div>
           </CardHeader>
           <CardContent className="relative z-10">
             <div className="text-4xl font-bold text-foreground">
-              {loading ? "..." : stats.wishlist}
+              {loading ? "..." : stats.cartlist}
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              Items saved for later
+              Items currently in cart
             </p>
           </CardContent>
         </Card>

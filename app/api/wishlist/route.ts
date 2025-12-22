@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
             .leftJoin(productVariants, eq(wishlistItems.variant_id, productVariants.id))
             .leftJoin(productImages, and(eq(productImages.product_id, products.id), eq(productImages.isMain, true)))
             .where(eq(wishlistItems.wishlist_id, userWishlist.id));
-
+        console.log(items)
         return NextResponse.json({ items }, { status: 200 });
     } catch (error) {
         console.error("Wishlist API Error:", error);

@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/drizzle";
-import { orders, wishlists, wishlistItems } from "@/lib/db/schema/schema";
+import { orders, wishlists, wishlistItems, carts, cartItems } from "@/lib/db/schema/schema";
 import { eq, count } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -24,32 +24,32 @@ export async function GET(req: NextRequest) {
             .where(eq(orders.user_id, userId));
 
         // 2. Wishlist count
-        const wishlistCountPromise = (async () => {
-            const userWishlist = await db.query.wishlists.findFirst({
-                where: eq(wishlists.user_id, userId),
+        const cartlistCountPromise = (async () => {
+            const userCart = await db.query.carts.findFirst({
+                where: eq(carts.user_id, userId),
             });
 
-            if (!userWishlist) return [{ count: 0 }];
+            if (!userCart) return [{ count: 0 }];
 
             return db
                 .select({ count: count() })
-                .from(wishlistItems)
-                .where(eq(wishlistItems.wishlist_id, userWishlist.id));
+                .from(cartItems)
+                .where(eq(cartItems.cart_id, userCart.id));
         })();
 
-        const [ordersCountResult, wishlistCountResult] = await Promise.all([
+        const [ordersCountResult, cartlistCountResult] = await Promise.all([
             ordersCountPromise,
-            wishlistCountPromise,
+            cartlistCountPromise,
         ]);
 
         const ordersCount = ordersCountResult[0]?.count || 0;
-        const wishlistCount = wishlistCountResult[0]?.count || 0;
+        const cartlistCount = cartlistCountResult[0]?.count || 0;
 
         return NextResponse.json(
             {
                 stats: {
                     orders: ordersCount,
-                    wishlist: wishlistCount,
+                    cartlist: cartlistCount,
                 },
             },
             { status: 200 }

@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from "react";
 
 export function NavigationMenuDemo({ categories }: { categories: any }) {
-  const [categoriess, setCategoriess] = useState([]);
+  const [categoriess, setCategoriess] = useState<any[]>([]);
   const [windowWidth, setWindowWidth] = useState(0);
   const [others, setOthers] = useState();
   useEffect(() => {
@@ -23,10 +23,13 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
 
     const categoriesFunc = () => {
       setWindowWidth(window.innerWidth);
-      const others = categories.filter(
+
+      const safeCategories = Array.isArray(categories) ? categories : [];
+
+      const others = safeCategories?.filter(
         (citem: any) => citem?.name?.toLowerCase() == "others"
       );
-      const all = categories.filter(
+      const all = safeCategories?.filter(
         (citem: any) => citem?.name?.toLowerCase() !== "others"
       );
       let alls = [];
