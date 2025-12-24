@@ -1,63 +1,93 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ChevronDown, DollarSign } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const PriceRangeFilter = () => {
-  return (
-    <details className="group relative overflow-hidden rounded border border-gray-600 dark:border-gray-300 shadow-sm">
-      <summary className="flex items-center justify-between gap-2 p-3 transition-colors [&::-webkit-details-marker]:hidden">
-        <span className="text-sm font-medium"> Price </span>
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-        <span className="transition-transform group-open:-rotate-180">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-            />
-          </svg>
-        </span>
+  const [min, setMin] = useState(searchParams.get("minPrice") || "");
+  const [max, setMax] = useState(searchParams.get("maxPrice") || "");
+
+  const handleApply = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (min) params.set("minPrice", min);
+    else params.delete("minPrice");
+
+    if (max) params.set("maxPrice", max);
+    else params.delete("maxPrice");
+
+    router.push(`/search?${params.toString()}`);
+  };
+
+  const handleReset = () => {
+    setMin("");
+    setMax("");
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("minPrice");
+    params.delete("maxPrice");
+    router.push(`/search?${params.toString()}`);
+  };
+
+  return (
+    <details open className="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950/50 shadow-sm transition-all duration-300">
+      <summary className="flex items-center justify-between gap-2 p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors [&::-webkit-details-marker]:hidden">
+        <span className="text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100">Price Range</span>
+        <ChevronDown className="w-4 h-4 transition-transform group-open:-rotate-180 text-gray-500" />
       </summary>
 
-      <div className="divide-y divide-gray-600 dark:divide-gray-300 border-t border-gray-600 dark:border-gray-300 ">
-        <div className="flex items-center justify-between px-3 py-2">
-          {/* <span className="text-sm text-gray-700"> Max price is $600 </span> */}
+      <div className="border-t border-gray-100 dark:border-gray-800 p-4">
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label htmlFor="MinPrice" className="text-[10px] font-black uppercase tracking-widest text-gray-400">Min</label>
+              <div className="relative">
+                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input
+                  type="number"
+                  id="MinPrice"
+                  value={min}
+                  onChange={(e) => setMin(e.target.value)}
+                  placeholder="0"
+                  className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 focus:bg-white dark:bg-gray-900 rounded-xl border-gray-200 dark:border-gray-800 focus:ring-red-500 focus:border-red-500 transition-all"
+                />
+              </div>
+            </div>
 
-          <button
-            type="button"
-            className="text-sm  underline transition-colors "
-          >
-            Reset
-          </button>
-        </div>
+            <div className="space-y-1.5">
+              <label htmlFor="MaxPrice" className="text-[10px] font-black uppercase tracking-widest text-gray-400">Max</label>
+              <div className="relative">
+                <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <input
+                  type="number"
+                  id="MaxPrice"
+                  value={max}
+                  onChange={(e) => setMax(e.target.value)}
+                  placeholder="5000"
+                  className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 focus:bg-white dark:bg-gray-900 rounded-xl border-gray-200 dark:border-gray-800 focus:ring-red-500 focus:border-red-500 transition-all"
+                />
+              </div>
+            </div>
+          </div>
 
-        <div className="flex items-center gap-3 p-3">
-          <label htmlFor="MinPrice">
-            <span className="text-sm "> Min </span>
-
-            <input
-              type="number"
-              id="MinPrice"
-              defaultValue={0}
-              className="mt-0.5 w-full rounded border-gray-600 dark:border-gray-300 shadow-sm sm:text-sm"
-            />
-          </label>
-
-          <label htmlFor="MaxPrice">
-            <span className="text-sm "> Max </span>
-
-            <input
-              type="number"
-              id="MaxPrice"
-              defaultValue={0}
-              className="mt-0.5 w-full rounded border-gray-600 dark:border-gray-300 shadow-sm sm:text-sm"
-            />
-          </label>
+          <div className="flex gap-2">
+            <Button
+              onClick={handleApply}
+              className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-xs"
+            >
+              Apply
+            </Button>
+            <Button
+              onClick={handleReset}
+              variant="outline"
+              className="flex-1 rounded-xl text-xs font-bold border-gray-200 dark:border-gray-800"
+            >
+              Reset
+            </Button>
+          </div>
         </div>
       </div>
     </details>

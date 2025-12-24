@@ -1,76 +1,55 @@
+"use client";
+
 import React from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ChevronDown, ArrowDownAz, ArrowUp10, ArrowDown10, Flame } from "lucide-react";
 
 const SortByFilter = () => {
-  return (
-    <details className="group relative overflow-hidden rounded border border-gray-300 shadow-sm">
-      <summary className="flex items-center justify-between gap-2 p-3 transition-colors  [&::-webkit-details-marker]:hidden">
-        <span className="text-sm font-medium"> Sort By</span>
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeSort = searchParams.get("sort") || "newest";
 
-        <span className="transition-transform group-open:-rotate-180">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-            />
-          </svg>
-        </span>
+  const handleSortChange = (sort: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("sort", sort);
+    router.push(`/search?${params.toString()}`);
+  };
+
+  const sortOptions = [
+    { label: "Newest Arrivals", value: "newest", icon: <ArrowDownAz className="w-4 h-4 text-blue-500" /> },
+    { label: "Price: Low to High", value: "price-asc", icon: <ArrowUp10 className="w-4 h-4 text-emerald-500" /> },
+    { label: "Price: High to Low", value: "price-desc", icon: <ArrowDown10 className="w-4 h-4 text-rose-500" /> },
+    { label: "Trending Now", value: "popular", icon: <Flame className="w-4 h-4 text-orange-500" /> },
+  ];
+
+  return (
+    <details open className="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950/50 shadow-sm transition-all duration-300">
+      <summary className="flex items-center justify-between gap-2 p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors [&::-webkit-details-marker]:hidden">
+        <span className="text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100">Sort By</span>
+        <ChevronDown className="w-4 h-4 transition-transform group-open:-rotate-180 text-gray-500" />
       </summary>
 
-      <div className="divide-y divide-gray-600 dark:divide-gray-300 border-t border-gray-600 dark:border-gray-300 ">
-        <div className="flex items-center justify-between px-3 py-2">
-          {/* <span className="text-sm text-gray-700"> 0 Selected </span> */}
-
-          <button
-            type="button"
-            className="text-sm  underline transition-colors "
-          >
-            Reset
-          </button>
+      <div className="border-t border-gray-100 dark:border-gray-800 p-2">
+        <div className="flex flex-col gap-1">
+          {sortOptions.map((option) => (
+            <button
+              key={option.value}
+              onClick={() => handleSortChange(option.value)}
+              className={`flex items-center gap-3 w-full p-3 rounded-xl transition-all text-left ${activeSort === option.value
+                  ? "bg-red-50 dark:bg-red-950/20 text-red-600 font-bold"
+                  : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 font-medium"
+                }`}
+            >
+              <span className={activeSort === option.value ? "opacity-100" : "opacity-60"}>
+                {option.icon}
+              </span>
+              <span className="text-sm">{option.label}</span>
+              {activeSort === option.value && (
+                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-red-600 shadow-sm shadow-red-500/50"></div>
+              )}
+            </button>
+          ))}
         </div>
-
-        <fieldset className="p-3">
-          <legend className="sr-only">Checkboxes</legend>
-
-          <div className="flex flex-col items-start gap-3">
-            <label htmlFor="date" className="inline-flex items-center gap-3">
-              <input
-                type="checkbox"
-                className="size-5 rounded border-gray-600 dark:border-gray-300 shadow-sm"
-                id="date"
-              />
-
-              <span className="text-sm font-medium "> Date </span>
-            </label>
-
-            <label htmlFor="price" className="inline-flex items-center gap-3">
-              <input
-                type="checkbox"
-                className="size-5 rounded border-gray-600 dark:border-gray-300 shadow-sm"
-                id="price"
-              />
-
-              <span className="text-sm font-medium "> price </span>
-            </label>
-
-            <label htmlFor="hot" className="inline-flex items-center gap-3">
-              <input
-                type="checkbox"
-                className="size-5 rounded border-gray-600 dark:border-gray-300 shadow-sm"
-                id="hot"
-              />
-
-              <span className="text-sm font-medium"> Hot </span>
-            </label>
-          </div>
-        </fieldset>
       </div>
     </details>
   );

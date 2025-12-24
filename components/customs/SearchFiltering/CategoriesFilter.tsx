@@ -1,164 +1,105 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { fetchCategories } from "@/lib/apiClients/fetchHomepageData";
+import { ChevronDown, RefreshCw } from "lucide-react";
 
 const CategoriesFilter = () => {
-  const categoreisData = [
-    {
-      id: 1,
-      name: "Smartphones",
-      slug: "smartphones",
-      image: "https://i.postimg.cc/4Nhb0zZZ/smartphone.jpg",
-    },
-    {
-      id: 2,
-      name: "Laptops",
-      slug: "laptops",
-      image: "https://i.postimg.cc/6qf8m6hJ/laptop.jpg",
-    },
-    {
-      id: 3,
-      name: "Tablets",
-      slug: "tablets",
-      image: "https://i.postimg.cc/GmXjft7n/tablet.jpg",
-    },
-    {
-      id: 4,
-      name: "Smartwatches",
-      slug: "smartwatches",
-      image: "https://i.postimg.cc/tCJBNK8m/smartwatch.jpg",
-    },
-    {
-      id: 5,
-      name: "Headphones & Earbuds",
-      slug: "headphones-earbuds",
-      image: "https://i.postimg.cc/1zgtL0RL/headphones.jpg",
-    },
-    {
-      id: 6,
-      name: "Gaming Consoles",
-      slug: "gaming-consoles",
-      image: "https://i.postimg.cc/Y9zZZT3Q/console.jpg",
-    },
-    {
-      id: 7,
-      name: "Cameras & Drones",
-      slug: "cameras-drones",
-      image: "https://i.postimg.cc/hv7yQ9z5/camera.jpg",
-    },
-    {
-      id: 8,
-      name: "Accessories",
-      slug: "accessories",
-      image: "https://i.postimg.cc/g2YmBcPm/accessories.jpg",
-    },
-    {
-      id: 9,
-      name: "Monitors & Displays",
-      slug: "monitors-displays",
-      image: "https://i.postimg.cc/Df7hYvM3/monitor.jpg",
-    },
-    {
-      id: 10,
-      name: "Keyboards & Mice",
-      slug: "keyboards-mice",
-      image: "https://i.postimg.cc/fyH0z2rN/keyboard.jpg",
-    },
-    {
-      id: 11,
-      name: "Networking Devices",
-      slug: "networking-devices",
-      image: "https://i.postimg.cc/kX3B4z8g/router.jpg",
-    },
-    {
-      id: 12,
-      name: "Storage Devices",
-      slug: "storage-devices",
-      image: "https://i.postimg.cc/9Mmp5W4t/storage.jpg",
-    },
-    {
-      id: 13,
-      name: "Printers & Scanners",
-      slug: "printers-scanners",
-      image: "https://i.postimg.cc/vZk3knH6/printer.jpg",
-    },
-    {
-      id: 14,
-      name: "Smart Home Gadgets",
-      slug: "smart-home",
-      image: "https://i.postimg.cc/W1h3zv4c/smart-home.jpg",
-    },
-    {
-      id: 15,
-      name: "Portable Speakers",
-      slug: "portable-speakers",
-      image: "https://i.postimg.cc/50dFGkWZ/speaker.jpg",
-    },
-    {
-      id: 16,
-      name: "Wearable Tech",
-      slug: "wearable-tech",
-      image: "https://i.postimg.cc/jd1Wsjsw/wearable.jpg",
-    },
-  ];
+  const [categories, setCategories] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeCategory = searchParams.get("category");
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const data = await fetchCategories();
+        setCategories(data || []);
+      } catch (err) {
+        console.error("Failed to fetch categories:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getCategories();
+  }, []);
+
+  const handleCategoryChange = (slug: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (params.get("category") === slug) {
+      params.delete("category");
+    } else {
+      params.set("category", slug);
+    }
+    router.push(`/search?${params.toString()}`);
+  };
+
+  const handleReset = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("category");
+    router.push(`/search?${params.toString()}`);
+  };
 
   return (
-    <details className="group relative overflow-hidden rounded border border-gray-300 shadow-sm">
-      <summary className="flex items-center justify-between gap-2 p-3 transition-colors  [&::-webkit-details-marker]:hidden">
-        <span className="text-sm font-medium"> Categories</span>
-
-        <span className="transition-transform group-open:-rotate-180">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="size-4"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-            />
-          </svg>
-        </span>
+    <details open className="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950/50 shadow-sm transition-all duration-300">
+      <summary className="flex items-center justify-between gap-2 p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors [&::-webkit-details-marker]:hidden">
+        <span className="text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100">Categories</span>
+        <ChevronDown className="w-4 h-4 transition-transform group-open:-rotate-180 text-gray-500" />
       </summary>
 
-      <div className="divide-y divide-gray-600 dark:divide-gray-300 border-t border-gray-600 dark:border-gray-300 ">
-        <div className="flex items-center justify-between px-3 py-2">
-          {/* <span className="text-sm text-gray-700"> 0 Selected </span> */}
-
-          <button
-            type="button"
-            className="text-sm  underline transition-colors "
-          >
-            Reset
-          </button>
+      <div className="border-t border-gray-100 dark:border-gray-800">
+        <div className="flex items-center justify-between px-4 py-2 bg-gray-50/50 dark:bg-gray-900/30">
+          <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+            {activeCategory ? "1 Selected" : "None Selected"}
+          </span>
+          {activeCategory && (
+            <button
+              onClick={handleReset}
+              type="button"
+              className="text-[10px] font-bold text-red-600 hover:text-red-700 underline underline-offset-4"
+            >
+              Reset
+            </button>
+          )}
         </div>
 
-        <fieldset className="p-3">
-          <legend className="sr-only">Checkboxes</legend>
-
-          <div className="flex flex-col items-start gap-3 overflow-y-auto max-h-64 pr-2">
-            {categoreisData.map((categorie) => (
-              <label
-                key={categorie?.id}
-                htmlFor={categorie?.name}
-                className="inline-flex items-center gap-3"
-              >
-                <input
-                  type="checkbox"
-                  className="size-5 rounded border-gray-600 dark:border-gray-300 shadow-sm"
-                  id={categorie?.slug}
-                />
-
-                <span className="text-sm font-medium ">
-                  {" "}
-                  {categorie?.name}{" "}
-                </span>
-              </label>
-            ))}
+        <div className="p-4">
+          <div className="flex flex-col gap-2 overflow-y-auto max-h-60 pr-2 custom-scrollbar">
+            {loading ? (
+              <div className="py-4 flex justify-center">
+                <RefreshCw className="w-5 h-5 animate-spin text-gray-400" />
+              </div>
+            ) : (
+              categories.map((cat) => (
+                <label
+                  key={cat.id}
+                  className="group flex items-center justify-between p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all cursor-pointer"
+                >
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="radio"
+                      name="category"
+                      checked={activeCategory === cat.slug}
+                      onChange={() => handleCategoryChange(cat.slug)}
+                      className="size-4 rounded-full border-gray-300 text-red-600 focus:ring-red-500"
+                    />
+                    <span className={`text-sm font-medium transition-colors ${activeCategory === cat.slug ? "text-red-600" : "text-gray-600 dark:text-gray-400"
+                      }`}>
+                      {cat.name}
+                    </span>
+                  </div>
+                  {cat.productCount > 0 && (
+                    <span className="text-[10px] font-bold text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {cat.productCount}
+                    </span>
+                  )}
+                </label>
+              ))
+            )}
           </div>
-        </fieldset>
+        </div>
       </div>
     </details>
   );
