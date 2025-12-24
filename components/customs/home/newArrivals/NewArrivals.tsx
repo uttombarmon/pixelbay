@@ -1,5 +1,7 @@
 import React from "react";
 import ProductCard from "../../shared/Products/ProductCard";
+import Link from "next/link";
+import { fetchNewArrivals } from "@/lib/apiClients/fetchHomepageData";
 import {
   Carousel,
   CarouselContent,
@@ -8,103 +10,60 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
-export const productsData = [
-  {
-    id: 13,
-    title: "Apple Vision Pro",
-    slug: "apple-vision-pro",
-    price: 3499.0,
-    currency: "USD",
-    productImage:
-      "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/vision-pro-alp-header-202406?wid=2880&hei=960&fmt=jpeg&qlt=90&.v=SnhhQkxhV0UycTRXbEYzR1FuV1FVSFlCZndSU2xJQWo5OXhjVmp4ZjAyZStVNDA5RVVlL2xRd2sxQ2huWTBLdnVUb3VPa2FUZVhQMFhDQnVBMWhwQXdKdnRBSDd3QVhwYXRrSTdabUFoeFE",
-    category: "AR/VR",
-    date: "2025-09-10",
-  },
-  {
-    id: 14,
-    title: "Samsung Galaxy Z Flip 6",
-    slug: "samsung-galaxy-z-flip-6",
-    price: 1099.0,
-    currency: "USD",
-    productImage:
-      "https://images.samsung.com/is/image/samsung/assets/us/smartphones/galaxy-z-flip6/07082025/galaxy-z-flip6-ft02-kv_DT.jpg?$1440_N_JPG$",
-    category: "Smartphones",
-    date: "2025-09-05",
-  },
-  {
-    id: 15,
-    title: "Nothing Ear (3)",
-    slug: "nothing-ear-3",
-    price: 179.0,
-    currency: "USD",
-    productImage:
-      "https://cdn.sanity.io/images/gtd4w1cq/production/2cbb39efe5c91b8199a4259ada1d112d2e312617-396x396.jpg?auto=format",
-    category: "Earbuds",
-    date: "2025-09-01",
-  },
-  {
-    id: 16,
-    title: "OnePlus Pad 2",
-    slug: "oneplus-pad-2",
-    price: 599.0,
-    currency: "USD",
-    productImage:
-      "https://image01.oneplus.net/media/202407/09/fba6399523cbd6126ddcedb6920c9046.png?x-amz-process=image/format,webp/quality,Q_80",
-    category: "Tablets",
-    date: "2025-08-28",
-  },
-  {
-    id: 17,
-    title: "ASUS ROG Ally 2",
-    slug: "asus-rog-ally-2",
-    price: 799.0,
-    currency: "USD",
-    productImage:
-      "https://dlcdnwebimgs.asus.com/gain/828CE44B-7B48-4F48-88F7-88BEA7D13C5D/w1000/h732",
-    category: "Gaming",
-    date: "2025-08-20",
-  },
-  {
-    id: 18,
-    title: "Fitbit Charge 7",
-    slug: "fitbit-charge-7",
-    price: 199.0,
-    currency: "USD",
-    productImage:
-      "https://www.androidauthority.com/wp-content/uploads/2023/09/Fitbit-Charge-6-watch-face-scaled-840w-472h.jpg.webp",
-    category: "Wearables",
-    date: "2025-08-15",
-  },
-];
 
-const NewArrivals = () => {
+const NewArrivals = async () => {
+  const productsData = await fetchNewArrivals();
+
   return (
-    <div className="py-4">
-      <div className=" flex items-center justify-between py-4 px-4">
-        <h1 className=" text-xl md:text-2xl lg:text-3xl font-bold ">
-          New Arrivals
-        </h1>
-        <Button variant="outline" className=" ml-4 mb-4">
-          View All
-        </Button>
+    <div className="py-16 bg-gray-50/50">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              New Arrivals
+            </h2>
+            <p className="text-gray-500 text-lg">
+              Fresh tech recently added to our collection
+            </p>
+          </div>
+          <Link href="/search?sort=newest">
+            <Button variant="outline" className="rounded-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-300">
+              See What's New
+            </Button>
+          </Link>
+        </div>
+
+        <Carousel
+          className="w-full relative"
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+        >
+          <CarouselContent className="-ml-4">
+            {productsData?.length > 0 ? (
+              productsData.map((product: any) => (
+                <CarouselItem
+                  key={product?.id}
+                  className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                >
+                  <div className="h-full py-2">
+                    <ProductCard product={product} />
+                  </div>
+                </CarouselItem>
+              ))
+            ) : (
+              <div className="w-full py-20 text-center text-gray-500 italic">
+                No new arrivals at the moment.
+              </div>
+            )}
+          </CarouselContent>
+          <div className="hidden md:flex justify-end gap-2 mt-8">
+            <CarouselPrevious className="static translate-y-0 h-10 w-10 border-gray-200" />
+            <CarouselNext className="static translate-y-0 h-10 w-10 border-gray-200" />
+          </div>
+        </Carousel>
       </div>
-      <Carousel className=" w-9/12 md:w-11/12  mx-auto">
-        <CarouselContent>
-          {productsData.map((product) => (
-            <CarouselItem
-              key={product?.id}
-              className=" md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
-            >
-              <ProductCard key={product.id} product={product} />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-      {/* <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
-        
-      </div> */}
     </div>
   );
 };

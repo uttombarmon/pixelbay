@@ -1,5 +1,6 @@
 import React from "react";
 import ProductCard from "../../shared/Products/ProductCard";
+import Link from "next/link";
 import {
   Carousel,
   CarouselContent,
@@ -14,33 +15,55 @@ const PopularProducts = async () => {
   const productsData = await fetchPopularProducts();
 
   return (
-    <div>
-      <div className=" flex items-center justify-between py-4 px-4">
-        <h1 className=" text-xl md:text-2xl lg:text-3xl font-bold ">
-          Popular Products
-        </h1>
-        <Button variant="outline" className=" ml-4 mb-4">
-          View All
-        </Button>
+    <div className="py-16 bg-gray-50/50">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-10 gap-4">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              Popular Products
+            </h2>
+            <p className="text-gray-500 text-lg">
+              The gadgets everyone is talking about
+            </p>
+          </div>
+          <Link href="/search?sort=popular">
+            <Button variant="outline" className="rounded-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-300">
+              Explore All
+            </Button>
+          </Link>
+        </div>
+
+        <Carousel
+          className="w-full relative"
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+        >
+          <CarouselContent className="-ml-4">
+            {productsData?.length > 0 ? (
+              productsData.map((product: any) => (
+                <CarouselItem
+                  key={product?.id}
+                  className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                >
+                  <div className="h-full py-2">
+                    <ProductCard product={product} />
+                  </div>
+                </CarouselItem>
+              ))
+            ) : (
+              <div className="w-full py-20 text-center text-gray-500 italic">
+                No popular products found at the moment.
+              </div>
+            )}
+          </CarouselContent>
+          <div className="hidden md:flex justify-end gap-2 mt-8">
+            <CarouselPrevious className="static translate-y-0 h-10 w-10 border-gray-200" />
+            <CarouselNext className="static translate-y-0 h-10 w-10 border-gray-200" />
+          </div>
+        </Carousel>
       </div>
-      <Carousel className=" w-9/12 md:w-11/12  mx-auto">
-        <CarouselContent>
-          {productsData?.length > 0 &&
-            productsData?.map((product: any) => (
-              <CarouselItem
-                key={product?.id}
-                className=" flex md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
-              >
-                <ProductCard key={product.id} product={product as any} />
-              </CarouselItem>
-            ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
-      {/* <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
-        
-      </div> */}
     </div>
   );
 };
