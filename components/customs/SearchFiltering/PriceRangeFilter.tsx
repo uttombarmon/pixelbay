@@ -1,16 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const PriceRangeFilter = () => {
+const PriceRangeFilter = ({ priceMeta }: { priceMeta: { minPrice: number, maxPrice: number } | null }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const [min, setMin] = useState(searchParams.get("minPrice") || "");
   const [max, setMax] = useState(searchParams.get("maxPrice") || "");
+
+  // Update local state if URL changes (e.g. on Reset)
+  useEffect(() => {
+    setMin(searchParams.get("minPrice") || "");
+    setMax(searchParams.get("maxPrice") || "");
+  }, [searchParams]);
 
   const handleApply = () => {
     const params = new URLSearchParams(searchParams.toString());
@@ -51,7 +57,7 @@ const PriceRangeFilter = () => {
                   id="MinPrice"
                   value={min}
                   onChange={(e) => setMin(e.target.value)}
-                  placeholder="0"
+                  placeholder={priceMeta?.minPrice?.toString() || "0"}
                   className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 focus:bg-white dark:bg-gray-900 rounded-xl border-gray-200 dark:border-gray-800 focus:ring-red-500 focus:border-red-500 transition-all"
                 />
               </div>
@@ -66,7 +72,7 @@ const PriceRangeFilter = () => {
                   id="MaxPrice"
                   value={max}
                   onChange={(e) => setMax(e.target.value)}
-                  placeholder="5000"
+                  placeholder={priceMeta?.maxPrice?.toString() || "10000"}
                   className="w-full pl-9 pr-3 py-2 text-sm bg-gray-50 focus:bg-white dark:bg-gray-900 rounded-xl border-gray-200 dark:border-gray-800 focus:ring-red-500 focus:border-red-500 transition-all"
                 />
               </div>
@@ -80,13 +86,15 @@ const PriceRangeFilter = () => {
             >
               Apply
             </Button>
-            <Button
-              onClick={handleReset}
-              variant="outline"
-              className="flex-1 rounded-xl text-xs font-bold border-gray-200 dark:border-gray-800"
-            >
-              Reset
-            </Button>
+            {(min || max) && (
+              <Button
+                onClick={handleReset}
+                variant="outline"
+                className="flex-1 rounded-xl text-xs font-bold border-gray-200 dark:border-gray-800"
+              >
+                Reset
+              </Button>
+            )}
           </div>
         </div>
       </div>

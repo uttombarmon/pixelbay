@@ -1,30 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { fetchCategories } from "@/lib/apiClients/fetchHomepageData";
 import { ChevronDown, RefreshCw } from "lucide-react";
 
-const CategoriesFilter = () => {
-  const [categories, setCategories] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  count: number;
+}
+
+const CategoriesFilter = ({ categories, loading }: { categories: Category[], loading: boolean }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const activeCategory = searchParams.get("category");
-
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const data = await fetchCategories();
-        setCategories(data || []);
-      } catch (err) {
-        console.error("Failed to fetch categories:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getCategories();
-  }, []);
 
   const handleCategoryChange = (slug: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -72,7 +62,7 @@ const CategoriesFilter = () => {
                 <RefreshCw className="w-5 h-5 animate-spin text-gray-400" />
               </div>
             ) : (
-              categories.map((cat) => (
+              categories?.map((cat) => (
                 <label
                   key={cat.id}
                   className="group flex items-center justify-between p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all cursor-pointer"
@@ -90,9 +80,9 @@ const CategoriesFilter = () => {
                       {cat.name}
                     </span>
                   </div>
-                  {cat.productCount > 0 && (
-                    <span className="text-[10px] font-bold text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                      {cat.productCount}
+                  {cat.count > 0 && (
+                    <span className="text-[10px] font-bold text-gray-400">
+                      {cat.count}
                     </span>
                   )}
                 </label>

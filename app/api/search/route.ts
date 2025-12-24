@@ -5,7 +5,7 @@ import {
   productVariants,
   productImages,
 } from "@/lib/db/schema/schema";
-import { ilike, eq, and, sql, gte, lte, desc, asc } from "drizzle-orm";
+import { ilike, eq, and, sql, gte, lte, desc, asc, inArray, gt } from "drizzle-orm";
 
 export async function GET(req: Request) {
   try {
@@ -13,6 +13,9 @@ export async function GET(req: Request) {
 
     const s = searchParams.get("s") || "";
     const category = searchParams.get("category");
+    const brands = searchParams.get("brands")?.split(",").filter(Boolean);
+    const conditions = searchParams.get("conditions")?.split(",").filter(Boolean);
+    const onSale = searchParams.get("onSale") === "true";
     const minPrice = searchParams.get("minPrice");
     const maxPrice = searchParams.get("maxPrice");
     const sort = searchParams.get("sort");
@@ -30,8 +33,22 @@ export async function GET(req: Request) {
 
     // Category filtering
     if (category) {
-      // Assuming category is passed as a slug
       whereConditions.push(eq(categories.slug, category));
+    }
+
+    // Brands filtering
+    if (brands && brands.length > 0) {
+      whereConditions.push(inArray(products.brand, brands));
+    }
+
+    // Conditions filtering
+    if (conditions && conditions.length > 0) {
+      whereConditions.push(inArray(products.condition, conditions as any));
+    }
+
+    // On Sale filtering
+    if (onSale) {
+      whereConditions.push(gt(productVariants.discount_percentage, "0"));
     }
 
     // Price range filtering
@@ -51,13 +68,15 @@ export async function GET(req: Request) {
     if (sort === "price-asc") orderBy = asc(productVariants.price);
     else if (sort === "price-desc") orderBy = desc(productVariants.price);
     else if (sort === "newest") orderBy = desc(products.created_at);
-    // Add popular sorting logic if there's a field for it, e.g., view_count or order_count
+    else if (sort === "popular") orderBy = desc(sql`COALESCE((SELECT count(*) FROM order_items WHERE order_items.variant_id = ${productVariants.id}), 0)`);
 
     const result = await db
       .select({
         id: products.id,
         title: products.title,
         slug: products.slug,
+        brand: products.brand,
+        condition: products.condition,
         price: sql<number>`${productVariants.price}::float`,
         compare_at_price: sql<number>`${productVariants.compare_at_price}::float`,
         discount: sql<number>`${productVariants.discount_percentage}::float`,
@@ -76,7 +95,7 @@ export async function GET(req: Request) {
       .leftJoin(categories, eq(categories.id, products.category_id))
       .where(whereConditions.length ? and(...whereConditions) : undefined)
       .orderBy(orderBy)
-      .limit(50); // Limit results for performance
+      .limit(100);
 
     return Response.json(result);
   } catch (err) {
