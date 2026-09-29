@@ -23,7 +23,7 @@ export async function GET(req: Request) {
     if (s) {
       const terms = s.split(/\s+/);
       const termConditions = terms.map((term) =>
-        ilike(products.title, `%${term}%`)
+        ilike(products.title, `%${term}%`),
       );
       whereConditions.push(and(...termConditions));
     }
@@ -36,10 +36,10 @@ export async function GET(req: Request) {
 
     // Price range filtering
     if (minPrice) {
-      whereConditions.push(gte(productVariants.price, parseFloat(minPrice)));
+      whereConditions.push(gte(productVariants.price, minPrice));
     }
     if (maxPrice) {
-      whereConditions.push(lte(productVariants.price, parseFloat(maxPrice)));
+      whereConditions.push(lte(productVariants.price, maxPrice));
     }
 
     // Default where condition (active products and variants)

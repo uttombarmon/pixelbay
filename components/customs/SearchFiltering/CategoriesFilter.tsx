@@ -10,7 +10,7 @@ const CategoriesFilter = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const activeCategory = searchParams.get("category");
+  const activeCategory = searchParams?.get("category");
 
   useEffect(() => {
     const getCategories = async () => {
@@ -27,7 +27,7 @@ const CategoriesFilter = () => {
   }, []);
 
   const handleCategoryChange = (slug: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() ?? "");
     if (params.get("category") === slug) {
       params.delete("category");
     } else {
@@ -37,15 +37,20 @@ const CategoriesFilter = () => {
   };
 
   const handleReset = () => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() ?? "");
     params.delete("category");
     router.push(`/search?${params.toString()}`);
   };
 
   return (
-    <details open className="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950/50 shadow-sm transition-all duration-300">
+    <details
+      open
+      className="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950/50 shadow-sm transition-all duration-300"
+    >
       <summary className="flex items-center justify-between gap-2 p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors [&::-webkit-details-marker]:hidden">
-        <span className="text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100">Categories</span>
+        <span className="text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100">
+          Categories
+        </span>
         <ChevronDown className="w-4 h-4 transition-transform group-open:-rotate-180 text-gray-500" />
       </summary>
 
@@ -85,8 +90,13 @@ const CategoriesFilter = () => {
                       onChange={() => handleCategoryChange(cat.slug)}
                       className="size-4 rounded-full border-gray-300 text-red-600 focus:ring-red-500"
                     />
-                    <span className={`text-sm font-medium transition-colors ${activeCategory === cat.slug ? "text-red-600" : "text-gray-600 dark:text-gray-400"
-                      }`}>
+                    <span
+                      className={`text-sm font-medium transition-colors ${
+                        activeCategory === cat.slug
+                          ? "text-red-600"
+                          : "text-gray-600 dark:text-gray-400"
+                      }`}
+                    >
                       {cat.name}
                     </span>
                   </div>

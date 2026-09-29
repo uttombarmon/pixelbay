@@ -73,17 +73,10 @@ A modern e-commerce marketplace built with Next.js 15, featuring user authentica
 
 3. **Set up environment variables**
 
-   Create a `.env.local` file in the root directory:
+   Copy the demo template to `.env.local`, then replace its placeholders with your local database URL and OAuth credentials:
 
    ```env
-   # Database
-   DATABASE_URL=your_neon_database_url
-
-   # NextAuth
-   AUTH_SECRET=your_auth_secret
-   NEXTAUTH_URL=http://localhost:3000
-
-   # Add any other required environment variables
+   cp .env.example .env.local
    ```
 
 4. **Run database migrations**

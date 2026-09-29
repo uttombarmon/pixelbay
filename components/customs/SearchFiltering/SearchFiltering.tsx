@@ -23,7 +23,7 @@ const SearchFiltering = ({
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() ?? "");
     if (searchText) params.set("s", searchText);
     else params.delete("s");
     router.push(`/search?${params.toString()}`);
@@ -34,7 +34,7 @@ const SearchFiltering = ({
     router.push("/search");
   };
 
-  const hasFilters = searchParams.toString().length > 0;
+  const hasFilters = (searchParams?.toString() ?? "").length > 0;
 
   return (
     <div className="w-full h-full bg-white dark:bg-gray-950 flex flex-col border-r border-gray-100 dark:border-gray-800">

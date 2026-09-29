@@ -4,7 +4,7 @@ import SearchField from "./Search";
 
 const SearchBox = () => {
   return (
-    <div className="flex w-full min-w-[200px] lg:min-w-[300px]">
+    <div className="flex w-full min-w-50 lg:min-w-75">
       <SearchField />
     </div>
   );

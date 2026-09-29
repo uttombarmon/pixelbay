@@ -29,9 +29,7 @@ const Account = async ({ user }: { user: any }) => {
           </Link>
           <div className="w-px h-6 bg-gray-200 dark:bg-gray-800 mx-1 hidden md:block"></div>
           <SignOutButton>
-            <div className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors text-gray-500 hover:text-red-500">
-              <LogOut className="w-5 h-5" />
-            </div>
+            Sign Out
           </SignOutButton>
         </div>
       ) : (
@@ -87,10 +85,7 @@ const Account = async ({ user }: { user: any }) => {
 
             <div className="p-1">
               <SignOutButton>
-                <div className="flex items-center gap-3 w-full py-2.5 px-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 text-red-600 transition-all font-bold text-sm cursor-pointer">
-                  <LogOut className="w-4 h-4" />
-                  <span>Sign Out</span>
-                </div>
+                Sign Out
               </SignOutButton>
             </div>
           </DropdownMenuContent>

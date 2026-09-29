@@ -9,11 +9,11 @@ const PriceRangeFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [min, setMin] = useState(searchParams.get("minPrice") || "");
-  const [max, setMax] = useState(searchParams.get("maxPrice") || "");
+  const [min, setMin] = useState(searchParams?.get("minPrice") || "");
+  const [max, setMax] = useState(searchParams?.get("maxPrice") || "");
 
   const handleApply = () => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() ?? "");
     if (min) params.set("minPrice", min);
     else params.delete("minPrice");
 
@@ -26,7 +26,7 @@ const PriceRangeFilter = () => {
   const handleReset = () => {
     setMin("");
     setMax("");
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() ?? "");
     params.delete("minPrice");
     params.delete("maxPrice");
     router.push(`/search?${params.toString()}`);

@@ -7,10 +7,10 @@ import { ChevronDown, ArrowDownAz, ArrowUp10, ArrowDown10, Flame } from "lucide-
 const SortByFilter = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const activeSort = searchParams.get("sort") || "newest";
+  const activeSort = searchParams?.get("sort") || "newest";
 
   const handleSortChange = (sort: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString());
     params.set("sort", sort);
     router.push(`/search?${params.toString()}`);
   };

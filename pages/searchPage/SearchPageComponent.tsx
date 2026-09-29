@@ -6,12 +6,17 @@ import { useSearchParams } from "next/navigation";
 import React, { Suspense, useEffect, useState } from "react";
 import { Filter, SlidersHorizontal, LayoutGrid, List } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+} from "@/components/ui/sheet";
 
 const SearchPageComponent = () => {
   const [searchText, setSearchText] = useState("");
   const searchParams = useSearchParams();
-  const query = searchParams.get("s") || "";
+  const query = searchParams?.get("s") || "";
 
   useEffect(() => {
     setSearchText(query);
@@ -30,27 +35,37 @@ const SearchPageComponent = () => {
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="sm" className="rounded-full border-gray-200 dark:border-gray-800 font-bold gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-gray-200 dark:border-gray-800 font-bold gap-2"
+            >
               <Filter className="w-3.5 h-3.5" /> Filters
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-[300px] border-r-0">
+          <SheetContent side="left" className="p-0 w-75 border-r-0">
             <SheetTitle className="sr-only">Product Filters</SheetTitle>
-            <SearchFiltering searchText={searchText} setSearchText={setSearchText} />
+            <SearchFiltering
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
           </SheetContent>
         </Sheet>
       </div>
 
       {/* Desktop Sidebar */}
       <aside className="hidden lg:block w-[320px] sticky top-20 h-[calc(100vh-80px)] overflow-hidden shrink-0">
-        <SearchFiltering searchText={searchText} setSearchText={setSearchText} />
+        <SearchFiltering
+          searchText={searchText}
+          setSearchText={setSearchText}
+        />
       </aside>
 
       {/* Main Content Area */}
       <main className="flex-1 w-full min-w-0">
         {/* Header Section */}
         <div className="px-4 py-8 md:px-8 md:py-12">
-          <div className="max-w-[1400px] mx-auto">
+          <div className="max-w-350 mx-auto">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-b border-gray-100 dark:border-gray-800 pb-8">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-red-600 bg-red-50 dark:bg-red-950/30 px-3 py-1 rounded-full w-fit">
@@ -58,7 +73,10 @@ const SearchPageComponent = () => {
                 </div>
                 <h1 className="text-2xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">
                   {query ? (
-                    <>Searching for <span className="text-red-600">"{query}"</span></>
+                    <>
+                      Searching for{" "}
+                      <span className="text-red-600">"{query}"</span>
+                    </>
                   ) : (
                     "Explore all Gadgets"
                   )}
@@ -87,7 +105,9 @@ const SearchPageComponent = () => {
                 fallback={
                   <div className="w-full py-20 flex flex-col items-center justify-center gap-4 text-gray-400">
                     <div className="w-12 h-12 border-4 border-red-600/30 border-t-red-600 rounded-full animate-spin"></div>
-                    <p className="font-bold animate-pulse">Syncing catalog...</p>
+                    <p className="font-bold animate-pulse">
+                      Syncing catalog...
+                    </p>
                   </div>
                 }
               >

@@ -87,7 +87,7 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
                 </span>
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[600px] gap-3 p-6 grid-cols-2">
+                <ul className="grid w-150 gap-3 p-6 grid-cols-2">
                   <ListItem href="/search?s=smartphone" title="Smartphones" />
                   <ListItem href="/search?s=tablet+ipad" title="Tablets & iPads" />
                   <ListItem href="/search?s=smartwatch" title="Smartwatches" />
@@ -106,7 +106,7 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
                 </span>
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[600px] gap-3 p-6 grid-cols-2">
+                <ul className="grid w-150 gap-3 p-6 grid-cols-2">
                   <ListItem href="/search?s=laptop" title="Laptops" />
                   <ListItem href="/search?s=gaming+laptop" title="Gaming Rigs" />
                   <ListItem href="/search?s=monitor" title="Monitors" />
@@ -125,7 +125,7 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
                 </span>
               </NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[600px] gap-3 p-6 grid-cols-2">
+                <ul className="grid w-150 gap-3 p-6 grid-cols-2">
                   <ListItem href="/search?s=gaming+console" title="Consoles" />
                   <ListItem href="/search?s=vr+headset" title="VR/AR" />
                   <ListItem href="/search?s=gaming+controller" title="Controllers" />
@@ -145,8 +145,7 @@ export function ListItem({
   children,
   href,
   className,
-  ...props
-}: React.ComponentPropsWithoutRef<"li"> & { href: string; title: string }) {
+}: { href: string; title: string; children?: React.ReactNode; className?: string }) {
   return (
     <li>
       <NavigationMenuLink asChild>
@@ -156,7 +155,6 @@ export function ListItem({
             "block select-none space-y-1 rounded-2xl p-4 leading-none no-underline outline-none transition-all duration-300 group hover:bg-red-50 dark:hover:bg-red-950/20",
             className
           )}
-          {...props}
         >
           <div className="text-sm font-bold leading-none flex items-center justify-between group-hover:text-red-600 transition-colors">
             {title}
