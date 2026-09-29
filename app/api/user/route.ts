@@ -24,14 +24,14 @@ export async function GET(req: NextRequest) {
     } else {
       return NextResponse.json(
         { message: "Couldn't find user id! in url" },
-        { status: 406 }
+        { status: 406 },
       );
     }
   } catch (error) {
     console.log("User Get Error: ", error);
     return NextResponse.json(
       { message: "Something happend in server!", error: error },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -44,7 +44,7 @@ export async function PATCH(req: NextRequest) {
     console.log("User Patch Error: Not Found Update data");
     return NextResponse.json(
       { message: "Something happend in server!" },
-      { status: 500 }
+      { status: 500 },
     );
   }
   try {
@@ -52,7 +52,7 @@ export async function PATCH(req: NextRequest) {
       console.log("User Patch Error: userId not found in URL");
       return NextResponse.json(
         { message: "Couldn't find user id! in url" },
-        { status: 406 }
+        { status: 406 },
       );
     }
     const [updatedUser] = await db
@@ -70,7 +70,7 @@ export async function PATCH(req: NextRequest) {
     console.log("User Patch Error: ", error);
     return NextResponse.json(
       { message: "Something happend in server!", error: error },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -83,7 +83,7 @@ export async function DELETE(req: NextRequest) {
       console.log("User Patch Error: userId not found in URL");
       return NextResponse.json(
         { message: "Couldn't find user id! in url" },
-        { status: 406 }
+        { status: 406 },
       );
     }
     await db.delete(users).where(eq(users.id, userId));

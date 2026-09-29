@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     if (!methodType || !provider || !accountNumber) {
       return NextResponse.json(
         { error: "Missing required fields" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -49,13 +49,13 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { message: "Payment method saved successfully", data: result[0] },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Error saving payment method:", error);
     return NextResponse.json(
       { error: "Failed to save payment method" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

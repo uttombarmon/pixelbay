@@ -11,7 +11,7 @@ const ToggleVariants = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const handleVariantChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
+    e: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setVariant(variants.find((v: any) => v.id === Number(e.target.value)));
   };

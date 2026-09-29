@@ -27,7 +27,10 @@ const PopularProducts = async () => {
             </p>
           </div>
           <Link href="/search?sort=popular">
-            <Button variant="outline" className="rounded-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-300">
+            <Button
+              variant="outline"
+              className="rounded-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-300"
+            >
               Explore All
             </Button>
           </Link>

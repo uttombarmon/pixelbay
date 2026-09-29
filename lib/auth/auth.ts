@@ -94,7 +94,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // If email is not verified or missing, deny sign-in
         if (!isEmailVerified || !hasEmail) {
           console.log(
-            "[signIn Callback] OAuth sign-in denied: Email not verified or missing."
+            "[signIn Callback] OAuth sign-in denied: Email not verified or missing.",
           );
           return false; // This will lead to AccessDenied error
         }
@@ -108,7 +108,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           if (!existingUser) {
             // New user: Create a new user record for OAuth sign-ups
             console.log(
-              "[signIn Callback] New user via OAuth. Creating record."
+              "[signIn Callback] New user via OAuth. Creating record.",
             );
             const newUser = await db.insert(users).values({
               email: user.email!,
@@ -118,13 +118,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           } else {
             // User exists: Update their profile info if it changed
             console.log(
-              "[signIn Callback] Existing user found. Updating profile."
+              "[signIn Callback] Existing user found. Updating profile.",
             );
           }
         } catch (dbError: any) {
           console.error(
             "[signIn Callback] Database error during OAuth signIn:",
-            dbError.message
+            dbError.message,
           );
           return false; // Deny sign-in if database operation fails
         }

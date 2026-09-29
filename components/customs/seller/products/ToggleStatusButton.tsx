@@ -14,7 +14,7 @@ export default function ToggleStatusButton({
   const [loading, setLoading] = useState(false);
 
   const handleStatusChange = async (
-    e: React.ChangeEvent<HTMLSelectElement>
+    e: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const newStatus = e.target.value;
     const previousStatus = status;

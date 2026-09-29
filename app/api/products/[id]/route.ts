@@ -12,8 +12,8 @@ import { eq } from "drizzle-orm";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-){
+  { params }: { params: Promise<{ id: string }> },
+) {
   try {
     const { id } = await params;
     const productId = parseInt(id);
@@ -21,7 +21,7 @@ export async function GET(
     if (isNaN(productId)) {
       return NextResponse.json(
         { error: "Invalid product ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -76,7 +76,7 @@ export async function GET(
     console.error("Error fetching product:", error);
     return NextResponse.json(
       { error: "Internal Server Error", details: (error as Error).message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

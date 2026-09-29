@@ -54,7 +54,10 @@ export default function CheckoutForm({
   const isCartMode = !!items && items.length > 0;
 
   const subtotal = isCartMode
-    ? items.reduce((sum, item) => sum + parseFloat(item.price) * item.quantity, 0)
+    ? items.reduce(
+        (sum, item) => sum + parseFloat(item.price) * item.quantity,
+        0,
+      )
     : variant
       ? parseFloat(variant.price) * quantity
       : 0;
@@ -77,17 +80,17 @@ export default function CheckoutForm({
       const orderData = {
         items: isCartMode
           ? items!.map((item) => ({
-            variantId: item.variantId,
-            quantity: item.quantity,
-            unitPrice: item.price,
-          }))
+              variantId: item.variantId,
+              quantity: item.quantity,
+              unitPrice: item.price,
+            }))
           : [
-            {
-              variantId: variant!.id,
-              quantity,
-              unitPrice: variant!.price,
-            },
-          ],
+              {
+                variantId: variant!.id,
+                quantity,
+                unitPrice: variant!.price,
+              },
+            ],
         shippingAddress: {
           name: formData.name,
           address: formData.address,
@@ -233,7 +236,10 @@ export default function CheckoutForm({
           // Cart mode: Display all items
           <div className="max-h-64 space-y-3 overflow-y-auto">
             {items!.map((item) => (
-              <div key={item.id} className="flex gap-3 border-b pb-3 last:border-0">
+              <div
+                key={item.id}
+                className="flex gap-3 border-b pb-3 last:border-0"
+              >
                 {item.image && (
                   <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border bg-white">
                     <img
@@ -244,9 +250,15 @@ export default function CheckoutForm({
                   </div>
                 )}
                 <div className="flex-1">
-                  <h3 className="text-sm font-medium line-clamp-2">{item.name}</h3>
-                  <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
-                  <p className="text-sm font-semibold">${(parseFloat(item.price) * item.quantity).toFixed(2)}</p>
+                  <h3 className="text-sm font-medium line-clamp-2">
+                    {item.name}
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    Qty: {item.quantity}
+                  </p>
+                  <p className="text-sm font-semibold">
+                    ${(parseFloat(item.price) * item.quantity).toFixed(2)}
+                  </p>
                 </div>
               </div>
             ))}

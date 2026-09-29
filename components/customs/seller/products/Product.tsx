@@ -17,13 +17,15 @@ const Product = ({
 }) => {
   console.log(product);
   const [variant, setVariant] = useState(
-    product.variants && product.variants.length > 0 ? product.variants[0] : null
+    product.variants && product.variants.length > 0
+      ? product.variants[0]
+      : null,
   );
   const [price, setPrice] = useState(product.price);
   const [stock, setStock] = useState(
     product.variants && product.variants.length > 0
       ? product.variants[0].stock
-      : 0
+      : 0,
   );
   useEffect(() => {
     if (variant) {

@@ -16,7 +16,10 @@ function SearchField() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center w-full max-w-sm group">
+    <form
+      onSubmit={handleSubmit}
+      className="flex items-center w-full max-w-sm group"
+    >
       <div className="relative w-full">
         <input
           type="text"

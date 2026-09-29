@@ -87,7 +87,7 @@ export default function AddProductFromJSON() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(productData),
-        }
+        },
       );
 
       const result = await response.json();

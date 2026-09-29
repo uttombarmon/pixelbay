@@ -51,7 +51,7 @@ const Asidebar = () => {
       <aside
         className={cn(
           "fixed lg:static top-0 left-0 h-full lg:h-auto w-64 border-r bg-muted/40 p-6 z-50 transform transition-transform duration-200",
-          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         )}
       >
         <h2 className="text-2xl font-bold mb-6 hidden lg:block">My Shop</h2>
@@ -64,7 +64,7 @@ const Asidebar = () => {
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition hover:bg-accent",
                 pathname === item.href
                   ? "bg-accent text-accent-foreground"
-                  : "text-muted-foreground"
+                  : "text-muted-foreground",
               )}
               onClick={() => setOpen(false)} // close on mobile click
             >

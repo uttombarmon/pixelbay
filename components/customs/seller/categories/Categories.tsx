@@ -38,7 +38,7 @@ const Categories = ({ initialCategories }: { initialCategories: any }) => {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(categoryData),
-          }
+          },
         );
 
         if (!response.ok) {
@@ -48,8 +48,8 @@ const Categories = ({ initialCategories }: { initialCategories: any }) => {
         const updatedCategory = await response.json();
         setCategories((prev: any) =>
           prev.map((c: any) =>
-            c.id === updatedCategory.id ? updatedCategory : c
-          )
+            c.id === updatedCategory.id ? updatedCategory : c,
+          ),
         );
         toast.success("Category updated successfully!");
       } catch (error) {
@@ -65,7 +65,7 @@ const Categories = ({ initialCategories }: { initialCategories: any }) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(categoryData),
-          }
+          },
         );
         if (!response.ok) throw new Error("Failed to create category");
         const createdCategory = await response.json();
@@ -91,7 +91,7 @@ const Categories = ({ initialCategories }: { initialCategories: any }) => {
         `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/categories/${id}`,
         {
           method: "DELETE",
-        }
+        },
       );
       if (!response.ok) {
         toast.error("Failed to delete category.");
@@ -117,7 +117,7 @@ const Categories = ({ initialCategories }: { initialCategories: any }) => {
       }
       setSortConfig({ key, direction });
     },
-    [sortConfig.key, sortConfig.direction]
+    [sortConfig.key, sortConfig.direction],
   );
 
   return (

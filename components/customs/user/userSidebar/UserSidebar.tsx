@@ -39,7 +39,7 @@ export default function UserSidebar() {
                 "flex items-center gap-3 px-4 py-2 rounded-xl text-sm font-medium transition-colors hover:bg-neutral-100 dark:hover:bg-neutral-800",
                 pathname === href
                   ? "bg-neutral-200 dark:bg-neutral-700 text-primary"
-                  : "text-neutral-700 dark:text-neutral-300"
+                  : "text-neutral-700 dark:text-neutral-300",
               )}
             >
               <Icon className="h-5 w-5" />

@@ -39,7 +39,7 @@ export default async function PaymentPage({
         headers: {
           Cookie: `next-auth.session-token=${session.user.id}`, // Pass session if needed
         },
-      }
+      },
     );
 
     if (!cartResponse.ok) {

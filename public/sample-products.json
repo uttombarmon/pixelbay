@@ -15,14 +15,60 @@
     "warrantyDescription": "1-year limited warranty covering manufacturing defects.",
     "category_id": null,
     "images": [
-      {"url": "https://images.unsplash.com/photo-1592286927505-b0c2fc1f57f8?w=800", "alt": "iPhone 16 Pro Max - Front"},
-      {"url": "https://images.unsplash.com/photo-1611472173362-3f53dbd65d80?w=800", "alt": "iPhone 16 Pro Max - Back"}
+      {
+        "url": "https://images.unsplash.com/photo-1592286927505-b0c2fc1f57f8?w=800",
+        "alt": "iPhone 16 Pro Max - Front"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1611472173362-3f53dbd65d80?w=800",
+        "alt": "iPhone 16 Pro Max - Back"
+      }
     ],
     "variants": [
-      {"sku": "IPH16PM-TBK-256GB", "variantName": "Titanium Black - 256GB", "color": "Titanium Black", "storageVariant": "256GB", "ramVariant": "8GB", "regionVariant": "Global", "price": 1199.99, "currency": "USD", "stock": 50}
+      {
+        "sku": "IPH16PM-TBK-256GB",
+        "variantName": "Titanium Black - 256GB",
+        "color": "Titanium Black",
+        "storageVariant": "256GB",
+        "ramVariant": "8GB",
+        "regionVariant": "Global",
+        "price": 1199.99,
+        "currency": "USD",
+        "stock": 50
+      }
     ],
-    "processor": "Apple A18 Pro (3nm)", "processorCores": 6, "ram": 8, "storage": 256, "gpu": "Apple GPU (6-core)", "displaySize": "6.9", "displayTech": "LTPO Super Retina XDR OLED", "displayResolution": "2868 x 1320", "refreshRate": 120, "brightness": 2000, "batteryCapacity": 4685, "batteryLife": "Up to 33 hours video", "fastCharging": "USB-C PD (20W)", "wirelessCharging": "MagSafe 25W", "rearCameraMP": "48MP Main + 48MP UW + 12MP Tele", "frontCameraMP": "12MP", "videoCapability": "4K@60fps, ProRes", "bluetooth": "5.3", "wifi": "Wi-Fi 7", "nfc": true, "usb": "USB-C 3.1", "cellular": "5G NR", "weight": "221", "dimensions": "163 x 77.6 x 8.25 mm", "material": "Titanium frame", "ipRating": "IP68", "operatingSystem": "iOS 18", "softwareSupport": 5,
-    "attributes": {"features": ["Dynamic Island", "Always-On display", "Face ID"], "colors": ["Titanium Black", "Titanium Natural"]}
+    "processor": "Apple A18 Pro (3nm)",
+    "processorCores": 6,
+    "ram": 8,
+    "storage": 256,
+    "gpu": "Apple GPU (6-core)",
+    "displaySize": "6.9",
+    "displayTech": "LTPO Super Retina XDR OLED",
+    "displayResolution": "2868 x 1320",
+    "refreshRate": 120,
+    "brightness": 2000,
+    "batteryCapacity": 4685,
+    "batteryLife": "Up to 33 hours video",
+    "fastCharging": "USB-C PD (20W)",
+    "wirelessCharging": "MagSafe 25W",
+    "rearCameraMP": "48MP Main + 48MP UW + 12MP Tele",
+    "frontCameraMP": "12MP",
+    "videoCapability": "4K@60fps, ProRes",
+    "bluetooth": "5.3",
+    "wifi": "Wi-Fi 7",
+    "nfc": true,
+    "usb": "USB-C 3.1",
+    "cellular": "5G NR",
+    "weight": "221",
+    "dimensions": "163 x 77.6 x 8.25 mm",
+    "material": "Titanium frame",
+    "ipRating": "IP68",
+    "operatingSystem": "iOS 18",
+    "softwareSupport": 5,
+    "attributes": {
+      "features": ["Dynamic Island", "Always-On display", "Face ID"],
+      "colors": ["Titanium Black", "Titanium Natural"]
+    }
   },
   {
     "title": "MacBook Pro 16-inch M3 Max",
@@ -38,10 +84,43 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800", "alt": "MacBook Pro"}],
-    "variants": [{"sku": "MBP16-M3MAX-36GB", "variantName": "Space Black - 36GB RAM - 1TB", "color": "Space Black", "storageVariant": "1TB", "ramVariant": "36GB", "price": 3499.99, "currency": "USD", "stock": 20}],
-    "processor": "Apple M3 Max", "processorCores": 16, "processorThreads": 16, "ram": 36, "ramType": "Unified Memory", "storage": 1024, "storageType": "SSD", "gpu": "40-core GPU", "displaySize": "16.2", "displayTech": "Liquid Retina XDR", "displayResolution": "3456 x 2234", "refreshRate": 120, "brightness": 1600, "batteryLife": "22 hours", "weight": "2150", "operatingSystem": "macOS Sonoma",
-    "attributes": {"ports": ["3x Thunderbolt 4", "HDMI", "SD card", "MagSafe 3"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800",
+        "alt": "MacBook Pro"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "MBP16-M3MAX-36GB",
+        "variantName": "Space Black - 36GB RAM - 1TB",
+        "color": "Space Black",
+        "storageVariant": "1TB",
+        "ramVariant": "36GB",
+        "price": 3499.99,
+        "currency": "USD",
+        "stock": 20
+      }
+    ],
+    "processor": "Apple M3 Max",
+    "processorCores": 16,
+    "processorThreads": 16,
+    "ram": 36,
+    "ramType": "Unified Memory",
+    "storage": 1024,
+    "storageType": "SSD",
+    "gpu": "40-core GPU",
+    "displaySize": "16.2",
+    "displayTech": "Liquid Retina XDR",
+    "displayResolution": "3456 x 2234",
+    "refreshRate": 120,
+    "brightness": 1600,
+    "batteryLife": "22 hours",
+    "weight": "2150",
+    "operatingSystem": "macOS Sonoma",
+    "attributes": {
+      "ports": ["3x Thunderbolt 4", "HDMI", "SD card", "MagSafe 3"]
+    }
   },
   {
     "title": "iPad Pro 12.9-inch M2",
@@ -57,9 +136,39 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800", "alt": "iPad Pro"}],
-    "variants": [{"sku": "IPADPRO12-M2-256", "variantName": "Space Gray - 256GB - WiFi", "color": "Space Gray", "storageVariant": "256GB", "price": 1099.99, "currency": "USD", "stock": 35}],
-    "processor": "Apple M2", "processorCores": 8, "ram": 8, "storage": 256, "displaySize": "12.9", "displayTech": "Liquid Retina XDR", "displayResolution": "2732 x 2048", "refreshRate": 120, "brightness": 1600, "batteryLife": "10 hours", "rearCameraMP": "12MP Wide", "frontCameraMP": "12MP Ultra Wide", "wifi": "Wi-Fi 6E", "bluetooth": "5.3", "weight": "682", "operatingSystem": "iPadOS 17"
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=800",
+        "alt": "iPad Pro"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "IPADPRO12-M2-256",
+        "variantName": "Space Gray - 256GB - WiFi",
+        "color": "Space Gray",
+        "storageVariant": "256GB",
+        "price": 1099.99,
+        "currency": "USD",
+        "stock": 35
+      }
+    ],
+    "processor": "Apple M2",
+    "processorCores": 8,
+    "ram": 8,
+    "storage": 256,
+    "displaySize": "12.9",
+    "displayTech": "Liquid Retina XDR",
+    "displayResolution": "2732 x 2048",
+    "refreshRate": 120,
+    "brightness": 1600,
+    "batteryLife": "10 hours",
+    "rearCameraMP": "12MP Wide",
+    "frontCameraMP": "12MP Ultra Wide",
+    "wifi": "Wi-Fi 6E",
+    "bluetooth": "5.3",
+    "weight": "682",
+    "operatingSystem": "iPadOS 17"
   },
   {
     "title": "Apple Watch Ultra 2",
@@ -75,9 +184,38 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=800", "alt": "Apple Watch Ultra"}],
-    "variants": [{"sku": "AWULTRA2-TI-OCEAN", "variantName": "Titanium - Ocean Band", "color": "Titanium", "price": 799.99, "currency": "USD", "stock": 25}],
-    "displaySize": "1.92", "displayTech": "LTPO OLED", "displayResolution": "502 x 410", "brightness": 3000, "processor": "Apple S9", "ram": 1, "storage": 64, "batteryCapacity": 542, "batteryLife": "36 hours", "wifi": "Wi-Fi 4", "bluetooth": "5.3", "cellular": "LTE", "weight": "61.4", "ipRating": "IP68", "mrlRating": "MIL-STD 810H", "operatingSystem": "watchOS 10"
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?w=800",
+        "alt": "Apple Watch Ultra"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "AWULTRA2-TI-OCEAN",
+        "variantName": "Titanium - Ocean Band",
+        "color": "Titanium",
+        "price": 799.99,
+        "currency": "USD",
+        "stock": 25
+      }
+    ],
+    "displaySize": "1.92",
+    "displayTech": "LTPO OLED",
+    "displayResolution": "502 x 410",
+    "brightness": 3000,
+    "processor": "Apple S9",
+    "ram": 1,
+    "storage": 64,
+    "batteryCapacity": 542,
+    "batteryLife": "36 hours",
+    "wifi": "Wi-Fi 4",
+    "bluetooth": "5.3",
+    "cellular": "LTE",
+    "weight": "61.4",
+    "ipRating": "IP68",
+    "mrlRating": "MIL-STD 810H",
+    "operatingSystem": "watchOS 10"
   },
   {
     "title": "Sony WH-1000XM5",
@@ -93,10 +231,31 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800", "alt": "Sony Headphones"}],
-    "variants": [{"sku": "SONYWH1000XM5-BLK", "variantName": "Black", "color": "Black", "price": 399.99, "currency": "USD", "stock": 50}],
-    "bluetooth": "5.2", "audioCodec": "LDAC, AAC", "batteryLife": "30 hours", "fastCharging": "3 min charge = 3 hours", "weight": "250", "microphone": "4 mics with beamforming",
-    "attributes": {"features": ["Active Noise Cancellation", "Speak-to-Chat", "Multipoint"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1545127398-14699f92334b?w=800",
+        "alt": "Sony Headphones"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "SONYWH1000XM5-BLK",
+        "variantName": "Black",
+        "color": "Black",
+        "price": 399.99,
+        "currency": "USD",
+        "stock": 50
+      }
+    ],
+    "bluetooth": "5.2",
+    "audioCodec": "LDAC, AAC",
+    "batteryLife": "30 hours",
+    "fastCharging": "3 min charge = 3 hours",
+    "weight": "250",
+    "microphone": "4 mics with beamforming",
+    "attributes": {
+      "features": ["Active Noise Cancellation", "Speak-to-Chat", "Multipoint"]
+    }
   },
   {
     "title": "Canon EOS R5",
@@ -112,10 +271,33 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1606933248010-ef3bce1d30f3?w=800", "alt": "Canon EOS R5"}],
-    "variants": [{"sku": "CANONR5-BODY", "variantName": "Body Only", "color": "Black", "price": 3899.99, "currency": "USD", "stock": 15}],
-    "rearCameraMP": "45MP Full-Frame CMOS", "videoCapability": "8K@30fps RAW, 4K@120fps", "storage": 1024, "storageType": "CFexpress Type B", "batteryLife": "320 shots", "wifi": "Wi-Fi 6", "bluetooth": "5.0", "weight": "738",
-    "attributes": {"features": ["In-Body Image Stabilization", "Dual Pixel CMOS AF II"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1606933248010-ef3bce1d30f3?w=800",
+        "alt": "Canon EOS R5"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "CANONR5-BODY",
+        "variantName": "Body Only",
+        "color": "Black",
+        "price": 3899.99,
+        "currency": "USD",
+        "stock": 15
+      }
+    ],
+    "rearCameraMP": "45MP Full-Frame CMOS",
+    "videoCapability": "8K@30fps RAW, 4K@120fps",
+    "storage": 1024,
+    "storageType": "CFexpress Type B",
+    "batteryLife": "320 shots",
+    "wifi": "Wi-Fi 6",
+    "bluetooth": "5.0",
+    "weight": "738",
+    "attributes": {
+      "features": ["In-Body Image Stabilization", "Dual Pixel CMOS AF II"]
+    }
   },
   {
     "title": "PlayStation 5",
@@ -131,10 +313,36 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800", "alt": "PS5"}],
-    "variants": [{"sku": "PS5-DISC-825GB", "variantName": "Disc Edition - 825GB", "color": "White", "storageVariant": "825GB", "price": 499.99, "currency": "USD", "stock": 30}],
-    "processor": "AMD Zen 2", "processorCores": 8, "ram": 16, "storage": 825, "gpu": "AMD RDNA 2", "gpuMemory": 16, "fps": 120, "displayResolution": "4K", "refreshRate": 120, "wifi": "Wi-Fi 6", "bluetooth": "5.1", "ports": "HDMI 2.1, USB-C",
-    "attributes": {"features": ["Ray Tracing", "3D Audio", "Haptic Feedback"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800",
+        "alt": "PS5"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "PS5-DISC-825GB",
+        "variantName": "Disc Edition - 825GB",
+        "color": "White",
+        "storageVariant": "825GB",
+        "price": 499.99,
+        "currency": "USD",
+        "stock": 30
+      }
+    ],
+    "processor": "AMD Zen 2",
+    "processorCores": 8,
+    "ram": 16,
+    "storage": 825,
+    "gpu": "AMD RDNA 2",
+    "gpuMemory": 16,
+    "fps": 120,
+    "displayResolution": "4K",
+    "refreshRate": 120,
+    "wifi": "Wi-Fi 6",
+    "bluetooth": "5.1",
+    "ports": "HDMI 2.1, USB-C",
+    "attributes": { "features": ["Ray Tracing", "3D Audio", "Haptic Feedback"] }
   },
   {
     "title": "DJI Mavic 3 Pro",
@@ -150,10 +358,30 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800", "alt": "DJI Drone"}],
-    "variants": [{"sku": "DJIMAVIC3PRO", "variantName": "Standard", "color": "Gray", "price": 2199.99, "currency": "USD", "stock": 12}],
-    "rearCameraMP": "20MP Hasselblad + 48MP Tele", "videoCapability": "5.1K@50fps, 4K@120fps", "batteryLife": "43 minutes", "weight": "895", "storage": 8,
-    "attributes": {"features": ["Omnidirectional Obstacle Sensing", "ActiveTrack 5.0"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=800",
+        "alt": "DJI Drone"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "DJIMAVIC3PRO",
+        "variantName": "Standard",
+        "color": "Gray",
+        "price": 2199.99,
+        "currency": "USD",
+        "stock": 12
+      }
+    ],
+    "rearCameraMP": "20MP Hasselblad + 48MP Tele",
+    "videoCapability": "5.1K@50fps, 4K@120fps",
+    "batteryLife": "43 minutes",
+    "weight": "895",
+    "storage": 8,
+    "attributes": {
+      "features": ["Omnidirectional Obstacle Sensing", "ActiveTrack 5.0"]
+    }
   },
   {
     "title": "Meta Quest 3",
@@ -169,10 +397,34 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=800", "alt": "VR Headset"}],
-    "variants": [{"sku": "METAQUEST3-128", "variantName": "128GB", "color": "White", "storageVariant": "128GB", "price": 499.99, "currency": "USD", "stock": 40}],
-    "displayTech": "LCD", "displayResolution": "2064 x 2208 per eye", "refreshRate": 120, "processor": "Snapdragon XR2 Gen 2", "ram": 8, "storage": 128, "batteryLife": "2.2 hours", "weight": "515",
-    "attributes": {"features": ["Mixed Reality", "Hand Tracking", "Passthrough"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=800",
+        "alt": "VR Headset"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "METAQUEST3-128",
+        "variantName": "128GB",
+        "color": "White",
+        "storageVariant": "128GB",
+        "price": 499.99,
+        "currency": "USD",
+        "stock": 40
+      }
+    ],
+    "displayTech": "LCD",
+    "displayResolution": "2064 x 2208 per eye",
+    "refreshRate": 120,
+    "processor": "Snapdragon XR2 Gen 2",
+    "ram": 8,
+    "storage": 128,
+    "batteryLife": "2.2 hours",
+    "weight": "515",
+    "attributes": {
+      "features": ["Mixed Reality", "Hand Tracking", "Passthrough"]
+    }
   },
   {
     "title": "JBL Charge 5",
@@ -188,10 +440,28 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800", "alt": "JBL Speaker"}],
-    "variants": [{"sku": "JBLCHARGE5-BLK", "variantName": "Black", "color": "Black", "price": 179.95, "currency": "USD", "stock": 60}],
-    "speakerWatts": "40W", "bluetooth": "5.1", "batteryLife": "20 hours", "weight": "960", "ipRating": "IP67",
-    "attributes": {"features": ["PartyBoost", "Powerbank", "Waterproof"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=800",
+        "alt": "JBL Speaker"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "JBLCHARGE5-BLK",
+        "variantName": "Black",
+        "color": "Black",
+        "price": 179.95,
+        "currency": "USD",
+        "stock": 60
+      }
+    ],
+    "speakerWatts": "40W",
+    "bluetooth": "5.1",
+    "batteryLife": "20 hours",
+    "weight": "960",
+    "ipRating": "IP67",
+    "attributes": { "features": ["PartyBoost", "Powerbank", "Waterproof"] }
   },
   {
     "title": "Anker 747 Charger",
@@ -207,10 +477,25 @@
     "warrantyType": "standard",
     "warrantyMonths": 18,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800", "alt": "Charger"}],
-    "variants": [{"sku": "ANKER747-150W", "variantName": "150W", "price": 109.99, "currency": "USD", "stock": 100}],
-    "fastCharging": "150W total", "ports": "3x USB-C, 1x USB-A", "weight": "345",
-    "attributes": {"features": ["GaN Technology", "ActiveShield 2.0"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=800",
+        "alt": "Charger"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "ANKER747-150W",
+        "variantName": "150W",
+        "price": 109.99,
+        "currency": "USD",
+        "stock": 100
+      }
+    ],
+    "fastCharging": "150W total",
+    "ports": "3x USB-C, 1x USB-A",
+    "weight": "345",
+    "attributes": { "features": ["GaN Technology", "ActiveShield 2.0"] }
   },
   {
     "title": "LG UltraGear 27GR95QE",
@@ -226,10 +511,30 @@
     "warrantyType": "standard",
     "warrantyMonths": 24,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800", "alt": "Gaming Monitor"}],
-    "variants": [{"sku": "LG27GR95QE", "variantName": "27-inch OLED", "price": 999.99, "currency": "USD", "stock": 18}],
-    "displaySize": "27", "displayTech": "OLED", "displayResolution": "2560 x 1440", "refreshRate": 240, "brightness": 1000, "ports": "HDMI 2.1, DisplayPort 1.4",
-    "attributes": {"features": ["G-Sync Compatible", "FreeSync Premium", "HDR10"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=800",
+        "alt": "Gaming Monitor"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "LG27GR95QE",
+        "variantName": "27-inch OLED",
+        "price": 999.99,
+        "currency": "USD",
+        "stock": 18
+      }
+    ],
+    "displaySize": "27",
+    "displayTech": "OLED",
+    "displayResolution": "2560 x 1440",
+    "refreshRate": 240,
+    "brightness": 1000,
+    "ports": "HDMI 2.1, DisplayPort 1.4",
+    "attributes": {
+      "features": ["G-Sync Compatible", "FreeSync Premium", "HDR10"]
+    }
   },
   {
     "title": "Keychron Q1 Pro",
@@ -245,10 +550,29 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800", "alt": "Mechanical Keyboard"}],
-    "variants": [{"sku": "KEYQ1PRO-RGB", "variantName": "Carbon Black - Gateron Brown", "color": "Black", "price": 219.99, "currency": "USD", "stock": 45}],
-    "bluetooth": "5.1", "batteryLife": "100 hours", "weight": "1800", "usb": "USB-C",
-    "attributes": {"features": ["Hot-swappable", "RGB Backlight", "Aluminum Frame"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800",
+        "alt": "Mechanical Keyboard"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "KEYQ1PRO-RGB",
+        "variantName": "Carbon Black - Gateron Brown",
+        "color": "Black",
+        "price": 219.99,
+        "currency": "USD",
+        "stock": 45
+      }
+    ],
+    "bluetooth": "5.1",
+    "batteryLife": "100 hours",
+    "weight": "1800",
+    "usb": "USB-C",
+    "attributes": {
+      "features": ["Hot-swappable", "RGB Backlight", "Aluminum Frame"]
+    }
   },
   {
     "title": "Logitech MX Master 3S",
@@ -264,10 +588,29 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1527814050087-3793815479db?w=800", "alt": "Wireless Mouse"}],
-    "variants": [{"sku": "LGMXMASTER3S-GRA", "variantName": "Graphite", "color": "Graphite", "price": 99.99, "currency": "USD", "stock": 70}],
-    "bluetooth": "5.1", "batteryLife": "70 days", "weight": "141", "usb": "USB-C",
-    "attributes": {"features": ["MagSpeed Wheel", "Multi-device", "Customizable buttons"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1527814050087-3793815479db?w=800",
+        "alt": "Wireless Mouse"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "LGMXMASTER3S-GRA",
+        "variantName": "Graphite",
+        "color": "Graphite",
+        "price": 99.99,
+        "currency": "USD",
+        "stock": 70
+      }
+    ],
+    "bluetooth": "5.1",
+    "batteryLife": "70 days",
+    "weight": "141",
+    "usb": "USB-C",
+    "attributes": {
+      "features": ["MagSpeed Wheel", "Multi-device", "Customizable buttons"]
+    }
   },
   {
     "title": "ASUS ROG Rapture GT-AXE16000",
@@ -283,10 +626,26 @@
     "warrantyType": "standard",
     "warrantyMonths": 24,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=800", "alt": "Gaming Router"}],
-    "variants": [{"sku": "ASUSGTAXE16000", "variantName": "Black", "color": "Black", "price": 649.99, "currency": "USD", "stock": 10}],
-    "wifi": "WiFi 6E (802.11ax)", "ports": "2.5G WAN, 4x 1G LAN, 2x 10G LAN", "weight": "1800",
-    "attributes": {"features": ["Game Accelerator", "AiMesh", "VPN Fusion"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=800",
+        "alt": "Gaming Router"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "ASUSGTAXE16000",
+        "variantName": "Black",
+        "color": "Black",
+        "price": 649.99,
+        "currency": "USD",
+        "stock": 10
+      }
+    ],
+    "wifi": "WiFi 6E (802.11ax)",
+    "ports": "2.5G WAN, 4x 1G LAN, 2x 10G LAN",
+    "weight": "1800",
+    "attributes": { "features": ["Game Accelerator", "AiMesh", "VPN Fusion"] }
   },
   {
     "title": "WD Black SN850X 2TB",
@@ -302,10 +661,28 @@
     "warrantyType": "standard",
     "warrantyMonths": 60,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800", "alt": "NVMe SSD"}],
-    "variants": [{"sku": "WDBLACKSN850X-2TB", "variantName": "2TB", "storageVariant": "2TB", "price": 179.99, "currency": "USD", "stock": 55}],
-    "storage": 2000, "storageType": "NVMe SSD", "storageInterface": "PCIe 4.0 x4",
-    "attributes": {"features": ["7300 MB/s Read", "6600 MB/s Write", "Game Mode 2.0"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=800",
+        "alt": "NVMe SSD"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "WDBLACKSN850X-2TB",
+        "variantName": "2TB",
+        "storageVariant": "2TB",
+        "price": 179.99,
+        "currency": "USD",
+        "stock": 55
+      }
+    ],
+    "storage": 2000,
+    "storageType": "NVMe SSD",
+    "storageInterface": "PCIe 4.0 x4",
+    "attributes": {
+      "features": ["7300 MB/s Read", "6600 MB/s Write", "Game Mode 2.0"]
+    }
   },
   {
     "title": "NVIDIA GeForce RTX 4090",
@@ -321,10 +698,27 @@
     "warrantyType": "standard",
     "warrantyMonths": 36,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=800", "alt": "Graphics Card"}],
-    "variants": [{"sku": "NVRTX4090-FE-24GB", "variantName": "Founders Edition", "price": 1599.99, "currency": "USD", "stock": 8}],
-    "gpu": "NVIDIA Ada Lovelace", "gpuMemory": 24, "gpuMemoryType": "GDDR6X", "thermalDesignPower": 450, "ports": "3x DisplayPort 1.4a, 1x HDMI 2.1",
-    "attributes": {"features": ["Ray Tracing", "DLSS 3.5", "AV1 Encoding"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=800",
+        "alt": "Graphics Card"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "NVRTX4090-FE-24GB",
+        "variantName": "Founders Edition",
+        "price": 1599.99,
+        "currency": "USD",
+        "stock": 8
+      }
+    ],
+    "gpu": "NVIDIA Ada Lovelace",
+    "gpuMemory": 24,
+    "gpuMemoryType": "GDDR6X",
+    "thermalDesignPower": 450,
+    "ports": "3x DisplayPort 1.4a, 1x HDMI 2.1",
+    "attributes": { "features": ["Ray Tracing", "DLSS 3.5", "AV1 Encoding"] }
   },
   {
     "title": "AMD Ryzen 9 7950X",
@@ -340,10 +734,28 @@
     "warrantyType": "standard",
     "warrantyMonths": 36,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800", "alt": "AMD Processor"}],
-    "variants": [{"sku": "AMDR97950X", "variantName": "Retail", "price": 549.99, "currency": "USD", "stock": 22}],
-    "processor": "AMD Ryzen 9 7950X", "processorCores": 16, "processorThreads": 32, "processorSpeed": "5.7 GHz Boost", "processorArch": "Zen 4", "thermalDesignPower": 170,
-    "attributes": {"features": ["AM5 Socket", "PCIe 5.0", "DDR5 Support"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=800",
+        "alt": "AMD Processor"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "AMDR97950X",
+        "variantName": "Retail",
+        "price": 549.99,
+        "currency": "USD",
+        "stock": 22
+      }
+    ],
+    "processor": "AMD Ryzen 9 7950X",
+    "processorCores": 16,
+    "processorThreads": 32,
+    "processorSpeed": "5.7 GHz Boost",
+    "processorArch": "Zen 4",
+    "thermalDesignPower": 170,
+    "attributes": { "features": ["AM5 Socket", "PCIe 5.0", "DDR5 Support"] }
   },
   {
     "title": "ASUS ROG Maximus Z790 Hero",
@@ -359,10 +771,28 @@
     "warrantyType": "standard",
     "warrantyMonths": 36,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1562976540-1502c2145186?w=800", "alt": "Motherboard"}],
-    "variants": [{"sku": "ASUSZ790HERO", "variantName": "ATX", "price": 629.99, "currency": "USD", "stock": 14}],
-    "wifi": "WiFi 6E", "bluetooth": "5.3", "ports": "Thunderbolt 4, USB 3.2 Gen 2x2", "usb": "USB-C",
-    "attributes": {"features": ["PCIe 5.0", "DDR5-7800+", "Q-Latch", "AI Overclocking"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1562976540-1502c2145186?w=800",
+        "alt": "Motherboard"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "ASUSZ790HERO",
+        "variantName": "ATX",
+        "price": 629.99,
+        "currency": "USD",
+        "stock": 14
+      }
+    ],
+    "wifi": "WiFi 6E",
+    "bluetooth": "5.3",
+    "ports": "Thunderbolt 4, USB 3.2 Gen 2x2",
+    "usb": "USB-C",
+    "attributes": {
+      "features": ["PCIe 5.0", "DDR5-7800+", "Q-Latch", "AI Overclocking"]
+    }
   },
   {
     "title": "Corsair Vengeance DDR5 32GB",
@@ -378,10 +808,26 @@
     "warrantyType": "standard",
     "warrantyMonths": 120,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1541460991661-8c7c8c9e5fdf?w=800", "alt": "RAM"}],
-    "variants": [{"sku": "CRSRDDR5-32GB-6K", "variantName": "2x16GB 6000MHz", "ramVariant": "32GB", "price": 129.99, "currency": "USD", "stock": 80}],
-    "ram": 32, "ramType": "DDR5", "ramSpeed": "6000 MHz",
-    "attributes": {"features": ["CL36", "XMP 3.0", "RGB"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1541460991661-8c7c8c9e5fdf?w=800",
+        "alt": "RAM"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "CRSRDDR5-32GB-6K",
+        "variantName": "2x16GB 6000MHz",
+        "ramVariant": "32GB",
+        "price": 129.99,
+        "currency": "USD",
+        "stock": 80
+      }
+    ],
+    "ram": 32,
+    "ramType": "DDR5",
+    "ramSpeed": "6000 MHz",
+    "attributes": { "features": ["CL36", "XMP 3.0", "RGB"] }
   },
   {
     "title": "Samsung 990 PRO 2TB",
@@ -397,10 +843,26 @@
     "warrantyType": "standard",
     "warrantyMonths": 60,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=800", "alt": "SSD"}],
-    "variants": [{"sku": "SAM990PRO-2TB", "variantName": "2TB", "storageVariant": "2TB", "price": 189.99, "currency": "USD", "stock": 65}],
-    "storage": 2000, "storageType": "NVMe", "storageInterface": "PCIe 4.0 x4",
-    "attributes": {"features": ["7450 MB/s Read", "V-NAND", "DRAM Cache"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=800",
+        "alt": "SSD"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "SAM990PRO-2TB",
+        "variantName": "2TB",
+        "storageVariant": "2TB",
+        "price": 189.99,
+        "currency": "USD",
+        "stock": 65
+      }
+    ],
+    "storage": 2000,
+    "storageType": "NVMe",
+    "storageInterface": "PCIe 4.0 x4",
+    "attributes": { "features": ["7450 MB/s Read", "V-NAND", "DRAM Cache"] }
   },
   {
     "title": "Corsair RM1000e 1000W",
@@ -416,10 +878,26 @@
     "warrantyType": "standard",
     "warrantyMonths": 120,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1587202372583-49330a15584d?w=800", "alt": "Power Supply"}],
-    "variants": [{"sku": "CRSRRM1000E", "variantName": "1000W", "price": 179.99, "currency": "USD", "stock": 32}],
-    "thermalDesignPower": 1000, "ports": "ATX 3.0, PCIe 5.0",
-    "attributes": {"features": ["80 PLUS Gold", "Fully Modular", "Zero RPM Fan"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1587202372583-49330a15584d?w=800",
+        "alt": "Power Supply"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "CRSRRM1000E",
+        "variantName": "1000W",
+        "price": 179.99,
+        "currency": "USD",
+        "stock": 32
+      }
+    ],
+    "thermalDesignPower": 1000,
+    "ports": "ATX 3.0, PCIe 5.0",
+    "attributes": {
+      "features": ["80 PLUS Gold", "Fully Modular", "Zero RPM Fan"]
+    }
   },
   {
     "title": "Lian Li O11 Dynamic EVO",
@@ -435,10 +913,27 @@
     "warrantyType": "standard",
     "warrantyMonths": 24,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=800", "alt": "PC Case"}],
-    "variants": [{"sku": "LLO11DEVO-WHT", "variantName": "White", "color": "White", "price": 159.99, "currency": "USD", "stock": 28}],
-    "dimensions": "465 x 285 x 465 mm", "material": "Aluminum and Tempered Glass",
-    "attributes": {"features": ["Dual Chamber", "USB-C", "360mm Radiator Support"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=800",
+        "alt": "PC Case"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "LLO11DEVO-WHT",
+        "variantName": "White",
+        "color": "White",
+        "price": 159.99,
+        "currency": "USD",
+        "stock": 28
+      }
+    ],
+    "dimensions": "465 x 285 x 465 mm",
+    "material": "Aluminum and Tempered Glass",
+    "attributes": {
+      "features": ["Dual Chamber", "USB-C", "360mm Radiator Support"]
+    }
   },
   {
     "title": "Arctic Liquid Freezer II 360",
@@ -454,10 +949,23 @@
     "warrantyType": "standard",
     "warrantyMonths": 72,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=800", "alt": "AIO Cooler"}],
-    "variants": [{"sku": "ARCTLF2-360", "variantName": "360mm", "price": 129.99, "currency": "USD", "stock": 42}],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=800",
+        "alt": "AIO Cooler"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "ARCTLF2-360",
+        "variantName": "360mm",
+        "price": 129.99,
+        "currency": "USD",
+        "stock": 42
+      }
+    ],
     "dimensions": "394 x 120 x 38 mm",
-    "attributes": {"features": ["VRM Fan", "PWM Control", "Low Noise"]}
+    "attributes": { "features": ["VRM Fan", "PWM Control", "Low Noise"] }
   },
   {
     "title": "Elgato Stream Deck +",
@@ -473,10 +981,27 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=800", "alt": "Stream Deck"}],
-    "variants": [{"sku": "ELGSTREAMDK-PLS", "variantName": "Black", "color": "Black", "price": 199.99, "currency": "USD", "stock": 38}],
-    "usb": "USB-C", "weight": "465",
-    "attributes": {"features": ["8 LCD Keys", "Touch Strip", "Dial", "Plugin Ecosystem"]}
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=800",
+        "alt": "Stream Deck"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "ELGSTREAMDK-PLS",
+        "variantName": "Black",
+        "color": "Black",
+        "price": 199.99,
+        "currency": "USD",
+        "stock": 38
+      }
+    ],
+    "usb": "USB-C",
+    "weight": "465",
+    "attributes": {
+      "features": ["8 LCD Keys", "Touch Strip", "Dial", "Plugin Ecosystem"]
+    }
   },
   {
     "title": "Magic Keyboard for iPad Pro",
@@ -492,9 +1017,25 @@
     "warrantyType": "standard",
     "warrantyMonths": 12,
     "category_id": null,
-    "images": [{"url": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800", "alt": "Magic Keyboard"}],
-    "variants": [{"sku": "APPLMGCKBD-12-WHT", "variantName": "White - 12.9 inch", "color": "White", "price": 349.99, "currency": "USD", "stock": 24}],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=800",
+        "alt": "Magic Keyboard"
+      }
+    ],
+    "variants": [
+      {
+        "sku": "APPLMGCKBD-12-WHT",
+        "variantName": "White - 12.9 inch",
+        "color": "White",
+        "price": 349.99,
+        "currency": "USD",
+        "stock": 24
+      }
+    ],
     "weight": "710",
-    "attributes": {"features": ["Backlit Keys", "USB-C Passthrough", "Floating Design"]}
+    "attributes": {
+      "features": ["Backlit Keys", "USB-C Passthrough", "Floating Design"]
+    }
   }
 ]

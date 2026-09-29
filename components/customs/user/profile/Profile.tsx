@@ -10,13 +10,15 @@ const ProfilePage = async () => {
       <div className="flex h-[50vh] items-center justify-center">
         <div className="text-center space-y-2">
           <h3 className="text-lg font-semibold">Access Denied</h3>
-          <p className="text-muted-foreground">You must be signed in to view this page.</p>
+          <p className="text-muted-foreground">
+            You must be signed in to view this page.
+          </p>
         </div>
       </div>
     );
   }
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/user?userId=${session?.user?.id}`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/user?userId=${session?.user?.id}`,
   );
   const { user } = await res.json();
   if (!user) {
@@ -44,7 +46,9 @@ const ProfilePage = async () => {
             <div className="absolute -bottom-12 left-6">
               <Avatar className="w-24 h-24 border-4 border-background shadow-xl">
                 <AvatarImage src={user?.image} className="object-cover" />
-                <AvatarFallback className="text-2xl">{user?.name.charAt(0)}</AvatarFallback>
+                <AvatarFallback className="text-2xl">
+                  {user?.name.charAt(0)}
+                </AvatarFallback>
               </Avatar>
             </div>
           </div>
@@ -74,7 +78,9 @@ const ProfilePage = async () => {
           <Card className="border-none shadow-lg bg-card/50 backdrop-blur-sm">
             <CardHeader>
               <h2 className="text-xl font-semibold">Personal Information</h2>
-              <p className="text-sm text-muted-foreground">Update your personal details here.</p>
+              <p className="text-sm text-muted-foreground">
+                Update your personal details here.
+              </p>
             </CardHeader>
             <CardContent>
               <Form userData={user} />

@@ -29,107 +29,113 @@ export async function createProduct(data: any) {
   try {
     // 1. Insert Tech Specs
     // Extract spec fields. This is dynamic based on gadgetType.
-    // We can pull all known spec fields from data. 
+    // We can pull all known spec fields from data.
     // Since data contains everything, we can filter or just pass relevant fields if the schema allows partials/extras (it doesn't usually, but drizzle insert ignores extra if configured or we pick specific fields).
     // Better to explicitly pick fields or use the spread matching the table columns.
-    // For simplicity/robustness, we'll try to insert the whole data object into techSpecs, 
-    // expecting Drizzle/Postgres to ignore or we map carefully. 
+    // For simplicity/robustness, we'll try to insert the whole data object into techSpecs,
+    // expecting Drizzle/Postgres to ignore or we map carefully.
     // Actually, Drizzle insert requires matching keys.
-    
-    // Let's extract spec fields. 
+
+    // Let's extract spec fields.
     // A safe way is to define valid keys for techSpecs.
     const techSpecData = {
-       processor: data.processor,
-       processorCores: data.processorCores,
-       processorThreads: data.processorThreads,
-       processorSpeed: data.processorSpeed,
-       processorArch: data.processorArch,
-       ram: data.ram,
-       ramType: data.ramType,
-       ramSpeed: data.ramSpeed,
-       storage: data.storage,
-       storageType: data.storageType,
-       storageInterface: data.storageInterface,
-       storageExpansion: data.storageExpansion,
-       gpu: data.gpu,
-       gpuMemory: data.gpuMemory,
-       gpuMemoryType: data.gpuMemoryType,
-       displaySize: data.displaySize,
-       displayTech: data.displayTech,
-       displayResolution: data.displayResolution,
-       refreshRate: data.refreshRate,
-       colorDepth: data.colorDepth,
-       brightness: data.brightness,
-       screenCoating: data.screenCoating,
-       batteryCapacity: data.batteryCapacity,
-       batteryType: data.batteryType,
-       batteryLife: data.batteryLife,
-       fastCharging: data.fastCharging,
-       wirelessCharging: data.wirelessCharging,
-       rearCameraMP: data.rearCameraMP,
-       rearCameraAperture: data.rearCameraAperture,
-       frontCameraMP: data.frontCameraMP,
-       frontCameraAperture: data.frontCameraAperture,
-       videoCapability: data.videoCapability,
-       opticalZoom: data.opticalZoom,
-       speakerCount: data.speakerCount,
-       speakerWatts: data.speakerWatts,
-       audioCodec: data.audioCodec,
-       microphone: data.microphone,
-       bluetooth: data.bluetooth,
-       wifi: data.wifi,
-       nfc: data.nfc,
-       usb: data.usb,
-       ports: data.ports, // form might send text or json? Form seems to assume text for now or need handling
-       cellular: data.cellular,
-       sim: data.sim,
-       weight: data.weight,
-       dimensions: data.dimensions,
-       material: data.material,
-       ipRating: data.ipRating,
-       mrlRating: data.mrlRating,
-       dropProtection: data.dropProtection,
-       operatingSystem: data.operatingSystem,
-       maxOSUpdate: data.maxOSUpdate,
-       softwareSupport: data.softwareSupport,
-       antutuScore: data.antutuScore,
-       geekbenchScore: data.geekbenchScore,
-       fps: data.fps,
-       thermalDesignPower: data.thermalDesignPower,
-       maxTemperature: data.maxTemperature,
+      processor: data.processor,
+      processorCores: data.processorCores,
+      processorThreads: data.processorThreads,
+      processorSpeed: data.processorSpeed,
+      processorArch: data.processorArch,
+      ram: data.ram,
+      ramType: data.ramType,
+      ramSpeed: data.ramSpeed,
+      storage: data.storage,
+      storageType: data.storageType,
+      storageInterface: data.storageInterface,
+      storageExpansion: data.storageExpansion,
+      gpu: data.gpu,
+      gpuMemory: data.gpuMemory,
+      gpuMemoryType: data.gpuMemoryType,
+      displaySize: data.displaySize,
+      displayTech: data.displayTech,
+      displayResolution: data.displayResolution,
+      refreshRate: data.refreshRate,
+      colorDepth: data.colorDepth,
+      brightness: data.brightness,
+      screenCoating: data.screenCoating,
+      batteryCapacity: data.batteryCapacity,
+      batteryType: data.batteryType,
+      batteryLife: data.batteryLife,
+      fastCharging: data.fastCharging,
+      wirelessCharging: data.wirelessCharging,
+      rearCameraMP: data.rearCameraMP,
+      rearCameraAperture: data.rearCameraAperture,
+      frontCameraMP: data.frontCameraMP,
+      frontCameraAperture: data.frontCameraAperture,
+      videoCapability: data.videoCapability,
+      opticalZoom: data.opticalZoom,
+      speakerCount: data.speakerCount,
+      speakerWatts: data.speakerWatts,
+      audioCodec: data.audioCodec,
+      microphone: data.microphone,
+      bluetooth: data.bluetooth,
+      wifi: data.wifi,
+      nfc: data.nfc,
+      usb: data.usb,
+      ports: data.ports, // form might send text or json? Form seems to assume text for now or need handling
+      cellular: data.cellular,
+      sim: data.sim,
+      weight: data.weight,
+      dimensions: data.dimensions,
+      material: data.material,
+      ipRating: data.ipRating,
+      mrlRating: data.mrlRating,
+      dropProtection: data.dropProtection,
+      operatingSystem: data.operatingSystem,
+      maxOSUpdate: data.maxOSUpdate,
+      softwareSupport: data.softwareSupport,
+      antutuScore: data.antutuScore,
+      geekbenchScore: data.geekbenchScore,
+      fps: data.fps,
+      thermalDesignPower: data.thermalDesignPower,
+      maxTemperature: data.maxTemperature,
     };
-    
+
     // Remove undefined/empty strings if necessary or let DB handle nulls.
     // Drizzle might complain if we pass undefined to non-null columns, but most spec fields are nullable.
 
-    const [techSpec] = await db.insert(techSpecifications).values(techSpecData).returning({ id: techSpecifications.id });
+    const [techSpec] = await db
+      .insert(techSpecifications)
+      .values(techSpecData)
+      .returning({ id: techSpecifications.id });
 
     if (!techSpec) {
       return { error: "Failed to save technical specifications" };
     }
 
     // 2. Insert Product
-    const [newProduct] = await db.insert(products).values({
-      title: data.title,
-      slug: data.slug,
-      short_description: data.shortDescription,
-      description: data.description,
-      status: data.status,
-      visibility: data.visibility,
-      brand: data.brand,
-      model: data.model,
-      gadgetType: data.gadgetType,
-      techSpecId: techSpec.id,
-      condition: data.condition,
-      warrantyType: data.warrantyType,
-      warrantyMonths: data.warrantyMonths,
-      warrantyDescription: data.warrantyDescription,
-      created_by: userId,
-    }).returning({ id: products.id });
+    const [newProduct] = await db
+      .insert(products)
+      .values({
+        title: data.title,
+        slug: data.slug,
+        short_description: data.shortDescription,
+        description: data.description,
+        status: data.status,
+        visibility: data.visibility,
+        brand: data.brand,
+        model: data.model,
+        gadgetType: data.gadgetType,
+        techSpecId: techSpec.id,
+        condition: data.condition,
+        warrantyType: data.warrantyType,
+        warrantyMonths: data.warrantyMonths,
+        warrantyDescription: data.warrantyDescription,
+        created_by: userId,
+      })
+      .returning({ id: products.id });
 
     if (!newProduct) {
-       // Rollback tech spec? In a transaction ideally.
-       return { error: "Failed to create product" };
+      // Rollback tech spec? In a transaction ideally.
+      return { error: "Failed to create product" };
     }
 
     // 3. Insert Variants
@@ -162,7 +168,6 @@ export async function createProduct(data: any) {
 
     revalidatePath("/seller/products"); // Adjust path as needed
     return { success: true, productId: newProduct.id };
-
   } catch (error: any) {
     console.error("Create Product Error:", error);
     return { error: error.message || "Something went wrong" };

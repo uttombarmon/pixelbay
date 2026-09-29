@@ -2,7 +2,13 @@
 
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown, ArrowDownAz, ArrowUp10, ArrowDown10, Flame } from "lucide-react";
+import {
+  ChevronDown,
+  ArrowDownAz,
+  ArrowUp10,
+  ArrowDown10,
+  Flame,
+} from "lucide-react";
 
 const SortByFilter = () => {
   const router = useRouter();
@@ -16,16 +22,37 @@ const SortByFilter = () => {
   };
 
   const sortOptions = [
-    { label: "Newest Arrivals", value: "newest", icon: <ArrowDownAz className="w-4 h-4 text-blue-500" /> },
-    { label: "Price: Low to High", value: "price-asc", icon: <ArrowUp10 className="w-4 h-4 text-emerald-500" /> },
-    { label: "Price: High to Low", value: "price-desc", icon: <ArrowDown10 className="w-4 h-4 text-rose-500" /> },
-    { label: "Trending Now", value: "popular", icon: <Flame className="w-4 h-4 text-orange-500" /> },
+    {
+      label: "Newest Arrivals",
+      value: "newest",
+      icon: <ArrowDownAz className="w-4 h-4 text-blue-500" />,
+    },
+    {
+      label: "Price: Low to High",
+      value: "price-asc",
+      icon: <ArrowUp10 className="w-4 h-4 text-emerald-500" />,
+    },
+    {
+      label: "Price: High to Low",
+      value: "price-desc",
+      icon: <ArrowDown10 className="w-4 h-4 text-rose-500" />,
+    },
+    {
+      label: "Trending Now",
+      value: "popular",
+      icon: <Flame className="w-4 h-4 text-orange-500" />,
+    },
   ];
 
   return (
-    <details open className="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950/50 shadow-sm transition-all duration-300">
+    <details
+      open
+      className="group relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950/50 shadow-sm transition-all duration-300"
+    >
       <summary className="flex items-center justify-between gap-2 p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors [&::-webkit-details-marker]:hidden">
-        <span className="text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100">Sort By</span>
+        <span className="text-sm font-bold tracking-tight text-gray-900 dark:text-gray-100">
+          Sort By
+        </span>
         <ChevronDown className="w-4 h-4 transition-transform group-open:-rotate-180 text-gray-500" />
       </summary>
 
@@ -35,12 +62,17 @@ const SortByFilter = () => {
             <button
               key={option.value}
               onClick={() => handleSortChange(option.value)}
-              className={`flex items-center gap-3 w-full p-3 rounded-xl transition-all text-left ${activeSort === option.value
+              className={`flex items-center gap-3 w-full p-3 rounded-xl transition-all text-left ${
+                activeSort === option.value
                   ? "bg-red-50 dark:bg-red-950/20 text-red-600 font-bold"
                   : "hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 font-medium"
-                }`}
+              }`}
             >
-              <span className={activeSort === option.value ? "opacity-100" : "opacity-60"}>
+              <span
+                className={
+                  activeSort === option.value ? "opacity-100" : "opacity-60"
+                }
+              >
                 {option.icon}
               </span>
               <span className="text-sm">{option.label}</span>

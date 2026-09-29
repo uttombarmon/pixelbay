@@ -32,7 +32,7 @@ export default function PaymentForm() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
-        }
+        },
       );
 
       const data = await res.json();
@@ -82,10 +82,10 @@ export default function PaymentForm() {
           formData.methodType === "card"
             ? "Card Number (**** **** 1234)"
             : formData.methodType === "paypal"
-            ? "PayPal Email"
-            : formData.methodType === "upi"
-            ? "UPI ID (e.g. user@bank)"
-            : "Bank Account Number"
+              ? "PayPal Email"
+              : formData.methodType === "upi"
+                ? "UPI ID (e.g. user@bank)"
+                : "Bank Account Number"
         }
         value={formData.accountNumber}
         onChange={(e) =>

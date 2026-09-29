@@ -26,7 +26,7 @@ const Details = ({ product }: { product: any }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(cart),
-        }
+        },
       );
       if (response.ok || response.status === 202) {
         const data = await response.json();

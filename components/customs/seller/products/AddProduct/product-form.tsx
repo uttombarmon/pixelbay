@@ -211,7 +211,7 @@ export function AddProductFormm({
               method: "PUT",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify(parsed),
-            }
+            },
           );
           if (!res.ok) {
             const err = await res.json();
@@ -235,7 +235,7 @@ export function AddProductFormm({
         toast.success(
           isEditing
             ? "Product updated successfully!"
-            : "Product created successfully!"
+            : "Product created successfully!",
         );
         if (onSubmit) {
           onSubmit(parsed);

@@ -15,7 +15,7 @@ const CustomerReviewCard = ({ review }: { review: any }) => {
     productName,
     // fallback for compatibility
     name,
-    avatar
+    avatar,
   } = review;
 
   const displayName = userName || name;
@@ -27,13 +27,19 @@ const CustomerReviewCard = ({ review }: { review: any }) => {
 
       <CardHeader className="flex flex-row items-center gap-4 pb-4">
         <Avatar className="h-14 w-14 ring-4 ring-gray-100 group-hover:ring-red-50 transition-all">
-          <AvatarImage src={displayImage} alt={displayName} className="object-cover" />
+          <AvatarImage
+            src={displayImage}
+            alt={displayName}
+            className="object-cover"
+          />
           <AvatarFallback className="bg-red-100 text-red-600 font-bold text-lg">
             {displayName?.[0] || "?"}
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <h4 className="text-lg font-bold text-gray-900 leading-tight">{displayName}</h4>
+          <h4 className="text-lg font-bold text-gray-900 leading-tight">
+            {displayName}
+          </h4>
           <span className="text-sm text-gray-500 font-medium">
             {date ? format(new Date(date), "MMM d, yyyy") : "Recent Buyer"}
           </span>
@@ -46,8 +52,9 @@ const CustomerReviewCard = ({ review }: { review: any }) => {
           {Array.from({ length: 5 }).map((_, i) => (
             <Star
               key={i}
-              className={`h-4 w-4 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-200"
-                }`}
+              className={`h-4 w-4 ${
+                i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-200"
+              }`}
             />
           ))}
         </div>

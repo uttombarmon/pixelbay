@@ -30,7 +30,10 @@ const SuperDeals = async () => {
             </p>
           </div>
           <Link href="/search?filter=super-deals">
-            <Button variant="outline" className="rounded-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-300">
+            <Button
+              variant="outline"
+              className="rounded-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-300"
+            >
               View All Deals
             </Button>
           </Link>

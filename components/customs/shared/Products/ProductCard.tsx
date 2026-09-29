@@ -14,7 +14,7 @@ function ProductCard({ product }: { product: productsData }) {
       product?.id as number,
       product?.variantId as number,
       1,
-      product?.price as number
+      product?.price as number,
     );
     // console.log(res);
     if (!res) {
@@ -43,7 +43,7 @@ function ProductCard({ product }: { product: productsData }) {
   };
   const buyNow = () => {
     redirect(
-      `/payment?productId=${product?.id}&variantId=${product?.variantId}&quantity=1`
+      `/payment?productId=${product?.id}&variantId=${product?.variantId}&quantity=1`,
     );
   };
   return (

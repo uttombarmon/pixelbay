@@ -28,13 +28,13 @@ export async function PATCH(req: Request) {
       .returning();
     return NextResponse.json(
       { message: "Profile updated successfully", user: updatedUser },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error updating profile:", error);
     return NextResponse.json(
       { message: "Something went wrong" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

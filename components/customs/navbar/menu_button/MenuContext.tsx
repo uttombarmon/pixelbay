@@ -30,7 +30,9 @@ function MenuContext({ session }: { session: any }) {
               <div className="bg-red-600 text-white p-1.5 rounded-lg">
                 <Zap className="w-4 h-4 fill-current" />
               </div>
-              <span className="font-black text-lg tracking-tight">PIXEL<span className="text-red-600">BAY</span></span>
+              <span className="font-black text-lg tracking-tight">
+                PIXEL<span className="text-red-600">BAY</span>
+              </span>
             </Link>
             <div className="flex items-center gap-2">
               <ModeToggle />

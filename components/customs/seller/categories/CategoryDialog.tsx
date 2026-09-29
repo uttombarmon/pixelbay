@@ -86,7 +86,7 @@ export const CategoryDialog = ({
 
   const handleChildChange = (
     index: number,
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const newChildren = [...form.metadata.children];
     const childToUpdate = { ...newChildren[index] };
@@ -131,7 +131,7 @@ export const CategoryDialog = ({
     };
 
     onSave(
-      isEditing ? { ...currentCategory, ...newCategory } : { ...newCategory }
+      isEditing ? { ...currentCategory, ...newCategory } : { ...newCategory },
     );
     onOpenChange(false);
   };

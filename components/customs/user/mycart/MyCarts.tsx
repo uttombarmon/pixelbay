@@ -47,7 +47,7 @@ export default function MyCarts() {
 
   function calculateTotal(cartItems: any[]) {
     const total = cartItems.reduce((acc, item) => {
-      return acc + (Number(item.price) * (item.quantity || 1));
+      return acc + Number(item.price) * (item.quantity || 1);
     }, 0);
     setCartTotal(total);
   }
@@ -64,12 +64,16 @@ export default function MyCarts() {
         const updatedItem = await res.json();
         setItems((prev) =>
           prev.map((item) =>
-            item.id === itemId ? { ...item, quantity: updatedItem.quantity } : item
-          )
+            item.id === itemId
+              ? { ...item, quantity: updatedItem.quantity }
+              : item,
+          ),
         );
         // Recalculate total immediately using client state
         const updatedItems = items.map((item) =>
-          item.id === itemId ? { ...item, quantity: updatedItem.quantity } : item
+          item.id === itemId
+            ? { ...item, quantity: updatedItem.quantity }
+            : item,
         );
         calculateTotal(updatedItems);
         toast.success("Cart updated");
@@ -108,7 +112,10 @@ export default function MyCarts() {
         <div className="h-10 w-48 bg-muted animate-pulse rounded" />
         <div className="space-y-4">
           {[1, 2].map((i) => (
-            <div key={i} className="h-24 w-full bg-muted animate-pulse rounded-lg" />
+            <div
+              key={i}
+              className="h-24 w-full bg-muted animate-pulse rounded-lg"
+            />
           ))}
         </div>
       </div>
@@ -132,7 +139,9 @@ export default function MyCarts() {
             <CardHeader className="bg-muted/30 pb-4">
               <div className="flex items-center gap-2">
                 <ShoppingCart className="w-5 h-5 text-primary" />
-                <CardTitle className="text-lg">Cart Items ({items.length})</CardTitle>
+                <CardTitle className="text-lg">
+                  Cart Items ({items.length})
+                </CardTitle>
               </div>
             </CardHeader>
             <CardContent className="p-0">
@@ -142,7 +151,9 @@ export default function MyCarts() {
                     <ShoppingCart className="h-8 w-8 text-muted-foreground/50" />
                   </div>
                   <p className="text-lg font-medium">Your cart is empty</p>
-                  <Button variant="outline" className="mt-4">Start Shopping</Button>
+                  <Button variant="outline" className="mt-4">
+                    Start Shopping
+                  </Button>
                 </div>
               ) : (
                 <Table>
@@ -168,33 +179,56 @@ export default function MyCarts() {
                                   className="object-cover"
                                 />
                               ) : (
-                                <div className="flex items-center justify-center h-full text-xs">No Img</div>
+                                <div className="flex items-center justify-center h-full text-xs">
+                                  No Img
+                                </div>
                               )}
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-medium line-clamp-1" title={item.name}>{item.name}</span>
-                              <span className="text-xs text-muted-foreground">Variant: {item.variantId}</span>
+                              <span
+                                className="font-medium line-clamp-1"
+                                title={item.name}
+                              >
+                                {item.name}
+                              </span>
+                              <span className="text-xs text-muted-foreground">
+                                Variant: {item.variantId}
+                              </span>
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell className="text-center font-medium">${Number(item.price).toFixed(2)}</TableCell>
+                        <TableCell className="text-center font-medium">
+                          ${Number(item.price).toFixed(2)}
+                        </TableCell>
                         <TableCell className="text-center">
                           <div className="flex items-center justify-center gap-2">
                             <Button
                               size="icon"
                               variant="outline"
                               className="h-7 w-7"
-                              onClick={() => updateQuantity(item.id, (item.quantity || 1) - 1)}
+                              onClick={() =>
+                                updateQuantity(
+                                  item.id,
+                                  (item.quantity || 1) - 1,
+                                )
+                              }
                               disabled={item.quantity <= 1}
                             >
                               <Minus className="h-3 w-3" />
                             </Button>
-                            <span className="w-4 text-center text-sm">{item.quantity}</span>
+                            <span className="w-4 text-center text-sm">
+                              {item.quantity}
+                            </span>
                             <Button
                               size="icon"
                               variant="outline"
                               className="h-7 w-7"
-                              onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
+                              onClick={() =>
+                                updateQuantity(
+                                  item.id,
+                                  (item.quantity || 1) + 1,
+                                )
+                              }
                             >
                               <Plus className="h-3 w-3" />
                             </Button>
@@ -202,8 +236,13 @@ export default function MyCarts() {
                         </TableCell>
                         <TableCell className="text-right pr-6">
                           <div className="flex flex-col items-end gap-1">
-                            <span className="font-bold">${(Number(item.price) * item.quantity).toFixed(2)}</span>
-                            <button onClick={() => removeItem(item.id)} className="text-xs text-red-500 hover:underline flex items-center gap-1">
+                            <span className="font-bold">
+                              ${(Number(item.price) * item.quantity).toFixed(2)}
+                            </span>
+                            <button
+                              onClick={() => removeItem(item.id)}
+                              className="text-xs text-red-500 hover:underline flex items-center gap-1"
+                            >
                               <Trash2 className="h-3 w-3" /> Remove
                             </button>
                           </div>
@@ -240,7 +279,9 @@ export default function MyCarts() {
                 <Separator />
                 <div className="flex justify-between text-base">
                   <span className="font-bold">Total</span>
-                  <span className="font-bold text-primary text-xl">${cartTotal.toFixed(2)}</span>
+                  <span className="font-bold text-primary text-xl">
+                    ${cartTotal.toFixed(2)}
+                  </span>
                 </div>
               </div>
 

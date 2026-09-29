@@ -8,7 +8,7 @@ import { auth } from "@/lib/auth/auth";
 // ✅ PATCH — Update a review
 export async function PATCH(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const session = await auth();
@@ -31,17 +31,14 @@ export async function PATCH(
       .update(reviews)
       .set({ rating, body })
       .where(
-        and(
-          eq(reviews.id, reviewId),
-          eq(reviews.user_id, session.user.id)
-        )
+        and(eq(reviews.id, reviewId), eq(reviews.user_id, session.user.id)),
       )
       .returning();
 
     if (!updated.length)
       return NextResponse.json(
         { error: "Review not found or not authorized" },
-        { status: 404 }
+        { status: 404 },
       );
 
     return NextResponse.json({ success: true, review: updated[0] });
@@ -49,7 +46,7 @@ export async function PATCH(
     console.error("❌ Error updating review:", err);
     return NextResponse.json(
       { error: "Failed to update review" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -57,7 +54,7 @@ export async function PATCH(
 // ✅ DELETE — Delete a review
 export async function DELETE(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const session = await auth();
@@ -72,17 +69,14 @@ export async function DELETE(
     const deleted = await db
       .delete(reviews)
       .where(
-        and(
-          eq(reviews.id, reviewId),
-          eq(reviews.user_id, session.user.id)
-        )
+        and(eq(reviews.id, reviewId), eq(reviews.user_id, session.user.id)),
       )
       .returning();
 
     if (!deleted.length)
       return NextResponse.json(
         { error: "Review not found or not authorized" },
-        { status: 404 }
+        { status: 404 },
       );
 
     return NextResponse.json({ success: true });
@@ -90,7 +84,7 @@ export async function DELETE(
     console.error("❌ Error deleting review:", err);
     return NextResponse.json(
       { error: "Failed to delete review" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

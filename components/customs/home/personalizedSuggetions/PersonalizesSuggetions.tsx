@@ -17,11 +17,14 @@ export function PersonalizedSuggestions() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/suggestions`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/suggestions`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        },
+      );
 
       if (res.ok) {
         setSubmitted(true);
@@ -65,7 +68,8 @@ export function PersonalizedSuggestions() {
               <span className="text-red-500">For Your Lifestyle</span>
             </h2>
             <p className="mb-8 text-gray-300 text-lg leading-relaxed max-w-md">
-              Join 10,000+ tech lovers. We’ll analyze your interests and send you hand-picked gadget deals every week.
+              Join 10,000+ tech lovers. We’ll analyze your interests and send
+              you hand-picked gadget deals every week.
             </p>
 
             {!submitted ? (
@@ -95,13 +99,15 @@ export function PersonalizedSuggestions() {
                   You're on the list!
                 </p>
                 <p className="text-green-400/80">
-                  Welcome to the future of gadget shopping. Your first set of recommendations is on its way.
+                  Welcome to the future of gadget shopping. Your first set of
+                  recommendations is on its way.
                 </p>
               </div>
             )}
 
             <p className="mt-8 text-xs text-gray-500 italic">
-              *By signing up, you agree to receive marketing emails. No spam, only tech.
+              *By signing up, you agree to receive marketing emails. No spam,
+              only tech.
             </p>
           </div>
         </div>

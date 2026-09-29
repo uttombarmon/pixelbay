@@ -31,7 +31,7 @@ export async function GET(req: Request) {
     console.error("❌ Error fetching reviews:", err);
     return NextResponse.json(
       { error: "Failed to fetch reviews" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -49,13 +49,13 @@ export async function POST(req: Request) {
     if (!product_id || !rating || !body)
       return NextResponse.json(
         { error: "Missing required fields" },
-        { status: 400 }
+        { status: 400 },
       );
 
     if (!session.user.id)
       return NextResponse.json(
         { error: "User ID not found in session" },
-        { status: 400 }
+        { status: 400 },
       );
 
     const [newReview] = await db
@@ -74,7 +74,7 @@ export async function POST(req: Request) {
     console.error("❌ Error creating review:", err);
     return NextResponse.json(
       { error: "Failed to create review" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

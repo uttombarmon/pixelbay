@@ -12,7 +12,7 @@ import { auth } from "@/lib/auth/auth";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const session = await auth();
@@ -26,7 +26,7 @@ export async function GET(
     if (isNaN(productId)) {
       return NextResponse.json(
         { error: "Invalid product ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -60,7 +60,7 @@ export async function GET(
         .select()
         .from(techSpecifications)
         .where(eq(techSpecifications.id, productData.techSpecId));
-      
+
       if (techSpecRows.length > 0) {
         techSpecs = techSpecRows[0];
       }
@@ -155,14 +155,14 @@ export async function GET(
     console.error("Error fetching product:", error);
     return NextResponse.json(
       { error: "Failed to fetch product" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const session = await auth();
@@ -182,7 +182,7 @@ export async function PUT(
     if (isNaN(productId)) {
       return NextResponse.json(
         { error: "Invalid product ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -263,20 +263,69 @@ export async function PUT(
     } = productData;
 
     if (techSpecId) {
-       await db.update(techSpecifications).set({
-          processor, processorCores, processorThreads, processorSpeed, processorArch,
-          ram, ramType, ramSpeed,
-          storage, storageType, storageInterface, storageExpansion,
-          gpu, gpuMemory, gpuMemoryType,
-          displaySize, displayTech, displayResolution, refreshRate, colorDepth, brightness, screenCoating,
-          batteryCapacity, batteryType, batteryLife, fastCharging, wirelessCharging,
-          rearCameraMP, rearCameraAperture, frontCameraMP, frontCameraAperture, videoCapability, opticalZoom,
-          speakerCount, speakerWatts, audioCodec, microphone,
-          bluetooth, wifi, nfc, usb, ports, cellular, sim,
-          weight, dimensions, material, ipRating, mrlRating, dropProtection,
-          operatingSystem, maxOSUpdate, softwareSupport,
-          antutuScore, geekbenchScore, fps, thermalDesignPower, maxTemperature,
-       }).where(eq(techSpecifications.id, techSpecId));
+      await db
+        .update(techSpecifications)
+        .set({
+          processor,
+          processorCores,
+          processorThreads,
+          processorSpeed,
+          processorArch,
+          ram,
+          ramType,
+          ramSpeed,
+          storage,
+          storageType,
+          storageInterface,
+          storageExpansion,
+          gpu,
+          gpuMemory,
+          gpuMemoryType,
+          displaySize,
+          displayTech,
+          displayResolution,
+          refreshRate,
+          colorDepth,
+          brightness,
+          screenCoating,
+          batteryCapacity,
+          batteryType,
+          batteryLife,
+          fastCharging,
+          wirelessCharging,
+          rearCameraMP,
+          rearCameraAperture,
+          frontCameraMP,
+          frontCameraAperture,
+          videoCapability,
+          opticalZoom,
+          speakerCount,
+          speakerWatts,
+          audioCodec,
+          microphone,
+          bluetooth,
+          wifi,
+          nfc,
+          usb,
+          ports,
+          cellular,
+          sim,
+          weight,
+          dimensions,
+          material,
+          ipRating,
+          mrlRating,
+          dropProtection,
+          operatingSystem,
+          maxOSUpdate,
+          softwareSupport,
+          antutuScore,
+          geekbenchScore,
+          fps,
+          thermalDesignPower,
+          maxTemperature,
+        })
+        .where(eq(techSpecifications.id, techSpecId));
     }
 
     // Map camelCase to snake_case for database
@@ -284,17 +333,29 @@ export async function PUT(
     if (mainProductData.title) productUpdateData.title = mainProductData.title;
     if (mainProductData.slug) productUpdateData.slug = mainProductData.slug;
     if (mainProductData.brand) productUpdateData.brand = mainProductData.brand;
-    if (mainProductData.model !== undefined) productUpdateData.model = mainProductData.model;
-    if (mainProductData.gadgetType) productUpdateData.gadgetType = mainProductData.gadgetType;
-    if (mainProductData.status) productUpdateData.status = mainProductData.status;
-    if (mainProductData.visibility) productUpdateData.visibility = mainProductData.visibility;
-    if (mainProductData.condition) productUpdateData.condition = mainProductData.condition;
-    if (mainProductData.shortDescription !== undefined) productUpdateData.short_description = mainProductData.shortDescription;
-    if (mainProductData.description !== undefined) productUpdateData.description = mainProductData.description;
-    if (mainProductData.warrantyType !== undefined) productUpdateData.warrantyType = mainProductData.warrantyType;
-    if (mainProductData.warrantyMonths !== undefined) productUpdateData.warrantyMonths = mainProductData.warrantyMonths;
-    if (mainProductData.warrantyDescription !== undefined) productUpdateData.warrantyDescription = mainProductData.warrantyDescription;
-    if (mainProductData.category_id !== undefined) productUpdateData.category_id = mainProductData.category_id;
+    if (mainProductData.model !== undefined)
+      productUpdateData.model = mainProductData.model;
+    if (mainProductData.gadgetType)
+      productUpdateData.gadgetType = mainProductData.gadgetType;
+    if (mainProductData.status)
+      productUpdateData.status = mainProductData.status;
+    if (mainProductData.visibility)
+      productUpdateData.visibility = mainProductData.visibility;
+    if (mainProductData.condition)
+      productUpdateData.condition = mainProductData.condition;
+    if (mainProductData.shortDescription !== undefined)
+      productUpdateData.short_description = mainProductData.shortDescription;
+    if (mainProductData.description !== undefined)
+      productUpdateData.description = mainProductData.description;
+    if (mainProductData.warrantyType !== undefined)
+      productUpdateData.warrantyType = mainProductData.warrantyType;
+    if (mainProductData.warrantyMonths !== undefined)
+      productUpdateData.warrantyMonths = mainProductData.warrantyMonths;
+    if (mainProductData.warrantyDescription !== undefined)
+      productUpdateData.warrantyDescription =
+        mainProductData.warrantyDescription;
+    if (mainProductData.category_id !== undefined)
+      productUpdateData.category_id = mainProductData.category_id;
 
     // Update product
     const updatedProduct = await db
@@ -308,7 +369,7 @@ export async function PUT(
         {
           error: "Product not found or you do not have permission to edit it.",
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -323,7 +384,7 @@ export async function PUT(
           url: img.url,
           alt: img.alt,
           position: index,
-        }))
+        })),
       );
     }
 
@@ -344,25 +405,25 @@ export async function PUT(
           price: v.price?.toString() || "0",
           currency: v.currency || "USD",
           stock: v.stock || 0,
-        }))
+        })),
       );
     }
 
     return NextResponse.json(
       { message: "Product updated successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error updating product:", error);
     return NextResponse.json(
       { error: "Failed to update product" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const session = await auth();
@@ -392,7 +453,7 @@ export async function DELETE(
     console.error("Error deleting product:", error);
     return NextResponse.json(
       { error: "Failed to delete product" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

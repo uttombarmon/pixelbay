@@ -15,7 +15,9 @@ const SearchProducts = () => {
       setLoading(true);
       try {
         const queryParams = searchParams?.toString();
-        const response = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/search?${queryParams}`);
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/search?${queryParams}`,
+        );
         if (!response.ok) throw new Error("Search failed");
         const products = await response.json();
         setGadgets(products);
@@ -46,9 +48,12 @@ const SearchProducts = () => {
           <PackageSearch className="w-16 h-16 text-gray-400" />
         </div>
         <div className="max-w-md">
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">No results found</h3>
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+            No results found
+          </h3>
           <p className="text-gray-500">
-            We couldn't find any gadgets matching your criteria. Try adjusting your filters or searching for something else.
+            We couldn't find any gadgets matching your criteria. Try adjusting
+            your filters or searching for something else.
           </p>
         </div>
       </div>

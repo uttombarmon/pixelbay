@@ -75,16 +75,30 @@ export default function OrdersPage() {
                 </TableRow>
               ) : orders.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
+                  <TableCell
+                    colSpan={5}
+                    className="h-24 text-center text-muted-foreground"
+                  >
                     No orders found.
                   </TableCell>
                 </TableRow>
               ) : (
                 orders.map((order: any) => (
-                  <TableRow key={order.id} className="hover:bg-muted/50 transition-colors">
-                    <TableCell className="pl-6 font-medium">#{order.orderNumber || order.id}</TableCell>
-                    <TableCell>{new Date(order.created_at || order.date).toLocaleDateString()}</TableCell>
-                    <TableCell className="font-medium">${order.total_amount || order.total}</TableCell>
+                  <TableRow
+                    key={order.id}
+                    className="hover:bg-muted/50 transition-colors"
+                  >
+                    <TableCell className="pl-6 font-medium">
+                      #{order.orderNumber || order.id}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(
+                        order.created_at || order.date,
+                      ).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell className="font-medium">
+                      ${order.total_amount || order.total}
+                    </TableCell>
                     <TableCell>
                       <Badge
                         variant={
@@ -92,7 +106,8 @@ export default function OrdersPage() {
                             ? "secondary"
                             : order.status === "shipped"
                               ? "outline"
-                              : order.status === "delivered" || order.status === "completed"
+                              : order.status === "delivered" ||
+                                  order.status === "completed"
                                 ? "default"
                                 : "destructive"
                         }

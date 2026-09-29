@@ -52,7 +52,7 @@ export const CategoryListView = ({
       sortableItems = sortableItems.filter(
         (c) =>
           c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          c.slug.toLowerCase().includes(searchTerm.toLowerCase())
+          c.slug.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
@@ -137,7 +137,10 @@ export const CategoryListView = ({
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <ConfirmDelete handleDelete={handleDelete} category={category}/>
+                    <ConfirmDelete
+                      handleDelete={handleDelete}
+                      category={category}
+                    />
                   </div>
                 </TableCell>
               </TableRow>

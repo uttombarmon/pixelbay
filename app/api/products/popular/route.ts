@@ -46,30 +46,27 @@ export async function GET(req: NextRequest) {
       .limit(20); // Limit to 20 popular products for performance
 
     // console.log("Fetched popular products:", popularProducts.length);
-    
+
     // Log first product to debug
     // if (popularProducts.length > 0) {
     //   console.log("First product sample:", JSON.stringify(popularProducts[0], null, 2));
     // }
 
     if (popularProducts && popularProducts.length > 0) {
-      return NextResponse.json(popularProducts, { 
+      return NextResponse.json(popularProducts, {
         status: 200,
         headers: {
-          'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
         },
       });
     }
 
-    return NextResponse.json(
-      { message: "No products found" },
-      { status: 404 }
-    );
+    return NextResponse.json({ message: "No products found" }, { status: 404 });
   } catch (err) {
     console.error("Error fetching popular products:", err);
     return NextResponse.json(
       { error: "Failed to fetch products", details: (err as Error).message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

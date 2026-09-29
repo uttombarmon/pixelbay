@@ -29,7 +29,10 @@ export default function Categories() {
         <div className="h-8 w-48 bg-gray-200 animate-pulse rounded-md mb-8"></div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="h-32 bg-gray-200 animate-pulse rounded-xl"></div>
+            <div
+              key={i}
+              className="h-32 bg-gray-200 animate-pulse rounded-xl"
+            ></div>
           ))}
         </div>
       </div>
@@ -51,7 +54,8 @@ export default function Categories() {
           href="/search"
           className="group flex items-center gap-2 text-red-600 font-semibold hover:text-red-700 transition-colors"
         >
-          View All <MoveRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          View All{" "}
+          <MoveRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
 

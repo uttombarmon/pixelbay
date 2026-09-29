@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db/drizzle";
-import { cartItems, carts, products, productVariants } from "@/lib/db/schema/schema";
+import {
+  cartItems,
+  carts,
+  products,
+  productVariants,
+} from "@/lib/db/schema/schema";
 import { auth } from "@/lib/auth/auth";
 import { eq } from "drizzle-orm";
 
@@ -15,8 +20,7 @@ export async function GET() {
       .from(carts)
       .where(eq(carts.user_id, session.user.id));
 
-    if (!cart)
-      return NextResponse.json({ items: [] }); // empty cart
+    if (!cart) return NextResponse.json({ items: [] }); // empty cart
 
     const items = await db
       .select({
@@ -36,14 +40,14 @@ export async function GET() {
     console.error("❌ GET CART ITEMS ERROR:", err);
     return NextResponse.json(
       { error: "Failed to fetch cart items" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function DELETE(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await auth();
@@ -78,14 +82,14 @@ export async function DELETE(
     console.error("❌ DELETE CART ITEM ERROR:", err);
     return NextResponse.json(
       { error: "Failed to delete item" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function PATCH(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const session = await auth();
@@ -130,7 +134,7 @@ export async function PATCH(
     console.error("❌ UPDATE CART ITEM ERROR:", err);
     return NextResponse.json(
       { error: "Failed to update item" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

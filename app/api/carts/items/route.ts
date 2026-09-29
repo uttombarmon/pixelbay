@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     if (!product_id || !variant_id || !unit_price) {
       return NextResponse.json(
         { error: "Missing required fields" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     if (!session?.user?.id)
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     if (!customer)
       return NextResponse.json(
         { error: "Customer not found" },
-        { status: 404 }
+        { status: 404 },
       );
 
     // find or create cart
@@ -50,8 +50,8 @@ export async function POST(req: Request) {
       .where(
         and(
           eq(cartItems.cart_id, cart.id),
-          eq(cartItems.variant_id, Number(variant_id))
-        )
+          eq(cartItems.variant_id, Number(variant_id)),
+        ),
       );
 
     if (existingItem) {
@@ -61,7 +61,7 @@ export async function POST(req: Request) {
         {
           message: "Already in cart, update quantity instead",
         },
-        { status: 202 }
+        { status: 202 },
       );
     }
 

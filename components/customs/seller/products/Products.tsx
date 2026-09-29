@@ -31,7 +31,7 @@ export default function ProductPage() {
     if (!userId) return;
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products?userId=${userId}`
+        `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products?userId=${userId}`,
       );
       // if (!response.ok) throw new Error("Failed to fetch products");
       if (!response.ok) {
@@ -67,7 +67,7 @@ export default function ProductPage() {
     try {
       // Fetch full product details including tech specs
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products/${product.id}`
+        `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products/${product.id}`,
       );
 
       if (!response.ok) {
@@ -90,7 +90,7 @@ export default function ProductPage() {
       `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/products/${productId}`,
       {
         method: "DELETE",
-      }
+      },
     );
     if (!res.ok) {
       throw new Error("Failed to delete product");

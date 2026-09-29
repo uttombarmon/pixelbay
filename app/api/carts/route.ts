@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db/drizzle";
-import { carts, cartItems, products, productVariants, productImages } from "@/lib/db/schema/schema";
+import {
+  carts,
+  cartItems,
+  products,
+  productVariants,
+  productImages,
+} from "@/lib/db/schema/schema";
 import { auth } from "@/lib/auth/auth";
 import { eq, and } from "drizzle-orm";
 
@@ -43,12 +49,21 @@ export async function GET() {
       .from(cartItems)
       .innerJoin(products, eq(cartItems.product_id, products.id))
       .leftJoin(productVariants, eq(cartItems.variant_id, productVariants.id))
-      .leftJoin(productImages, and(eq(productImages.product_id, products.id), eq(productImages.isMain, true)))
+      .leftJoin(
+        productImages,
+        and(
+          eq(productImages.product_id, products.id),
+          eq(productImages.isMain, true),
+        ),
+      )
       .where(eq(cartItems.cart_id, cartId));
     console.log("items:", items);
     return NextResponse.json({ cart: existingCart || { id: cartId }, items });
   } catch (err) {
     console.error("❌ GET CART ERROR:", err);
-    return NextResponse.json({ error: "Failed to fetch cart" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch cart" },
+      { status: 500 },
+    );
   }
 }

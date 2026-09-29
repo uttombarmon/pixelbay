@@ -38,8 +38,8 @@ export function BillingsTable() {
                   bill.status === "Paid"
                     ? "text-green-600 font-medium"
                     : bill.status === "Pending"
-                    ? "text-yellow-600 font-medium"
-                    : "text-red-600 font-medium"
+                      ? "text-yellow-600 font-medium"
+                      : "text-red-600 font-medium"
                 }
               >
                 {bill.status}

@@ -25,7 +25,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         revalidate: 60, // Revalidate every 60 seconds
         tags: [`product-${productId}`], // Tag for on-demand revalidation
       },
-    }
+    },
   );
 
   if (!response.ok) {
@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
       {
         cache: "force-cache",
         next: { revalidate: 60 },
-      }
+      },
     );
 
     if (!response.ok) {

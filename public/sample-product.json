@@ -65,14 +65,7 @@
   "operatingSystem": "iOS 18",
   "softwareSupport": 5,
   "attributes": {
-    "features": [
-      "Dynamic Island",
-      "Always-On display",
-      "Face ID"
-    ],
-    "colors": [
-      "Titanium Black",
-      "Titanium Natural"
-    ]
+    "features": ["Dynamic Island", "Always-On display", "Face ID"],
+    "colors": ["Titanium Black", "Titanium Natural"]
   }
 }

@@ -73,14 +73,60 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Performance", fields: ["processor", "processorCores", "ram", "storage", "gpu", "fps"] },
-      { label: "Display", fields: ["displaySize", "displayTech", "displayResolution", "refreshRate", "brightness", "screenCoating"] },
-      { label: "Camera", fields: ["rearCameraMP", "rearCameraAperture", "frontCameraMP", "frontCameraAperture", "videoCapability", "opticalZoom"] },
-      { label: "Battery & Charging", fields: ["batteryCapacity", "batteryLife", "fastCharging", "wirelessCharging"] },
-      { label: "Connectivity", fields: ["bluetooth", "wifi", "nfc", "usb", "cellular", "sim"] },
+      {
+        label: "Performance",
+        fields: ["processor", "processorCores", "ram", "storage", "gpu", "fps"],
+      },
+      {
+        label: "Display",
+        fields: [
+          "displaySize",
+          "displayTech",
+          "displayResolution",
+          "refreshRate",
+          "brightness",
+          "screenCoating",
+        ],
+      },
+      {
+        label: "Camera",
+        fields: [
+          "rearCameraMP",
+          "rearCameraAperture",
+          "frontCameraMP",
+          "frontCameraAperture",
+          "videoCapability",
+          "opticalZoom",
+        ],
+      },
+      {
+        label: "Battery & Charging",
+        fields: [
+          "batteryCapacity",
+          "batteryLife",
+          "fastCharging",
+          "wirelessCharging",
+        ],
+      },
+      {
+        label: "Connectivity",
+        fields: ["bluetooth", "wifi", "nfc", "usb", "cellular", "sim"],
+      },
       { label: "Audio", fields: ["speakerCount", "audioCodec", "microphone"] },
-      { label: "Physical & Durability", fields: ["weight", "dimensions", "material", "ipRating", "dropProtection"] },
-      { label: "OS & Support", fields: ["operatingSystem", "maxOSUpdate", "softwareSupport"] },
+      {
+        label: "Physical & Durability",
+        fields: [
+          "weight",
+          "dimensions",
+          "material",
+          "ipRating",
+          "dropProtection",
+        ],
+      },
+      {
+        label: "OS & Support",
+        fields: ["operatingSystem", "maxOSUpdate", "softwareSupport"],
+      },
     ],
   },
 
@@ -88,15 +134,63 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: [...commonVariantFields, "regionVariant"],
     specs: [
-      { label: "Processor", fields: ["processor", "processorCores", "processorThreads", "processorSpeed", "processorArch"] },
-      { label: "Memory & Storage", fields: ["ram", "ramType", "ramSpeed", "storage", "storageType", "storageInterface", "storageExpansion"] },
+      {
+        label: "Processor",
+        fields: [
+          "processor",
+          "processorCores",
+          "processorThreads",
+          "processorSpeed",
+          "processorArch",
+        ],
+      },
+      {
+        label: "Memory & Storage",
+        fields: [
+          "ram",
+          "ramType",
+          "ramSpeed",
+          "storage",
+          "storageType",
+          "storageInterface",
+          "storageExpansion",
+        ],
+      },
       { label: "Graphics", fields: ["gpu", "gpuMemory", "gpuMemoryType"] },
-      { label: "Display", fields: ["displaySize", "displayTech", "displayResolution", "refreshRate", "colorDepth", "brightness", "screenCoating"] },
-      { label: "Battery & Power", fields: ["batteryCapacity", "batteryLife", "fastCharging", "thermalDesignPower"] },
-      { label: "Audio", fields: ["speakerCount", "speakerWatts", "audioCodec", "microphone"] },
-      { label: "Connectivity", fields: ["bluetooth", "wifi", "nfc", "usb", "ports", "cellular"] },
+      {
+        label: "Display",
+        fields: [
+          "displaySize",
+          "displayTech",
+          "displayResolution",
+          "refreshRate",
+          "colorDepth",
+          "brightness",
+          "screenCoating",
+        ],
+      },
+      {
+        label: "Battery & Power",
+        fields: [
+          "batteryCapacity",
+          "batteryLife",
+          "fastCharging",
+          "thermalDesignPower",
+        ],
+      },
+      {
+        label: "Audio",
+        fields: ["speakerCount", "speakerWatts", "audioCodec", "microphone"],
+      },
+      {
+        label: "Connectivity",
+        fields: ["bluetooth", "wifi", "nfc", "usb", "ports", "cellular"],
+      },
       { label: "Physical", fields: ["weight", "dimensions", "material"] },
-      { label: "OS & Support", fields: ["operatingSystem", "maxOSUpdate", "softwareSupport"] },
+      {
+        label: "OS & Support",
+        fields: ["operatingSystem", "maxOSUpdate", "softwareSupport"],
+      },
     ],
   },
 
@@ -104,13 +198,43 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Performance", fields: ["processor", "processorCores", "ram", "storage", "gpu"] },
-      { label: "Display", fields: ["displaySize", "displayTech", "displayResolution", "refreshRate", "brightness", "colorDepth"] },
-      { label: "Camera", fields: ["rearCameraMP", "frontCameraMP", "videoCapability"] },
-      { label: "Battery & Charging", fields: ["batteryCapacity", "batteryLife", "fastCharging", "wirelessCharging"] },
-      { label: "Connectivity", fields: ["bluetooth", "wifi", "nfc", "usb", "cellular"] },
+      {
+        label: "Performance",
+        fields: ["processor", "processorCores", "ram", "storage", "gpu"],
+      },
+      {
+        label: "Display",
+        fields: [
+          "displaySize",
+          "displayTech",
+          "displayResolution",
+          "refreshRate",
+          "brightness",
+          "colorDepth",
+        ],
+      },
+      {
+        label: "Camera",
+        fields: ["rearCameraMP", "frontCameraMP", "videoCapability"],
+      },
+      {
+        label: "Battery & Charging",
+        fields: [
+          "batteryCapacity",
+          "batteryLife",
+          "fastCharging",
+          "wirelessCharging",
+        ],
+      },
+      {
+        label: "Connectivity",
+        fields: ["bluetooth", "wifi", "nfc", "usb", "cellular"],
+      },
       { label: "Audio", fields: ["speakerCount", "speakerWatts"] },
-      { label: "Physical & Durability", fields: ["weight", "dimensions", "material", "ipRating"] },
+      {
+        label: "Physical & Durability",
+        fields: ["weight", "dimensions", "material", "ipRating"],
+      },
     ],
   },
 
@@ -118,13 +242,39 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: [...commonVariantFields, "regionVariant"],
     specs: [
-      { label: "Display", fields: ["displaySize", "displayTech", "displayResolution", "brightness", "screenCoating"] },
+      {
+        label: "Display",
+        fields: [
+          "displaySize",
+          "displayTech",
+          "displayResolution",
+          "brightness",
+          "screenCoating",
+        ],
+      },
       { label: "Processor & Memory", fields: ["processor", "ram", "storage"] },
-      { label: "Battery", fields: ["batteryCapacity", "batteryLife", "fastCharging", "wirelessCharging"] },
-      { label: "Connectivity", fields: ["bluetooth", "wifi", "nfc", "usb", "cellular", "sim"] },
+      {
+        label: "Battery",
+        fields: [
+          "batteryCapacity",
+          "batteryLife",
+          "fastCharging",
+          "wirelessCharging",
+        ],
+      },
+      {
+        label: "Connectivity",
+        fields: ["bluetooth", "wifi", "nfc", "usb", "cellular", "sim"],
+      },
       { label: "Sensors & Features", fields: ["specialFeatures"] },
-      { label: "Physical & Durability", fields: ["weight", "dimensions", "material", "ipRating", "mrlRating"] },
-      { label: "OS & Support", fields: ["operatingSystem", "maxOSUpdate", "softwareSupport"] },
+      {
+        label: "Physical & Durability",
+        fields: ["weight", "dimensions", "material", "ipRating", "mrlRating"],
+      },
+      {
+        label: "OS & Support",
+        fields: ["operatingSystem", "maxOSUpdate", "softwareSupport"],
+      },
     ],
   },
 
@@ -132,9 +282,20 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Audio", fields: ["speakerCount", "speakerWatts", "audioCodec", "microphone"] },
+      {
+        label: "Audio",
+        fields: ["speakerCount", "speakerWatts", "audioCodec", "microphone"],
+      },
       { label: "Connectivity", fields: ["bluetooth", "wifi", "usb", "nfc"] },
-      { label: "Battery", fields: ["batteryCapacity", "batteryLife", "fastCharging", "wirelessCharging"] },
+      {
+        label: "Battery",
+        fields: [
+          "batteryCapacity",
+          "batteryLife",
+          "fastCharging",
+          "wirelessCharging",
+        ],
+      },
       { label: "Physical", fields: ["weight", "dimensions", "material"] },
       { label: "Durability", fields: ["ipRating", "dropProtection"] },
       { label: "Special Features", fields: ["specialFeatures"] },
@@ -145,13 +306,33 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Sensor & Processor", fields: ["processor", "storage", "storageType", "storageExpansion"] },
-      { label: "Camera", fields: ["rearCameraMP", "rearCameraAperture", "videoCapability", "opticalZoom"] },
-      { label: "Display", fields: ["displaySize", "displayTech", "displayResolution"] },
-      { label: "Battery & Power", fields: ["batteryCapacity", "batteryLife", "fastCharging"] },
+      {
+        label: "Sensor & Processor",
+        fields: ["processor", "storage", "storageType", "storageExpansion"],
+      },
+      {
+        label: "Camera",
+        fields: [
+          "rearCameraMP",
+          "rearCameraAperture",
+          "videoCapability",
+          "opticalZoom",
+        ],
+      },
+      {
+        label: "Display",
+        fields: ["displaySize", "displayTech", "displayResolution"],
+      },
+      {
+        label: "Battery & Power",
+        fields: ["batteryCapacity", "batteryLife", "fastCharging"],
+      },
       { label: "Connectivity", fields: ["bluetooth", "wifi", "usb", "ports"] },
       { label: "Physical", fields: ["weight", "dimensions", "material"] },
-      { label: "Special Features", fields: ["specialFeatures", "certifications"] },
+      {
+        label: "Special Features",
+        fields: ["specialFeatures", "certifications"],
+      },
     ],
   },
 
@@ -159,9 +340,26 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Performance", fields: ["processor", "processorCores", "ram", "storage", "gpu", "gpuMemory", "fps"] },
-      { label: "Display Support", fields: ["displayResolution", "refreshRate"] },
-      { label: "Connectivity", fields: ["bluetooth", "wifi", "usb", "ports", "nfc"] },
+      {
+        label: "Performance",
+        fields: [
+          "processor",
+          "processorCores",
+          "ram",
+          "storage",
+          "gpu",
+          "gpuMemory",
+          "fps",
+        ],
+      },
+      {
+        label: "Display Support",
+        fields: ["displayResolution", "refreshRate"],
+      },
+      {
+        label: "Connectivity",
+        fields: ["bluetooth", "wifi", "usb", "ports", "nfc"],
+      },
       { label: "Physical", fields: ["weight", "dimensions", "material"] },
       { label: "Storage", fields: ["storage", "storageExpansion"] },
       { label: "Features", fields: ["specialFeatures"] },
@@ -172,11 +370,25 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Processor & Memory", fields: ["processor", "ram", "storage", "storageExpansion"] },
-      { label: "Camera", fields: ["rearCameraMP", "rearCameraAperture", "videoCapability", "opticalZoom"] },
+      {
+        label: "Processor & Memory",
+        fields: ["processor", "ram", "storage", "storageExpansion"],
+      },
+      {
+        label: "Camera",
+        fields: [
+          "rearCameraMP",
+          "rearCameraAperture",
+          "videoCapability",
+          "opticalZoom",
+        ],
+      },
       { label: "Battery & Flight", fields: ["batteryCapacity", "batteryLife"] },
       { label: "Connectivity", fields: ["bluetooth", "wifi", "usb"] },
-      { label: "Physical & Durability", fields: ["weight", "dimensions", "material", "ipRating"] },
+      {
+        label: "Physical & Durability",
+        fields: ["weight", "dimensions", "material", "ipRating"],
+      },
       { label: "Flight Features", fields: ["specialFeatures"] },
     ],
   },
@@ -185,8 +397,19 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Display", fields: ["displaySize", "displayTech", "displayResolution", "refreshRate"] },
-      { label: "Processor & Memory", fields: ["processor", "processorCores", "ram", "storage"] },
+      {
+        label: "Display",
+        fields: [
+          "displaySize",
+          "displayTech",
+          "displayResolution",
+          "refreshRate",
+        ],
+      },
+      {
+        label: "Processor & Memory",
+        fields: ["processor", "processorCores", "ram", "storage"],
+      },
       { label: "Connectivity", fields: ["bluetooth", "wifi", "usb"] },
       { label: "Battery", fields: ["batteryCapacity", "batteryLife"] },
       { label: "Audio", fields: ["speakerCount", "audioCodec", "microphone"] },
@@ -199,10 +422,19 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Audio", fields: ["speakerCount", "speakerWatts", "audioCodec"] },
+      {
+        label: "Audio",
+        fields: ["speakerCount", "speakerWatts", "audioCodec"],
+      },
       { label: "Connectivity", fields: ["bluetooth", "wifi", "usb", "nfc"] },
-      { label: "Battery", fields: ["batteryCapacity", "batteryLife", "fastCharging"] },
-      { label: "Physical & Durability", fields: ["weight", "dimensions", "material", "ipRating"] },
+      {
+        label: "Battery",
+        fields: ["batteryCapacity", "batteryLife", "fastCharging"],
+      },
+      {
+        label: "Physical & Durability",
+        fields: ["weight", "dimensions", "material", "ipRating"],
+      },
       { label: "Features", fields: ["specialFeatures"] },
     ],
   },
@@ -212,7 +444,10 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Power Output", fields: ["fastCharging", "ports", "specialFeatures"] },
+      {
+        label: "Power Output",
+        fields: ["fastCharging", "ports", "specialFeatures"],
+      },
       { label: "Compatibility", fields: ["specialFeatures"] },
       { label: "Physical", fields: ["weight", "dimensions", "material"] },
     ],
@@ -222,7 +457,18 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Display", fields: ["displaySize", "displayTech", "displayResolution", "refreshRate", "colorDepth", "brightness", "screenCoating"] },
+      {
+        label: "Display",
+        fields: [
+          "displaySize",
+          "displayTech",
+          "displayResolution",
+          "refreshRate",
+          "colorDepth",
+          "brightness",
+          "screenCoating",
+        ],
+      },
       { label: "Connectivity", fields: ["usb", "ports"] },
       { label: "Physical", fields: ["weight", "dimensions", "material"] },
       { label: "Features", fields: ["specialFeatures"] },
@@ -266,7 +512,10 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Storage", fields: ["storage", "storageType", "storageInterface"] },
+      {
+        label: "Storage",
+        fields: ["storage", "storageType", "storageInterface"],
+      },
       { label: "Performance", fields: ["specialFeatures"] },
       { label: "Physical", fields: ["weight", "dimensions", "material"] },
     ],
@@ -277,7 +526,10 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     variant: commonVariantFields,
     specs: [
       { label: "Graphics", fields: ["gpu", "gpuMemory", "gpuMemoryType"] },
-      { label: "Performance", fields: ["fps", "thermalDesignPower", "maxTemperature"] },
+      {
+        label: "Performance",
+        fields: ["fps", "thermalDesignPower", "maxTemperature"],
+      },
       { label: "Connectivity", fields: ["ports", "usb"] },
       { label: "Power", fields: ["thermalDesignPower"] },
     ],
@@ -287,8 +539,25 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Processor", fields: ["processor", "processorCores", "processorThreads", "processorSpeed", "processorArch"] },
-      { label: "Performance", fields: ["antutuScore", "geekbenchScore", "thermalDesignPower", "maxTemperature"] },
+      {
+        label: "Processor",
+        fields: [
+          "processor",
+          "processorCores",
+          "processorThreads",
+          "processorSpeed",
+          "processorArch",
+        ],
+      },
+      {
+        label: "Performance",
+        fields: [
+          "antutuScore",
+          "geekbenchScore",
+          "thermalDesignPower",
+          "maxTemperature",
+        ],
+      },
       { label: "Socket & Support", fields: ["specialFeatures"] },
     ],
   },
@@ -316,7 +585,10 @@ export const gadgetFieldConfig: Record<GadgetType, GadgetConfig> = {
     product: commonProductFields,
     variant: commonVariantFields,
     specs: [
-      { label: "Storage", fields: ["storage", "storageType", "storageInterface"] },
+      {
+        label: "Storage",
+        fields: ["storage", "storageType", "storageInterface"],
+      },
       { label: "Performance", fields: ["specialFeatures"] },
     ],
   },

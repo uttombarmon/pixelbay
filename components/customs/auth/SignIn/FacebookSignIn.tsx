@@ -4,7 +4,6 @@ import { signIn } from "next-auth/react";
 import React from "react";
 import GIcon from "@/public/google-color-icon.svg";
 import Image from "next/image";
-import { FacebookIcon } from "lucide-react";
 
 const FacebookSignIn = () => {
   const handleFacebookSignIn = async () => {
@@ -16,7 +15,12 @@ const FacebookSignIn = () => {
       variant="outline"
       className="w-full flex gap-2"
     >
-      <FacebookIcon className=" size-5 text-blue-600" />
+      <span
+        aria-hidden="true"
+        className="flex size-5 items-center justify-center rounded-sm bg-[#1877F2] text-base font-bold leading-none text-white"
+      >
+        f
+      </span>
       {/* <Image
         width={24}
         height={24}

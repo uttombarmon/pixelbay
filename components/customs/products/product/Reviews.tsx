@@ -1,6 +1,5 @@
 "use client";
 
-
 import Review from "./Review";
 
 interface Review {

@@ -21,7 +21,8 @@ const CustomerReviews = async () => {
           </h2>
           <div className="w-24 h-1 bg-red-600 mx-auto rounded-full"></div>
           <p className="text-gray-500 text-lg mt-6 max-w-2xl mx-auto">
-            Real feedback from tech enthusiasts who trust PixelBay for their gadget needs.
+            Real feedback from tech enthusiasts who trust PixelBay for their
+            gadget needs.
           </p>
         </div>
 

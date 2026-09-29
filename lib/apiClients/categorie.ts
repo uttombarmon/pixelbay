@@ -10,7 +10,7 @@ export async function addCategory() {
         path: "/electronics/tablets",
         metadata: { icon: "📟", description: "Portable touchscreen devices" },
       }),
-    }
+    },
   );
 
   const data = await res.json();
@@ -18,7 +18,7 @@ export async function addCategory() {
 }
 export async function getAllCategories() {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/categories`
+    `${process.env.NEXT_PUBLIC_CLIENT_URL}/api/seller/categories`,
   );
   const data = await response.json();
   return data;

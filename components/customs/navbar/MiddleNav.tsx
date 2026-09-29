@@ -10,7 +10,15 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { useEffect, useState } from "react";
-import { ChevronRight, Sparkles, Smartphone, Monitor, Gamepad2, Tv, LayoutGrid } from "lucide-react";
+import {
+  ChevronRight,
+  Sparkles,
+  Smartphone,
+  Monitor,
+  Gamepad2,
+  Tv,
+  LayoutGrid,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const categoryIcons: Record<string, any> = {
@@ -18,7 +26,7 @@ const categoryIcons: Record<string, any> = {
   "Computers & Accessories": <Monitor className="w-4 h-4" />,
   "Gaming Gadgets": <Gamepad2 className="w-4 h-4" />,
   "Entertainment Electronics": <Tv className="w-4 h-4" />,
-  "Others": <LayoutGrid className="w-4 h-4" />,
+  Others: <LayoutGrid className="w-4 h-4" />,
 };
 
 export function NavigationMenuDemo({ categories }: { categories: any }) {
@@ -33,8 +41,12 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
     window.addEventListener("resize", handleResize);
 
     const safeCategories = Array.isArray(categories) ? categories : [];
-    const mainCategories = safeCategories.filter(c => c?.name?.toLowerCase() !== "others");
-    const othersCategory = safeCategories.find(c => c?.name?.toLowerCase() === "others");
+    const mainCategories = safeCategories.filter(
+      (c) => c?.name?.toLowerCase() !== "others",
+    );
+    const othersCategory = safeCategories.find(
+      (c) => c?.name?.toLowerCase() === "others",
+    );
 
     let visible = [];
     if (windowWidth > 1400) {
@@ -59,7 +71,9 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
             <NavigationMenuItem key={category?.id || category?.name}>
               <NavigationMenuTrigger className="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 transition-all font-semibold rounded-full px-4 h-11">
                 <span className="flex items-center gap-2">
-                  {categoryIcons[category?.name] || <Sparkles className="w-4 h-4 text-red-500" />}
+                  {categoryIcons[category?.name] || (
+                    <Sparkles className="w-4 h-4 text-red-500" />
+                  )}
                   {category?.name}
                 </span>
               </NavigationMenuTrigger>
@@ -89,11 +103,17 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
               <NavigationMenuContent>
                 <ul className="grid w-150 gap-3 p-6 grid-cols-2">
                   <ListItem href="/search?s=smartphone" title="Smartphones" />
-                  <ListItem href="/search?s=tablet+ipad" title="Tablets & iPads" />
+                  <ListItem
+                    href="/search?s=tablet+ipad"
+                    title="Tablets & iPads"
+                  />
                   <ListItem href="/search?s=smartwatch" title="Smartwatches" />
                   <ListItem href="/search?s=phone+case" title="Accessories" />
                   <ListItem href="/search?s=earbuds" title="Wireless Audio" />
-                  <ListItem href="/search?s=power+bank" title="Power Solutions" />
+                  <ListItem
+                    href="/search?s=power+bank"
+                    title="Power Solutions"
+                  />
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
@@ -108,7 +128,10 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
               <NavigationMenuContent>
                 <ul className="grid w-150 gap-3 p-6 grid-cols-2">
                   <ListItem href="/search?s=laptop" title="Laptops" />
-                  <ListItem href="/search?s=gaming+laptop" title="Gaming Rigs" />
+                  <ListItem
+                    href="/search?s=gaming+laptop"
+                    title="Gaming Rigs"
+                  />
                   <ListItem href="/search?s=monitor" title="Monitors" />
                   <ListItem href="/search?s=keyboard" title="Peripherals" />
                   <ListItem href="/search?s=gpu" title="Components" />
@@ -128,7 +151,10 @@ export function NavigationMenuDemo({ categories }: { categories: any }) {
                 <ul className="grid w-150 gap-3 p-6 grid-cols-2">
                   <ListItem href="/search?s=gaming+console" title="Consoles" />
                   <ListItem href="/search?s=vr+headset" title="VR/AR" />
-                  <ListItem href="/search?s=gaming+controller" title="Controllers" />
+                  <ListItem
+                    href="/search?s=gaming+controller"
+                    title="Controllers"
+                  />
                   <ListItem href="/search?s=gaming+headset" title="Headsets" />
                 </ul>
               </NavigationMenuContent>
@@ -145,7 +171,12 @@ export function ListItem({
   children,
   href,
   className,
-}: { href: string; title: string; children?: React.ReactNode; className?: string }) {
+}: {
+  href: string;
+  title: string;
+  children?: React.ReactNode;
+  className?: string;
+}) {
   return (
     <li>
       <NavigationMenuLink asChild>
@@ -153,7 +184,7 @@ export function ListItem({
           href={href}
           className={cn(
             "block select-none space-y-1 rounded-2xl p-4 leading-none no-underline outline-none transition-all duration-300 group hover:bg-red-50 dark:hover:bg-red-950/20",
-            className
+            className,
           )}
         >
           <div className="text-sm font-bold leading-none flex items-center justify-between group-hover:text-red-600 transition-colors">

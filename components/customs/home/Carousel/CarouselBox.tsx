@@ -32,7 +32,8 @@ const slides = [
   {
     title: "Modern Essentials",
     subtitle: "Upgrade Your Everyday",
-    description: "Smartphones, laptops & accessories built for the digital age.",
+    description:
+      "Smartphones, laptops & accessories built for the digital age.",
     img: "https://i.postimg.cc/HnT6BfCX/ady-teenagerinro-s-Q0x-Xx-Qdfe-Y-unsplash.jpg",
     gradient: "from-red-900/60 via-red-800/40 to-black/60",
     accent: "text-red-400",
@@ -61,12 +62,17 @@ const CarouselBox = () => {
               priority={index === 0}
               sizes="100vw"
             />
-            <div className={`absolute inset-0 z-10 bg-gradient-to-r ${slide.gradient} flex items-center px-6 md:px-12 lg:px-20`}>
+            <div
+              className={`absolute inset-0 z-10 bg-gradient-to-r ${slide.gradient} flex items-center px-6 md:px-12 lg:px-20`}
+            >
               <div className="w-full md:w-2/3 lg:w-1/2 flex flex-col gap-4 md:gap-6">
                 <div className="space-y-2">
                   <h1 className="text-3xl md:text-5xl lg:text-7xl font-extrabold tracking-tight text-white">
-                    {slide.title.split(' ')[0]}
-                    <span className={`${slide.accent}`}> {slide.title.split(' ').slice(1).join(' ')}</span>
+                    {slide.title.split(" ")[0]}
+                    <span className={`${slide.accent}`}>
+                      {" "}
+                      {slide.title.split(" ").slice(1).join(" ")}
+                    </span>
                   </h1>
                   <h2 className="text-xl md:text-3xl lg:text-4xl font-semibold text-gray-200">
                     {slide.subtitle}
@@ -76,15 +82,23 @@ const CarouselBox = () => {
                   {slide.description}
                 </p>
                 <div className="pt-4">
-                  <button className={`${slide.buttonBg} text-white px-8 py-3 md:px-10 md:py-4 rounded-full font-bold text-lg md:text-xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl`}>
+                  <button
+                    className={`${slide.buttonBg} text-white px-8 py-3 md:px-10 md:py-4 rounded-full font-bold text-lg md:text-xl transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl`}
+                  >
                     Shop Now
                   </button>
                 </div>
               </div>
               <div className="hidden lg:flex flex-1 justify-end items-center">
-                <div className={`w-80 h-80 md:w-[450px] md:h-[450px] rounded-full border-4 border-white/10 flex items-center justify-center animate-pulse`}>
-                  <div className={`w-64 h-64 md:w-[350px] md:h-[350px] rounded-full border-2 border-white/5 flex items-center justify-center`}>
-                    <div className="text-white/20 font-black text-9xl select-none">PB</div>
+                <div
+                  className={`w-80 h-80 md:w-[450px] md:h-[450px] rounded-full border-4 border-white/10 flex items-center justify-center animate-pulse`}
+                >
+                  <div
+                    className={`w-64 h-64 md:w-[350px] md:h-[350px] rounded-full border-2 border-white/5 flex items-center justify-center`}
+                  >
+                    <div className="text-white/20 font-black text-9xl select-none">
+                      PB
+                    </div>
                   </div>
                 </div>
               </div>

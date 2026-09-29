@@ -80,8 +80,8 @@ export default function SellerOrdersPage() {
                         order.status === "completed"
                           ? "default"
                           : order.status === "shipped"
-                          ? "secondary"
-                          : "destructive"
+                            ? "secondary"
+                            : "destructive"
                       }
                     >
                       {order.status}

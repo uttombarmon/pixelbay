@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
     if (!userId) {
       return NextResponse.json(
         { error: "userId is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     console.log("UserId: ", userId);
@@ -47,10 +47,7 @@ export async function GET(req: NextRequest) {
         updated_at: products.updated_at,
       })
       .from(products)
-      .leftJoin(
-        productVariants,
-        eq(productVariants.product_id, products.id)
-      )
+      .leftJoin(productVariants, eq(productVariants.product_id, products.id))
       .where(eq(products.created_by, userId))
       .groupBy(
         products.id,
@@ -71,7 +68,7 @@ export async function GET(req: NextRequest) {
         products.techSpecId,
         products.created_by,
         products.created_at,
-        products.updated_at
+        products.updated_at,
       );
 
     if (productList.length === 0) {
@@ -119,7 +116,7 @@ export async function GET(req: NextRequest) {
           created_at: product.created_at,
           updated_at: product.updated_at,
         };
-      })
+      }),
     );
 
     return NextResponse.json(results);
@@ -127,19 +124,16 @@ export async function GET(req: NextRequest) {
     console.error(err);
     return NextResponse.json(
       { error: "Failed to fetch products" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const userId = req.nextUrl.searchParams.get("userId");
-  
+
   if (!userId) {
-    return NextResponse.json(
-      { error: "User ID is required" },
-      { status: 403 }
-    );
+    return NextResponse.json({ error: "User ID is required" }, { status: 403 });
   }
 
   try {
@@ -214,7 +208,7 @@ export async function POST(req: NextRequest) {
     if (!techSpec) {
       return NextResponse.json(
         { error: "Failed to save technical specifications" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -250,7 +244,7 @@ export async function POST(req: NextRequest) {
           url: img.url,
           alt: img.alt,
           position: index,
-        }))
+        })),
       );
     }
 
@@ -268,7 +262,7 @@ export async function POST(req: NextRequest) {
           price: v.price.toString(),
           currency: v.currency,
           stock: v.stock,
-        }))
+        })),
       );
     }
 
@@ -280,7 +274,7 @@ export async function POST(req: NextRequest) {
     console.error("Error creating product:", error);
     return NextResponse.json(
       { error: "Failed to create product" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

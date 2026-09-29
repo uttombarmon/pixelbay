@@ -7,7 +7,7 @@ export async function fetchPopularProducts() {
         revalidate: 300, // Revalidate every 5 minutes
         tags: ["popular-products"],
       },
-    }
+    },
   );
 
   if (!res.ok) {

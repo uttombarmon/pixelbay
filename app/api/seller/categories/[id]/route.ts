@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 // PUT (Update) a category by ID
 export async function PUT(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -16,7 +16,7 @@ export async function PUT(
     if (isNaN(paramsId)) {
       return NextResponse.json(
         { error: "Invalid category ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -26,7 +26,7 @@ export async function PUT(
     if (!body.name || !body.slug) {
       return NextResponse.json(
         { error: "Name and slug are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -44,7 +44,7 @@ export async function PUT(
     if (updatedCategory.length === 0) {
       return NextResponse.json(
         { error: "Category not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -53,7 +53,7 @@ export async function PUT(
     console.error("Error updating category:", error);
     return NextResponse.json(
       { error: "Failed to update category" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -61,7 +61,7 @@ export async function PUT(
 // DELETE a category by ID
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -69,7 +69,7 @@ export async function DELETE(
     if (isNaN(paramsId)) {
       return NextResponse.json(
         { error: "Invalid category ID" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     await db.delete(categories).where(eq(categories.id, paramsId));
@@ -78,7 +78,7 @@ export async function DELETE(
     console.error("Error deleting category:", error);
     return NextResponse.json(
       { error: "Failed to delete category" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
