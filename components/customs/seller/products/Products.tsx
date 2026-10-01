@@ -7,10 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Edit, Loader2, Plus, Trash2 } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import ToggleStatusButton from "./ToggleStatusButton";
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import ProductDialog from "./AddProduct/ProductDialog";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const ToggleVariants = ({
   variant,
@@ -9,7 +9,7 @@ const ToggleVariants = ({
   variants: any;
   setVariant: any;
 }) => {
-  const [loading, setLoading] = useState(false);
+  const loading = false;
   const handleVariantChange = async (
     e: React.ChangeEvent<HTMLSelectElement>,
   ) => {

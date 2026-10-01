@@ -3,20 +3,19 @@
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 // import ProductForm from "./ProductForm";
 // import { AddProductForm } from "./AddProductForm";
-import { AddProductFormm } from "./product-form";
+import { AddProductFormm, type ProductFormValues } from "./product-form";
 
 export default function ProductDialog({
-  userId,
   productToEdit,
   onClose,
   isOpen,
   onOpenChange,
 }: {
-  userId: string;
-  productToEdit?: any | null;
+  productToEdit?: Partial<ProductFormValues> | Record<string, unknown> | null;
   onClose: () => void;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  userId?: string;
 }) {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -25,7 +24,7 @@ export default function ProductDialog({
           {productToEdit ? "Edit Product" : "Create Product"}
         </DialogTitle>
         <AddProductFormm
-          defaultValues={productToEdit}
+          defaultValues={(productToEdit as Partial<ProductFormValues>) || undefined}
           onSubmit={() => {
             onClose();
           }}

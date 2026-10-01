@@ -1,8 +1,6 @@
 import { db } from "@/lib/db/drizzle";
 import {
   orders,
-  wishlists,
-  wishlistItems,
   carts,
   cartItems,
 } from "@/lib/db/schema/schema";

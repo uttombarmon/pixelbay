@@ -1,25 +1,40 @@
 import { db } from "@/lib/db/drizzle";
 import {
   products,
-  categories,
   productImages,
   productVariants,
   techSpecifications,
 } from "@/lib/db/schema/schema";
 import { and, eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/lib/auth/auth";
+import { requireRole } from "@/lib/auth/guards";
+
+interface VariantInput {
+  sku?: string;
+  variantName?: string;
+  color?: string;
+  storageVariant?: string;
+  ramVariant?: string;
+  regionVariant?: string;
+  price?: number | string;
+  currency?: string;
+  stock?: number;
+  created_at?: unknown;
+  updated_at?: unknown;
+}
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-  const session = await auth();
-  const userId = session?.user?.id;
-  if (!session || !userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const result = await requireRole(["seller", "admin"]);
+
+  if (!result.ok) {
+    return result.response;
   }
+
+  const userId = result.user.id;
 
   try {
     const productId = parseInt(id, 10);
@@ -165,17 +180,13 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-  const session = await auth();
-  const role = session?.user?.role;
-  const userId = session?.user?.id;
-  if (
-    !session ||
-    typeof role !== "string" ||
-    !["admin", "seller"].includes(role) ||
-    typeof userId !== "string"
-  ) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const result = await requireRole(["seller", "admin"]);
+
+  if (!result.ok) {
+    return result.response;
   }
+
+  // const userId = result.user.id;
 
   try {
     const productId = Number(id);
@@ -185,22 +196,46 @@ export async function PUT(
         { status: 400 },
       );
     }
+    const ownershipCondition =
+      result.user.role === "admin"
+        ? eq(products.id, productId)
+        : and(
+          eq(products.id, productId),
+          eq(products.created_by, result.user.id),
+        );
+
+    const [existingProduct] = await db
+      .select({
+        id: products.id,
+        created_by: products.created_by,
+        techSpecId: products.techSpecId,
+      })
+      .from(products)
+      .where(ownershipCondition)
+      .limit(1);
+
+    if (!existingProduct) {
+      return NextResponse.json(
+        { error: "Product not found" },
+        { status: 404 },
+      );
+    }
 
     const body = await req.json();
-    const { images, variants, created_at, updated_at, ...productData } = body;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { images, variants, created_at: _created_at, updated_at: _updated_at, ...productData } = body;
     delete productData.created_at;
     delete productData.updated_at;
-    let clearVariants;
-    if (variants) {
-      clearVariants = variants.map((v: any) => {
-        delete v.created_at;
-        delete v.updated_at;
-        return v;
-      });
-    }
+    const cleanVariants: VariantInput[] = variants
+      ? variants.map((v: VariantInput) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { created_at: _ca, updated_at: _ua, ...rest } = v;
+        return rest;
+      })
+      : [];
     // Extract tech specs
     const {
-      techSpecId,
+      // techSpecId,
       processor,
       processorCores,
       processorThreads,
@@ -262,7 +297,7 @@ export async function PUT(
       ...mainProductData
     } = productData;
 
-    if (techSpecId) {
+    if (existingProduct.techSpecId) {
       await db
         .update(techSpecifications)
         .set({
@@ -325,11 +360,11 @@ export async function PUT(
           thermalDesignPower,
           maxTemperature,
         })
-        .where(eq(techSpecifications.id, techSpecId));
+        .where(eq(techSpecifications.id, existingProduct.techSpecId));
     }
 
     // Map camelCase to snake_case for database
-    const productUpdateData: any = {};
+    const productUpdateData: Record<string, unknown> = {};
     if (mainProductData.title) productUpdateData.title = mainProductData.title;
     if (mainProductData.slug) productUpdateData.slug = mainProductData.slug;
     if (mainProductData.brand) productUpdateData.brand = mainProductData.brand;
@@ -361,8 +396,8 @@ export async function PUT(
     const updatedProduct = await db
       .update(products)
       .set({ ...productUpdateData, updated_at: new Date() })
-      .where(and(eq(products.id, productId), eq(products.created_by, userId)))
-      .returning();
+      .where(ownershipCondition)
+      .returning({ id: products.id });
 
     if (updatedProduct.length === 0) {
       return NextResponse.json(
@@ -392,11 +427,11 @@ export async function PUT(
     await db
       .delete(productVariants)
       .where(eq(productVariants.product_id, productId));
-    if (variants && variants.length > 0) {
+    if (cleanVariants.length > 0) {
       await db.insert(productVariants).values(
-        variants.map((v: any) => ({
+        cleanVariants.map((v: VariantInput, index: number) => ({
           product_id: productId,
-          sku: v.sku,
+          sku: v.sku || `SKU-${productId}-${index}-${Date.now()}`,
           variantName: v.variantName,
           color: v.color,
           storageVariant: v.storageVariant,
@@ -426,17 +461,13 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-  const session = await auth();
-  const role = session?.user?.role;
-  const userId = session?.user?.id;
-  if (
-    !session ||
-    typeof role !== "string" ||
-    !["admin", "seller"].includes(role) ||
-    typeof userId !== "string"
-  ) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const result = await requireRole(["seller", "admin"]);
+
+  if (!result.ok) {
+    return result.response;
   }
+
+  const userId = result.user.id;
 
   const productId = parseInt(id, 10);
   if (isNaN(productId)) {

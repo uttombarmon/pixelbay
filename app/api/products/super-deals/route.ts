@@ -2,7 +2,6 @@ import { db } from "@/lib/db/drizzle";
 import {
   products as productsTable,
   productVariants,
-  productImages,
 } from "@/lib/db/schema/schema";
 import { NextResponse } from "next/server";
 import { eq, sql, desc, and } from "drizzle-orm";

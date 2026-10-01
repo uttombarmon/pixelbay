@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { ShoppingCart, Trash2, Minus, Plus, CreditCard } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -25,11 +25,14 @@ export default function MyCarts() {
   const [loading, setLoading] = useState(true);
   const [cartTotal, setCartTotal] = useState(0);
 
-  useEffect(() => {
-    fetchCart();
-  }, [session]);
+  const calculateTotal = (cartItems: any[]) => {
+    const total = cartItems.reduce((acc, item) => {
+      return acc + Number(item.price) * (item.quantity || 1);
+    }, 0);
+    setCartTotal(total);
+  };
 
-  async function fetchCart() {
+  const fetchCart = useCallback(async () => {
     if (!session?.user?.id) return;
     try {
       const res = await fetch("/api/carts");
@@ -43,14 +46,11 @@ export default function MyCarts() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [session?.user?.id]);
 
-  function calculateTotal(cartItems: any[]) {
-    const total = cartItems.reduce((acc, item) => {
-      return acc + Number(item.price) * (item.quantity || 1);
-    }, 0);
-    setCartTotal(total);
-  }
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
 
   const updateQuantity = async (itemId: number, newQuantity: number) => {
     if (newQuantity < 1) return;

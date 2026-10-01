@@ -12,7 +12,6 @@ import { Cpu } from "lucide-react";
 
 async function TopNavBar() {
   const session = await auth();
-  const user = session?.user;
   const categories = await getAllCategories();
 
   return (
@@ -49,7 +48,7 @@ async function TopNavBar() {
 
             {session?.user ? (
               <div className="flex items-center">
-                <Account user={user} />
+                <Account user={session.user} />
               </div>
             ) : (
               <div className="hidden sm:block">

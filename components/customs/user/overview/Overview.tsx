@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ShoppingBag, Heart, Clock, ShoppingCart } from "lucide-react";
+import { ShoppingBag, Clock, ShoppingCart } from "lucide-react";
 import { BillingsTable } from "./Billings";
 import { ReviewsTable } from "./Reviews";
 import { useSession } from "next-auth/react";
@@ -41,7 +41,7 @@ export default function UserDashboardPage() {
           Welcome back, {session?.user?.name || "User"}
         </h1>
         <p className="text-muted-foreground">
-          Here's what's happening with your account today.
+          Here&apos;s what&apos;s happening with your account today.
         </p>
       </div>
 

@@ -12,11 +12,13 @@ import {
   Tv,
   Camera,
   ChevronRight,
-  LogOut,
   Search,
 } from "lucide-react";
 
-const MenuProducts = async ({ session }: { session: any }) => {
+interface SessionUser { id?: string; name?: string | null; email?: string | null; image?: string | null; role?: string; }
+interface MenuSession { user?: SessionUser | null; }
+
+const MenuProducts = async ({ session }: { session: MenuSession | null }) => {
   return (
     <div className="flex flex-col min-h-full pb-10">
       {/* Mobile Search - Prominent at the top */}
@@ -108,7 +110,8 @@ const MenuProducts = async ({ session }: { session: any }) => {
             >
               <Avatar className="h-12 w-12 ring-2 ring-white dark:ring-gray-700 shadow-sm transition-all group-hover:ring-red-400">
                 <AvatarImage
-                  src={session.user.image}
+                  src={session.user.image ?? undefined}
+                  alt={session.user.name ?? undefined}
                   className="object-cover"
                 />
                 <AvatarFallback className="bg-red-100 text-red-600 font-bold">

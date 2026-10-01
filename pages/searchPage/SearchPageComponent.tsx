@@ -75,7 +75,7 @@ const SearchPageComponent = () => {
                   {query ? (
                     <>
                       Searching for{" "}
-                      <span className="text-red-600">"{query}"</span>
+                      <span className="text-red-600">&quot;{query}&quot;</span>
                     </>
                   ) : (
                     "Explore all Gadgets"

@@ -96,7 +96,7 @@ export function PersonalizedSuggestions() {
             ) : (
               <div className="p-6 bg-green-500/10 border border-green-500/20 rounded-2xl">
                 <p className="text-green-400 font-bold text-xl mb-2">
-                  You're on the list!
+                  You&apos;re on the list!
                 </p>
                 <p className="text-green-400/80">
                   Welcome to the future of gadget shopping. Your first set of

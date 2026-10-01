@@ -153,7 +153,7 @@ export function AddProductFormm({
     remove: removeImage,
   } = useFieldArray({
     control: form.control,
-    name: "images", // @ts-ignore
+    name: "images",
   });
 
   const gadgetType: GadgetType = form.watch("gadgetType");

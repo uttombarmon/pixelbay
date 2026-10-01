@@ -7,7 +7,14 @@ import {
   productVariants,
   techSpecifications,
 } from "@/lib/db/schema/schema";
-import { and, eq, gt, gte, sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
+
+interface ImageInput { url: string; alt?: string; }
+interface VariantInput {
+  sku?: string; variantName?: string; color?: string;
+  storageVariant?: string; ramVariant?: string; regionVariant?: string;
+  price: number | string; currency?: string; stock?: number;
+}
 
 export async function GET(req: NextRequest) {
   try {
@@ -41,7 +48,7 @@ export async function GET(req: NextRequest) {
         category_id: products.category_id,
         techSpecId: products.techSpecId,
         price: sql`MIN(${productVariants.price})`.as("price"),
-        variants: sql<any>`json_agg(${productVariants})`.as("variants"),
+        variants: sql<VariantInput[]>`json_agg(${productVariants})`.as("variants"),
         created_by: products.created_by,
         created_at: products.created_at,
         updated_at: products.updated_at,
@@ -239,7 +246,7 @@ export async function POST(req: NextRequest) {
     // Insert images
     if (body.images?.length) {
       await db.insert(productImages).values(
-        body.images.map((img: any, index: number) => ({
+      body.images.map((img: ImageInput, index: number) => ({
           product_id: newProduct[0].id,
           url: img.url,
           alt: img.alt,
@@ -251,7 +258,7 @@ export async function POST(req: NextRequest) {
     // Insert variants
     if (body.variants?.length) {
       await db.insert(productVariants).values(
-        body.variants.map((v: any) => ({
+        body.variants.map((v: VariantInput) => ({
           product_id: newProduct[0].id,
           sku: v.sku,
           variantName: v.variantName,

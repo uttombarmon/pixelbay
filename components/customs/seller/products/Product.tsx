@@ -1,6 +1,7 @@
 "use client";
 import { TableCell, TableRow } from "@/components/ui/table";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import ToggleStatusButton from "./ToggleStatusButton";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2 } from "lucide-react";
@@ -37,17 +38,19 @@ const Product = ({
     <TableRow>
       <TableCell>
         {product?.images?.length >= 1 ? (
-          <img
+          <Image
             src={
-              typeof product.images[0] === "string"
+              (typeof product.images[0] === "string"
                 ? product.images[0]
-                : product.images[0]?.url
+                : product.images[0]?.url) || "/placeholder.png"
             }
             alt={
-              typeof product.images[0] === "string"
+              (typeof product.images[0] === "string"
                 ? product.title
-                : product.images[0]?.alt || product.title
+                : product.images[0]?.alt || product.title) || "Product image"
             }
+            width={48}
+            height={48}
             className="w-12 h-12 rounded-md object-cover"
           />
         ) : (

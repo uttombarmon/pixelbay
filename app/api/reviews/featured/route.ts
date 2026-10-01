@@ -5,7 +5,7 @@ import {
   products as productsTable,
 } from "@/lib/db/schema/schema";
 import { NextResponse } from "next/server";
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 export async function GET() {
   try {

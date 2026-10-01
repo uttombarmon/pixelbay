@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import * as motion from "motion/react-client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -22,6 +22,20 @@ export default function ProductImageGallery({ product }: { product: any }) {
   const selectedImg = images[selectedIndex] || null;
   const hasMultipleImages = images.length > 1;
 
+  const goToNext = useCallback(() => {
+    if (hasMultipleImages) {
+      setSelectedIndex((prev) => (prev + 1) % images.length);
+      setImageLoading(true);
+    }
+  }, [hasMultipleImages, images.length]);
+
+  const goToPrevious = useCallback(() => {
+    if (hasMultipleImages) {
+      setSelectedIndex((prev) => (prev - 1 + images.length) % images.length);
+      setImageLoading(true);
+    }
+  }, [hasMultipleImages, images.length]);
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
@@ -34,21 +48,7 @@ export default function ProductImageGallery({ product }: { product: any }) {
 
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [selectedIndex, images.length]);
-
-  const goToNext = () => {
-    if (hasMultipleImages) {
-      setSelectedIndex((prev) => (prev + 1) % images.length);
-      setImageLoading(true);
-    }
-  };
-
-  const goToPrevious = () => {
-    if (hasMultipleImages) {
-      setSelectedIndex((prev) => (prev - 1 + images.length) % images.length);
-      setImageLoading(true);
-    }
-  };
+  }, [goToNext, goToPrevious]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const { left, top, width, height } =

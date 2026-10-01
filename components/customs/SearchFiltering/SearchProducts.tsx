@@ -52,8 +52,8 @@ const SearchProducts = () => {
             No results found
           </h3>
           <p className="text-gray-500">
-            We couldn't find any gadgets matching your criteria. Try adjusting
-            your filters or searching for something else.
+            We couldn&apos;t find any gadgets matching your criteria. Try
+            adjusting your filters or searching for something else.
           </p>
         </div>
       </div>

@@ -69,7 +69,7 @@ const CustomerReviewCard = ({ review }: { review: any }) => {
           {title}
         </h3>
         <p className="text-gray-600 leading-relaxed text-base italic line-clamp-4">
-          "{comment}"
+          &quot;{comment}&quot;
         </p>
       </CardContent>
     </Card>

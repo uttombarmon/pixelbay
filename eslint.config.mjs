@@ -1,26 +1,25 @@
-import js from "@eslint/js";
-import nextPlugin from "@next/eslint-plugin-next";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
 
-export default [
-  js.configs.recommended,
+export default defineConfig([
+  ...nextVitals,
+  ...nextTs,
 
   {
-    plugins: {
-      "@next/next": nextPlugin,
-    },
-
     rules: {
       "@next/next/no-html-link-for-pages": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/incompatible-library": "off",
     },
   },
 
-  {
-    ignores: [
-      ".next/**",
-      "node_modules/**",
-      "coverage/**",
-      "playwright-report/**",
-      "test-results/**",
-    ],
-  },
-];
+  globalIgnores([
+    ".next/**",
+    "node_modules/**",
+    "coverage/**",
+    "playwright-report/**",
+    "test-results/**",
+  ]),
+]);

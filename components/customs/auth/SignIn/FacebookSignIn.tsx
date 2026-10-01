@@ -2,8 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 import React from "react";
-import GIcon from "@/public/google-color-icon.svg";
-import Image from "next/image";
 
 const FacebookSignIn = () => {
   const handleFacebookSignIn = async () => {

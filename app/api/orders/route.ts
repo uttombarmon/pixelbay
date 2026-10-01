@@ -82,7 +82,13 @@ export async function POST(req: Request) {
       .returning();
 
     // Create order items
-    const orderItemsData = items.map((item: any) => ({
+    interface OrderItemInput {
+      variantId: number;
+      quantity: number;
+      unitPrice: string;
+    }
+
+    const orderItemsData = items.map((item: OrderItemInput) => ({
       order_id: newOrder.id,
       variant_id: item.variantId,
       quantity: item.quantity,

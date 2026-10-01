@@ -14,11 +14,12 @@ import {
   LayoutDashboard,
   ShoppingCart,
   CreditCard,
-  LogOut,
   ShieldCheck,
 } from "lucide-react";
 
-const Account = async ({ user }: { user: any }) => {
+interface SessionUser { id?: string; name?: string | null; email?: string | null; image?: string | null; role?: string; }
+
+const Account = async ({ user }: { user: SessionUser }) => {
   return (
     <div className="flex items-center">
       {user?.role === "admin" ? (
@@ -29,8 +30,8 @@ const Account = async ({ user }: { user: any }) => {
           >
             <Avatar className="h-8 w-8 ring-2 ring-transparent group-hover:ring-red-400 transition-all">
               <AvatarImage
-                src={user?.image}
-                alt={user?.name}
+                src={user?.image ?? undefined}
+                alt={user?.name ?? undefined}
                 className="object-cover"
               />
               <AvatarFallback className="bg-red-100 text-red-600 font-bold">
@@ -49,8 +50,8 @@ const Account = async ({ user }: { user: any }) => {
           <DropdownMenuTrigger className="outline-none">
             <Avatar className="h-10 w-10 ring-2 ring-transparent hover:ring-red-500 transition-all shadow-md">
               <AvatarImage
-                src={user?.image}
-                alt={user?.name}
+                src={user?.image ?? undefined}
+                alt={user?.name ?? undefined}
                 className="object-cover"
               />
               <AvatarFallback className="bg-red-100 text-red-600 font-extrabold">

@@ -66,7 +66,6 @@ export async function POST(req: Request) {
     }
 
     // add item
-    const total_price = Number(unit_price) * quantity;
     const [newItem] = await db
       .insert(cartItems)
       .values({

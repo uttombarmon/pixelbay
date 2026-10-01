@@ -9,12 +9,14 @@ export async function GET(req: NextRequest) {
   const customerId = searchParams?.get("cid");
   try {
     if (sellerId && customerId) {
-      const customer = await db
+      const [customer] = await db
         .select()
         .from(users)
         .where(eq(users.id, customerId))
         .limit(1);
+      return NextResponse.json(customer ?? null);
     }
+    return NextResponse.json(null);
   } catch (error) {
     console.log("Error Form get customer Api:", error);
     return NextResponse.error();

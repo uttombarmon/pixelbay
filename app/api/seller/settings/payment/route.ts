@@ -3,7 +3,7 @@
 import { db } from "@/lib/db/drizzle";
 import { NextRequest, NextResponse } from "next/server";
 
-import { eq, and } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth/auth";
 import { paymentMethods } from "@/lib/db/schema/schema";
 

@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface CheckoutFormProps {
   product?: {
@@ -242,9 +243,11 @@ export default function CheckoutForm({
               >
                 {item.image && (
                   <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md border bg-white">
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.name}
+                      width={64}
+                      height={64}
                       className="h-full w-full object-contain"
                     />
                   </div>
@@ -268,9 +271,11 @@ export default function CheckoutForm({
           <div className="flex gap-4">
             {product?.image && (
               <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border bg-white">
-                <img
+                <Image
                   src={product.image}
                   alt={product.title}
+                  width={80}
+                  height={80}
                   className="h-full w-full object-contain"
                 />
               </div>

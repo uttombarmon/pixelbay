@@ -10,9 +10,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ChevronDown, ChevronUp, Edit, Search, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Edit, Search } from "lucide-react";
 import { useMemo } from "react";
 import ConfirmDelete from "./ConfirmDelete";
+
+/**
+ * SortIcon component displays the direction indicator.
+ */
+const SortIcon = ({
+  columnKey,
+  sortConfig,
+}: {
+  columnKey: string;
+  sortConfig?: { key: string; direction: "ascending" | "descending" };
+}) => {
+  if (sortConfig?.key !== columnKey) return null;
+  return sortConfig.direction === "ascending" ? (
+    <ChevronUp className="h-4 w-4 ml-1" />
+  ) : (
+    <ChevronDown className="h-4 w-4 ml-1" />
+  );
+};
 
 export const CategoryListView = ({
   categories,
@@ -31,18 +49,6 @@ export const CategoryListView = ({
   handleDelete: any;
   onSearchChange: any;
 }) => {
-  /**
-   * SortIcon component displays the direction indicator.
-   */
-  const SortIcon = (columnKey: any) => {
-    if (sortConfig.key !== columnKey) return null;
-    return sortConfig.direction === "ascending" ? (
-      <ChevronUp className="h-4 w-4 ml-1" />
-    ) : (
-      <ChevronDown className="h-4 w-4 ml-1" />
-    );
-  };
-
   // Memoize the filtered and sorted list to prevent unnecessary re-calculations
   const sortedCategories = useMemo(() => {
     let sortableItems = [...categories];
@@ -98,7 +104,7 @@ export const CategoryListView = ({
                 className="h-auto p-0 inline-flex items-center"
                 onClick={() => requestSort("name")}
               >
-                Name <SortIcon columnKey="name" />
+                Name <SortIcon columnKey="name" sortConfig={sortConfig} />
               </Button>
             </TableHead>
             <TableHead>
@@ -107,7 +113,7 @@ export const CategoryListView = ({
                 className="h-auto p-0 inline-flex items-center"
                 onClick={() => requestSort("slug")}
               >
-                Slug <SortIcon columnKey="slug" />
+                Slug <SortIcon columnKey="slug" sortConfig={sortConfig} />
               </Button>
             </TableHead>
             <TableHead className="text-center w-[120px]">Actions</TableHead>

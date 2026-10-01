@@ -16,7 +16,6 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import type { GadgetType } from "@/types/form-config";
 
 interface ProductInfoSectionProps {
   form: any;

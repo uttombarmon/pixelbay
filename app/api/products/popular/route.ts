@@ -1,13 +1,9 @@
 import { db } from "@/lib/db/drizzle";
-import {
-  productImages,
-  products as productsTable,
-  productVariants,
-} from "@/lib/db/schema/schema";
-import { NextRequest, NextResponse } from "next/server";
-import { eq, sql, and, asc, desc } from "drizzle-orm";
+import { products as productsTable } from "@/lib/db/schema/schema";
+import { NextResponse } from "next/server";
+import { eq, sql, desc } from "drizzle-orm";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     // Fetch products with their minimum price and first image only
     const popularProducts = await db

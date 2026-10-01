@@ -9,15 +9,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Delete, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import React from "react";
+
+interface Category {
+  id: number;
+  name: string;
+  slug?: string;
+}
 
 const ConfirmDelete = ({
   handleDelete,
   category,
 }: {
-  handleDelete: any;
-  category: any;
+  handleDelete: (id: number) => void;
+  category: Category;
 }) => {
   return (
     <Dialog>

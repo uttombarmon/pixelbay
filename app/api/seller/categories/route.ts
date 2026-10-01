@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const [newCategory] = (await db
+    const [newCategory] = await db
       .insert(categories)
       .values({
         name: body.name,
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
         path: body.path || null,
         metadata: body.metadata || {},
       })
-      .returning()) as any[];
+      .returning();
 
     return NextResponse.json(newCategory, { status: 201 });
   } catch (error) {

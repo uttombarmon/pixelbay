@@ -77,7 +77,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
       title: product.title || "Product",
       description: product.short_description || product.description,
     };
-  } catch (error) {
+  } catch {
     return {
       title: "Product Not Found",
     };

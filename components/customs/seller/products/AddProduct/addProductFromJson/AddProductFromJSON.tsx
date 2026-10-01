@@ -20,7 +20,7 @@ export default function AddProductFromJSON() {
       setJsonInput(JSON.stringify(data, null, 2));
       setValidationError("");
       toast.success("Sample JSON loaded!");
-    } catch (error) {
+    } catch {
       toast.error("Failed to load sample JSON");
     }
   };
@@ -58,7 +58,7 @@ export default function AddProductFromJSON() {
 
       setValidationError("");
       return true;
-    } catch (error) {
+    } catch {
       setValidationError("Invalid JSON format");
       return false;
     }

@@ -3,9 +3,8 @@ import {
   products,
   categories,
   productVariants,
-  productImages,
 } from "@/lib/db/schema/schema";
-import { ilike, eq, and, sql, gte, lte, desc, asc } from "drizzle-orm";
+import { ilike, eq, and, sql, gte, lte, desc, asc, type SQL } from "drizzle-orm";
 
 export async function GET(req: Request) {
   try {
@@ -47,7 +46,7 @@ export async function GET(req: Request) {
     whereConditions.push(eq(productVariants.status, "active"));
 
     // Sorting logic
-    let orderBy: any = desc(products.created_at);
+    let orderBy: SQL = desc(products.created_at);
     if (sort === "price-asc") orderBy = asc(productVariants.price);
     else if (sort === "price-desc") orderBy = desc(productVariants.price);
     else if (sort === "newest") orderBy = desc(products.created_at);

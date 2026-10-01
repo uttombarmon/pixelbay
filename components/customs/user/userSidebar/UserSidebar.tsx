@@ -7,7 +7,6 @@ import {
   LayoutDashboard,
   ShoppingBag,
   ShoppingCart,
-  Heart,
   User,
   LogOut,
 } from "lucide-react";

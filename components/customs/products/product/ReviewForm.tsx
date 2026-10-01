@@ -9,7 +9,6 @@ export default function ReviewForm({ productId }: { productId: number }) {
   const { data: session } = useSession();
   const router = useRouter();
   const [rating, setRating] = useState(0);
-  const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -38,7 +37,6 @@ export default function ReviewForm({ productId }: { productId: number }) {
       const data = await res.json();
       if (res.ok) {
         setMessage("✅ Review added successfully!");
-        setTitle("");
         setBody("");
         setRating(0);
 

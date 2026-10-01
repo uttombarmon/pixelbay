@@ -48,7 +48,7 @@ export default function CustomersPage() {
       <div>
         <h1 className="text-2xl font-bold">Customers</h1>
         <p className="text-muted-foreground">
-          Manage and view your customers' details.
+          Manage and view your customers&apos; details.
         </p>
       </div>
 

@@ -1,4 +1,4 @@
-import { auth, signIn } from "@/lib/auth/auth";
+import { auth } from "@/lib/auth/auth";
 
 import {
   Card,
@@ -10,7 +10,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import GoogleSignIn from "@/components/customs/auth/SignIn/GoogleSignIn";
 import FacebookSignIn from "@/components/customs/auth/SignIn/FacebookSignIn";
-import Link from "next/link";
 import SignInForm from "@/components/customs/auth/SignIn/SignInForm";
 import { redirect } from "next/navigation";
 

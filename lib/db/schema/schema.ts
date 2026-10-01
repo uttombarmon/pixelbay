@@ -12,6 +12,7 @@ import {
   numeric,
   decimal,
   index,
+  type AnyPgColumn,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "@auth/core/adapters";
 import { sql } from "drizzle-orm";
@@ -447,13 +448,13 @@ export const productImages = pgTable(
 // CATEGORIES
 // =====================================================================
 
-export const categories: any = pgTable("categories", {
+export const categories = pgTable("categories", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 200 }).notNull(),
   slug: varchar("slug", { length: 200 }).notNull(),
 
   // Hierarchy
-  parent_id: integer("parent_id").references(() => categories.id, {
+  parent_id: integer("parent_id").references((): AnyPgColumn => categories.id, {
     onDelete: "cascade",
   }),
   path: text("path"), // e.g., "/electronics/computers/laptops"

@@ -31,7 +31,7 @@ const NewArrivals = async () => {
               variant="outline"
               className="rounded-full border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-300"
             >
-              See What's New
+              See What&apos;s New
             </Button>
           </Link>
         </div>
