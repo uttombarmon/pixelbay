@@ -8,7 +8,7 @@ import {
   reviews,
   techSpecifications,
 } from "@/lib/db/schema/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export async function GET(
   req: NextRequest,
@@ -16,9 +16,13 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const productId = parseInt(id);
+    const productId = Number(id);
 
-    if (isNaN(productId)) {
+    if (
+      !/^\d+$/.test(id) ||
+      !Number.isSafeInteger(productId) ||
+      productId <= 0
+    ) {
       return NextResponse.json(
         { error: "Invalid product ID" },
         { status: 400 },
@@ -27,13 +31,16 @@ export async function GET(
 
     // Fetch the main product info
     const product = await db.query.products.findFirst({
-      where: eq(products.id, productId),
+      where: and(
+        eq(products.id, productId),
+        eq(products.status, "active"),
+        eq(products.visibility, "visible"),
+      ),
     });
 
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
-
     // Fetch tech specs if available
     let techSpecs = null;
     if (product.techSpecId) {
@@ -49,7 +56,11 @@ export async function GET(
         orderBy: (fields, { asc }) => [asc(fields.position)],
       }),
       db.query.productVariants.findMany({
-        where: eq(productVariants.product_id, productId),
+        where: and(
+          eq(productVariants.product_id, productId),
+          eq(productVariants.status, "active"),
+          eq(productVariants.visibility, "visible"),
+        ),
       }),
       product.category_id
         ? db.query.categories.findFirst({
@@ -75,7 +86,7 @@ export async function GET(
   } catch (error) {
     console.error("Error fetching product:", error);
     return NextResponse.json(
-      { error: "Internal Server Error", details: (error as Error).message },
+      { error: "Failed to fetch product" },
       { status: 500 },
     );
   }

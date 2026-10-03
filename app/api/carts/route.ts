@@ -8,47 +8,49 @@ import {
   productImages,
 } from "@/lib/db/schema/schema";
 import { auth } from "@/lib/auth/auth";
-import { eq, and } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 export async function GET() {
   try {
     const session = await auth();
 
-    if (!session?.user?.id)
+    if (!session?.user?.id) {
       return NextResponse.json({ error: "Not signed in" }, { status: 401 });
+    }
 
-    // check existing cart
-    const [existingCart] = await db
+    let [cart] = await db
       .select()
       .from(carts)
-      .where(eq(carts.user_id, session.user.id));
+      .where(eq(carts.user_id, session.user.id))
+      .limit(1);
 
-    let cartId = existingCart?.id;
-
-    // create if not found
-    if (!existingCart) {
-      const [newCart] = await db
+    if (!cart) {
+      [cart] = await db
         .insert(carts)
         .values({ user_id: session.user.id })
         .returning();
-      cartId = newCart.id;
     }
 
-    // Fetch items
-    const items = await db
+    const rows = await db
       .select({
         id: cartItems.id,
         productId: products.id,
-        variantId: cartItems.variant_id,
+        variantId: productVariants.id,
         name: products.title,
-        price: cartItems.unit_price, // Or productVariants.price if you want live price
+        price: productVariants.price,
         quantity: cartItems.quantity,
         image: productImages.url,
         slug: products.slug,
+        stock: productVariants.stock,
+        productStatus: products.status,
+        productVisibility: products.visibility,
+        variantStatus: productVariants.status,
+        variantVisibility: productVariants.visibility,
+        variantProductId: productVariants.product_id,
       })
       .from(cartItems)
       .innerJoin(products, eq(cartItems.product_id, products.id))
-      .leftJoin(productVariants, eq(cartItems.variant_id, productVariants.id))
+      .innerJoin(productVariants, eq(cartItems.variant_id, productVariants.id))
       .leftJoin(
         productImages,
         and(
@@ -56,11 +58,31 @@ export async function GET() {
           eq(productImages.isMain, true),
         ),
       )
-      .where(eq(cartItems.cart_id, cartId));
-    console.log("items:", items);
-    return NextResponse.json({ cart: existingCart || { id: cartId }, items });
-  } catch (err) {
-    console.error("❌ GET CART ERROR:", err);
+      .where(eq(cartItems.cart_id, cart.id));
+
+    const items = rows.map((item) => ({
+      id: item.id,
+      productId: item.productId,
+      variantId: item.variantId,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity,
+      image: item.image,
+      slug: item.slug,
+      stock: item.stock,
+      available:
+        item.variantProductId === item.productId &&
+        item.productStatus === "active" &&
+        item.productVisibility === "visible" &&
+        item.variantStatus === "active" &&
+        item.variantVisibility === "visible" &&
+        item.stock > 0,
+    }));
+
+    return NextResponse.json({ cart, items });
+  } catch (error) {
+    console.error("Failed to fetch cart:", error);
+
     return NextResponse.json(
       { error: "Failed to fetch cart" },
       { status: 500 },

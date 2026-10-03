@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 interface CheckoutFormProps {
@@ -39,16 +38,12 @@ export default function CheckoutForm({
   quantity = 1,
   items,
 }: CheckoutFormProps) {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     address: "",
     city: "",
     zip: "",
-    card: "",
-    expiry: "",
-    cvc: "",
   });
 
   // Calculate totals based on mode
@@ -74,22 +69,22 @@ export default function CheckoutForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isLoading) return;
+
     setIsLoading(true);
 
     try {
-      // Prepare order data
       const orderData = {
         items: isCartMode
           ? items!.map((item) => ({
               variantId: item.variantId,
               quantity: item.quantity,
-              unitPrice: item.price,
             }))
           : [
               {
                 variantId: variant!.id,
                 quantity,
-                unitPrice: variant!.price,
               },
             ],
         shippingAddress: {
@@ -98,37 +93,51 @@ export default function CheckoutForm({
           city: formData.city,
           zip: formData.zip,
         },
-        subtotal: parseFloat(total),
-        tax: parseFloat(taxes),
-        total: parseFloat(grandTotal),
         isCartMode,
       };
 
-      const response = await fetch("/api/orders", {
+      // Step 1: Create the pending order on the server.
+      const orderResponse = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderData),
       });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to create order");
+      const orderResult = await orderResponse.json();
+
+      if (!orderResponse.ok) {
+        throw new Error(orderResult.error || "Failed to create order");
       }
 
-      const result = await response.json();
+      // Step 2: Create a Stripe Checkout Session for that order.
+      const checkoutResponse = await fetch("/api/checkout/session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId: orderResult.orderId,
+        }),
+      });
 
-      toast.success("Order placed successfully! 🎉");
+      const checkoutResult = await checkoutResponse.json();
+      console.log("checkoutResult: ", checkoutResult);
 
-      // Redirect to order confirmation
-      router.push(`/order-confirmation?orderNumber=${result.orderNumber}`);
-    } catch (error: any) {
-      console.error("Order creation error:", error);
-      toast.error(error.message || "Failed to place order. Please try again.");
-    } finally {
+      if (!checkoutResponse.ok || !checkoutResult.url) {
+        throw new Error(checkoutResult.error || "Unable to start payment");
+      }
+
+      // Step 3: Redirect to Stripe-hosted checkout.
+      window.location.assign(checkoutResult.url);
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Unable to start checkout. Please try again.";
+
+      console.error("Checkout error:", error);
+      toast.error(message);
       setIsLoading(false);
     }
   };
-
   return (
     <div className="grid gap-8 lg:grid-cols-2">
       {/* Left Column: Forms */}
@@ -187,44 +196,15 @@ export default function CheckoutForm({
         </div>
 
         {/* Payment Section */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           <h2 className="text-xl font-semibold">Payment Details</h2>
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="card">Card Number</Label>
-              <Input
-                id="card"
-                name="card"
-                placeholder="0000 0000 0000 0000"
-                required
-                value={formData.card}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="expiry">Expiry</Label>
-                <Input
-                  id="expiry"
-                  name="expiry"
-                  placeholder="MM/YY"
-                  required
-                  value={formData.expiry}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="cvc">CVC</Label>
-                <Input
-                  id="cvc"
-                  name="cvc"
-                  placeholder="123"
-                  required
-                  value={formData.cvc}
-                  onChange={handleInputChange}
-                />
-              </div>
-            </div>
+
+          <div className="rounded-lg border p-4">
+            <p className="font-medium">Secure checkout with Stripe</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              You will be redirected to Stripe to complete your payment. Your
+              card details will not be collected by PixelBay.
+            </p>
           </div>
         </div>
       </div>
@@ -316,10 +296,10 @@ export default function CheckoutForm({
           {isLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Processing...
+              Redirecting to Stripe...
             </>
           ) : (
-            `Pay $${grandTotal}`
+            `Continue to payment — $${grandTotal}`
           )}
         </Button>
         <p className="text-center text-xs text-muted-foreground">

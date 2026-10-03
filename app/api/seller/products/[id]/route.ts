@@ -34,22 +34,30 @@ export async function GET(
     return result.response;
   }
 
-  const userId = result.user.id;
+  // const userId = result.user.id;
 
-  try {
-    const productId = parseInt(id, 10);
-    if (isNaN(productId)) {
-      return NextResponse.json(
-        { error: "Invalid product ID" },
-        { status: 400 },
+  const productId = Number(id);
+
+  if (!Number.isSafeInteger(productId) || productId <= 0) {
+    return NextResponse.json(
+      { error: "Invalid product ID" },
+      { status: 400 },
+    );
+  }
+
+  const ownershipCondition =
+    result.user.role === "admin"
+      ? eq(products.id, productId)
+      : and(
+        eq(products.id, productId),
+        eq(products.created_by, result.user.id),
       );
-    }
-
-    // Fetch the product along with its images and variants
+  try {
     const productRows = await db
       .select()
       .from(products)
-      .where(and(eq(products.id, productId), eq(products.created_by, userId)));
+      .where(ownershipCondition)
+      .limit(1);
 
     if (!productRows || productRows.length === 0) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
@@ -175,6 +183,7 @@ export async function GET(
   }
 }
 
+
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
@@ -182,20 +191,97 @@ export async function PUT(
   const { id } = await params;
   const result = await requireRole(["seller", "admin"]);
 
-  if (!result.ok) {
-    return result.response;
+  if (!result.ok) return result.response;
+
+  const productId = Number(id);
+
+  if (!Number.isSafeInteger(productId) || productId <= 0) {
+    return NextResponse.json(
+      { error: "Invalid product ID" },
+      { status: 400 },
+    );
   }
 
-  // const userId = result.user.id;
-
   try {
-    const productId = Number(id);
-    if (isNaN(productId)) {
+    let body: unknown;
+
+    try {
+      body = await req.json();
+    } catch {
       return NextResponse.json(
-        { error: "Invalid product ID" },
+        { error: "Invalid JSON request body" },
         { status: 400 },
       );
     }
+
+    if (
+      typeof body !== "object" ||
+      body === null ||
+      Array.isArray(body)
+    ) {
+      return NextResponse.json(
+        { error: "Request body must be a JSON object" },
+        { status: 400 },
+      );
+    }
+
+    const payload = body as Record<string, unknown>;
+
+    const images = payload.images as
+      | { url: string; alt: string }[]
+      | undefined;
+
+    const variants = payload.variants as VariantInput[] | undefined;
+
+    if (
+      (payload.images !== undefined &&
+        (!Array.isArray(payload.images) ||
+          !payload.images.every(
+            (img: unknown) =>
+              typeof img === "object" &&
+              img !== null &&
+              !Array.isArray(img) &&
+              "url" in img &&
+              typeof img.url === "string" &&
+              "alt" in img &&
+              typeof img.alt === "string" &&
+              img.url.length <= 2048 &&
+              img.alt.length <= 500 &&
+              /^https?:\/\//i.test(img.url),
+          ))) ||
+      (payload.variants !== undefined &&
+        (!Array.isArray(payload.variants) ||
+          !payload.variants.every(
+            (variant: unknown) =>
+              typeof variant === "object" &&
+              variant !== null &&
+              !Array.isArray(variant),
+          ))
+      )
+    ) {
+      return NextResponse.json(
+        { error: "Invalid images or variants" },
+        { status: 400 },
+      );
+    }
+
+    if (
+      variants?.some(
+        (variant) =>
+          (variant.price !== undefined &&
+            (!Number.isFinite(Number(variant.price)) ||
+              Number(variant.price) < 0)) ||
+          (variant.stock !== undefined &&
+            (!Number.isSafeInteger(variant.stock) ||
+              variant.stock < 0)),
+      )
+    ) {
+      return NextResponse.json(
+        { error: "Invalid variant price or stock" },
+        { status: 400 },
+      );
+    }
+
     const ownershipCondition =
       result.user.role === "admin"
         ? eq(products.id, productId)
@@ -204,243 +290,194 @@ export async function PUT(
           eq(products.created_by, result.user.id),
         );
 
-    const [existingProduct] = await db
-      .select({
-        id: products.id,
-        created_by: products.created_by,
-        techSpecId: products.techSpecId,
-      })
-      .from(products)
-      .where(ownershipCondition)
-      .limit(1);
+    const techSpecFields = [
+      "processor",
+      "processorCores",
+      "processorThreads",
+      "processorSpeed",
+      "processorArch",
+      "ram",
+      "ramType",
+      "ramSpeed",
+      "storage",
+      "storageType",
+      "storageInterface",
+      "storageExpansion",
+      "gpu",
+      "gpuMemory",
+      "gpuMemoryType",
+      "displaySize",
+      "displayTech",
+      "displayResolution",
+      "refreshRate",
+      "colorDepth",
+      "brightness",
+      "screenCoating",
+      "batteryCapacity",
+      "batteryType",
+      "batteryLife",
+      "fastCharging",
+      "wirelessCharging",
+      "rearCameraMP",
+      "rearCameraAperture",
+      "frontCameraMP",
+      "frontCameraAperture",
+      "videoCapability",
+      "opticalZoom",
+      "speakerCount",
+      "speakerWatts",
+      "audioCodec",
+      "microphone",
+      "bluetooth",
+      "wifi",
+      "nfc",
+      "usb",
+      "ports",
+      "cellular",
+      "sim",
+      "weight",
+      "dimensions",
+      "material",
+      "ipRating",
+      "mrlRating",
+      "dropProtection",
+      "operatingSystem",
+      "maxOSUpdate",
+      "softwareSupport",
+      "antutuScore",
+      "geekbenchScore",
+      "fps",
+      "thermalDesignPower",
+      "maxTemperature",
+    ] as const;
 
-    if (!existingProduct) {
+    const productFieldMap: Record<string, string> = {
+      title: "title",
+      slug: "slug",
+      brand: "brand",
+      model: "model",
+      gadgetType: "gadgetType",
+      status: "status",
+      visibility: "visibility",
+      condition: "condition",
+      shortDescription: "short_description",
+      description: "description",
+      warrantyType: "warrantyType",
+      warrantyMonths: "warrantyMonths",
+      warrantyDescription: "warrantyDescription",
+      category_id: "category_id",
+    };
+
+    const productUpdateData: Record<string, unknown> = {};
+
+    for (const [inputKey, dbKey] of Object.entries(productFieldMap)) {
+      if (Object.prototype.hasOwnProperty.call(payload, inputKey)) {
+        productUpdateData[dbKey] = payload[inputKey];
+      }
+    }
+
+    const outcome = await db.transaction(async (tx) => {
+      const [existingProduct] = await tx
+        .select({
+          id: products.id,
+          techSpecId: products.techSpecId,
+        })
+        .from(products)
+        .where(ownershipCondition)
+        .limit(1);
+
+      if (!existingProduct) {
+        return "not-found" as const;
+      }
+
+      if (existingProduct.techSpecId) {
+        const techSpecData = Object.fromEntries(
+          techSpecFields
+            .filter((field) =>
+              Object.prototype.hasOwnProperty.call(payload, field),
+            )
+            .map((field) => [field, payload[field]]),
+        );
+
+        if (Object.keys(techSpecData).length > 0) {
+          await tx
+            .update(techSpecifications)
+            .set(
+              techSpecData as Partial<
+                typeof techSpecifications.$inferInsert
+              >,
+            )
+            .where(
+              eq(
+                techSpecifications.id,
+                existingProduct.techSpecId,
+              ),
+            );
+        }
+      }
+
+      const updatedProduct = await tx
+        .update(products)
+        .set({
+          ...productUpdateData,
+          updated_at: new Date(),
+        })
+        .where(ownershipCondition)
+        .returning({ id: products.id });
+
+      if (updatedProduct.length === 0) {
+        throw new Error("PRODUCT_NOT_FOUND");
+      }
+
+      if (images !== undefined) {
+        await tx
+          .delete(productImages)
+          .where(eq(productImages.product_id, productId));
+
+        if (images.length > 0) {
+          await tx.insert(productImages).values(
+            images.map((img, index) => ({
+              product_id: productId,
+              url: img.url,
+              alt: img.alt,
+              position: index,
+            })),
+          );
+        }
+      }
+
+      if (variants !== undefined) {
+        await tx
+          .delete(productVariants)
+          .where(eq(productVariants.product_id, productId));
+
+        if (variants.length > 0) {
+          await tx.insert(productVariants).values(
+            variants.map((variant, index) => ({
+              product_id: productId,
+              sku:
+                variant.sku ||
+                `SKU-${productId}-${index}-${crypto.randomUUID()}`,
+              variantName: variant.variantName,
+              color: variant.color,
+              storageVariant: variant.storageVariant,
+              ramVariant: variant.ramVariant,
+              regionVariant: variant.regionVariant,
+              price: String(variant.price ?? 0),
+              currency: variant.currency || "USD",
+              stock: variant.stock ?? 0,
+            })),
+          );
+        }
+      }
+
+      return "updated" as const;
+    });
+
+    if (outcome === "not-found") {
       return NextResponse.json(
         { error: "Product not found" },
         { status: 404 },
-      );
-    }
-
-    const body = await req.json();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { images, variants, created_at: _created_at, updated_at: _updated_at, ...productData } = body;
-    delete productData.created_at;
-    delete productData.updated_at;
-    const cleanVariants: VariantInput[] = variants
-      ? variants.map((v: VariantInput) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { created_at: _ca, updated_at: _ua, ...rest } = v;
-        return rest;
-      })
-      : [];
-    // Extract tech specs
-    const {
-      // techSpecId,
-      processor,
-      processorCores,
-      processorThreads,
-      processorSpeed,
-      processorArch,
-      ram,
-      ramType,
-      ramSpeed,
-      storage,
-      storageType,
-      storageInterface,
-      storageExpansion,
-      gpu,
-      gpuMemory,
-      gpuMemoryType,
-      displaySize,
-      displayTech,
-      displayResolution,
-      refreshRate,
-      colorDepth,
-      brightness,
-      screenCoating,
-      batteryCapacity,
-      batteryType,
-      batteryLife,
-      fastCharging,
-      wirelessCharging,
-      rearCameraMP,
-      rearCameraAperture,
-      frontCameraMP,
-      frontCameraAperture,
-      videoCapability,
-      opticalZoom,
-      speakerCount,
-      speakerWatts,
-      audioCodec,
-      microphone,
-      bluetooth,
-      wifi,
-      nfc,
-      usb,
-      ports,
-      cellular,
-      sim,
-      weight,
-      dimensions,
-      material,
-      ipRating,
-      mrlRating,
-      dropProtection,
-      operatingSystem,
-      maxOSUpdate,
-      softwareSupport,
-      antutuScore,
-      geekbenchScore,
-      fps,
-      thermalDesignPower,
-      maxTemperature,
-      ...mainProductData
-    } = productData;
-
-    if (existingProduct.techSpecId) {
-      await db
-        .update(techSpecifications)
-        .set({
-          processor,
-          processorCores,
-          processorThreads,
-          processorSpeed,
-          processorArch,
-          ram,
-          ramType,
-          ramSpeed,
-          storage,
-          storageType,
-          storageInterface,
-          storageExpansion,
-          gpu,
-          gpuMemory,
-          gpuMemoryType,
-          displaySize,
-          displayTech,
-          displayResolution,
-          refreshRate,
-          colorDepth,
-          brightness,
-          screenCoating,
-          batteryCapacity,
-          batteryType,
-          batteryLife,
-          fastCharging,
-          wirelessCharging,
-          rearCameraMP,
-          rearCameraAperture,
-          frontCameraMP,
-          frontCameraAperture,
-          videoCapability,
-          opticalZoom,
-          speakerCount,
-          speakerWatts,
-          audioCodec,
-          microphone,
-          bluetooth,
-          wifi,
-          nfc,
-          usb,
-          ports,
-          cellular,
-          sim,
-          weight,
-          dimensions,
-          material,
-          ipRating,
-          mrlRating,
-          dropProtection,
-          operatingSystem,
-          maxOSUpdate,
-          softwareSupport,
-          antutuScore,
-          geekbenchScore,
-          fps,
-          thermalDesignPower,
-          maxTemperature,
-        })
-        .where(eq(techSpecifications.id, existingProduct.techSpecId));
-    }
-
-    // Map camelCase to snake_case for database
-    const productUpdateData: Record<string, unknown> = {};
-    if (mainProductData.title) productUpdateData.title = mainProductData.title;
-    if (mainProductData.slug) productUpdateData.slug = mainProductData.slug;
-    if (mainProductData.brand) productUpdateData.brand = mainProductData.brand;
-    if (mainProductData.model !== undefined)
-      productUpdateData.model = mainProductData.model;
-    if (mainProductData.gadgetType)
-      productUpdateData.gadgetType = mainProductData.gadgetType;
-    if (mainProductData.status)
-      productUpdateData.status = mainProductData.status;
-    if (mainProductData.visibility)
-      productUpdateData.visibility = mainProductData.visibility;
-    if (mainProductData.condition)
-      productUpdateData.condition = mainProductData.condition;
-    if (mainProductData.shortDescription !== undefined)
-      productUpdateData.short_description = mainProductData.shortDescription;
-    if (mainProductData.description !== undefined)
-      productUpdateData.description = mainProductData.description;
-    if (mainProductData.warrantyType !== undefined)
-      productUpdateData.warrantyType = mainProductData.warrantyType;
-    if (mainProductData.warrantyMonths !== undefined)
-      productUpdateData.warrantyMonths = mainProductData.warrantyMonths;
-    if (mainProductData.warrantyDescription !== undefined)
-      productUpdateData.warrantyDescription =
-        mainProductData.warrantyDescription;
-    if (mainProductData.category_id !== undefined)
-      productUpdateData.category_id = mainProductData.category_id;
-
-    // Update product
-    const updatedProduct = await db
-      .update(products)
-      .set({ ...productUpdateData, updated_at: new Date() })
-      .where(ownershipCondition)
-      .returning({ id: products.id });
-
-    if (updatedProduct.length === 0) {
-      return NextResponse.json(
-        {
-          error: "Product not found or you do not have permission to edit it.",
-        },
-        { status: 404 },
-      );
-    }
-
-    // Update images
-    await db
-      .delete(productImages)
-      .where(eq(productImages.product_id, productId));
-    if (images && images.length > 0) {
-      await db.insert(productImages).values(
-        images.map((img: { url: string; alt: string }, index: number) => ({
-          product_id: productId,
-          url: img.url,
-          alt: img.alt,
-          position: index,
-        })),
-      );
-    }
-
-    // Update variants
-    await db
-      .delete(productVariants)
-      .where(eq(productVariants.product_id, productId));
-    if (cleanVariants.length > 0) {
-      await db.insert(productVariants).values(
-        cleanVariants.map((v: VariantInput, index: number) => ({
-          product_id: productId,
-          sku: v.sku || `SKU-${productId}-${index}-${Date.now()}`,
-          variantName: v.variantName,
-          color: v.color,
-          storageVariant: v.storageVariant,
-          ramVariant: v.ramVariant,
-          regionVariant: v.regionVariant,
-          price: v.price?.toString() || "0",
-          currency: v.currency || "USD",
-          stock: v.stock || 0,
-        })),
       );
     }
 
@@ -449,41 +486,89 @@ export async function PUT(
       { status: 200 },
     );
   } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "PRODUCT_NOT_FOUND"
+    ) {
+      return NextResponse.json(
+        { error: "Product not found or permission denied" },
+        { status: 404 },
+      );
+    }
+
     console.error("Error updating product:", error);
+
     return NextResponse.json(
       { error: "Failed to update product" },
       { status: 500 },
     );
   }
 }
+
+
 export async function DELETE(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
+
   const result = await requireRole(["seller", "admin"]);
 
   if (!result.ok) {
     return result.response;
   }
 
-  const userId = result.user.id;
+  const productId = Number(id);
 
-  const productId = parseInt(id, 10);
-  if (isNaN(productId)) {
-    return NextResponse.json({ error: "Invalid product ID" }, { status: 400 });
+  if (!Number.isSafeInteger(productId) || productId <= 0) {
+    return NextResponse.json(
+      { error: "Invalid product ID" },
+      { status: 400 },
+    );
   }
 
-  try {
-    await db
-      .delete(products)
-      .where(and(eq(products.id, productId), eq(products.created_by, userId)));
+  const ownershipCondition =
+    result.user.role === "admin"
+      ? eq(products.id, productId)
+      : and(
+        eq(products.id, productId),
+        eq(products.created_by, result.user.id),
+      );
 
-    return NextResponse.json({ message: "Product deleted" }, { status: 200 });
-  } catch (error) {
-    console.error("Error deleting product:", error);
+  try {
+    const archivedProducts = await db
+      .update(products)
+      .set({
+        status: "archived",
+        updated_at: new Date(),
+      })
+      .where(ownershipCondition)
+      .returning({
+        id: products.id,
+      });
+
+    if (archivedProducts.length === 0) {
+      return NextResponse.json(
+        {
+          error:
+            "Product not found or you do not have permission to archive it.",
+        },
+        { status: 404 },
+      );
+    }
+
     return NextResponse.json(
-      { error: "Failed to delete product" },
+      {
+        message: "Product archived successfully",
+        id: archivedProducts[0].id,
+      },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error("Error archiving product:", error);
+
+    return NextResponse.json(
+      { error: "Failed to archive product" },
       { status: 500 },
     );
   }

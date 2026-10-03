@@ -1,12 +1,22 @@
-import Schema from "./schema";
-// import { config } from "dotenv";
-import { drizzle } from "drizzle-orm/neon-http";
 
-// config({ path: ".env" }); // or .env.local
-// console.log("Environment Variables:", process.env.DATABASE_URL!);
-if (!process.env.DATABASE_URL!) {
+import Schema from "./schema";
+import { Pool } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
+
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
   throw new Error("DATABASE_URL not found in environment variables");
 }
 
-export const db = drizzle(process.env.DATABASE_URL!, { schema: Schema });
-console.log("Database connected:", !!db);
+const pool = new Pool({
+  connectionString,
+  max: 5,
+  connectionTimeoutMillis: 10_000,
+  idleTimeoutMillis: 20_000,
+});
+
+export const db = drizzle({
+  client: pool,
+  schema: Schema,
+});
