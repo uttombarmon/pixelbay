@@ -38,18 +38,18 @@ export default function Categories() {
 
   return (
     <div className="py-16 px-4 md:px-8">
-      <div className="flex items-center justify-between mb-10">
-        <div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+      <div className="mb-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 sm:text-3xl md:text-4xl">
             Explore Categories
           </h2>
-          <p className="text-gray-500 text-lg">
+          <p className="text-sm text-gray-500 sm:text-base lg:text-lg">
             Find the perfect gadgets by category
           </p>
         </div>
         <Link
           href="/search"
-          className="group flex items-center gap-2 text-red-600 font-semibold hover:text-red-700 transition-colors"
+          className="group inline-flex shrink-0 items-center gap-2 whitespace-nowrap text-red-600 font-semibold hover:text-red-700 transition-colors"
         >
           View All <MoveRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </Link>

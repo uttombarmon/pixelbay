@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { SignOutButton } from "../buttons/SignOutButton";
-import { User, LayoutDashboard, ShoppingCart, CreditCard, LogOut, ShieldCheck } from "lucide-react";
+import { User, LayoutDashboard, ShoppingCart, CreditCard, ShieldCheck } from "lucide-react";
 
 const Account = async ({ user }: { user: any }) => {
   return (
@@ -28,11 +28,7 @@ const Account = async ({ user }: { user: any }) => {
             </span>
           </Link>
           <div className="w-px h-6 bg-gray-200 dark:bg-gray-800 mx-1 hidden md:block"></div>
-          <SignOutButton>
-            <div className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors text-gray-500 hover:text-red-500">
-              <LogOut className="w-5 h-5" />
-            </div>
-          </SignOutButton>
+          <SignOutButton className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors text-gray-500 hover:text-red-500" />
         </div>
       ) : (
         <DropdownMenu>
@@ -86,11 +82,8 @@ const Account = async ({ user }: { user: any }) => {
             <DropdownMenuSeparator className="bg-gray-100 dark:bg-gray-800 mx-2" />
 
             <div className="p-1">
-              <SignOutButton>
-                <div className="flex items-center gap-3 w-full py-2.5 px-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 text-red-600 transition-all font-bold text-sm cursor-pointer">
-                  <LogOut className="w-4 h-4" />
-                  <span>Sign Out</span>
-                </div>
+              <SignOutButton className="flex items-center gap-3 w-full py-2.5 px-3 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/30 text-red-600 transition-all font-bold text-sm cursor-pointer">
+                <span>Sign Out</span>
               </SignOutButton>
             </div>
           </DropdownMenuContent>

@@ -11,7 +11,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 const SearchPageComponent = () => {
   const [searchText, setSearchText] = useState("");
   const searchParams = useSearchParams();
-  const query = searchParams.get("s") || "";
+  const query = searchParams?.get("s") || "";
 
   useEffect(() => {
     setSearchText(query);

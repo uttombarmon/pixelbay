@@ -10,7 +10,7 @@ const CategoriesFilter = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const activeCategory = searchParams.get("category");
+  const activeCategory = searchParams?.get("category") ?? null;
 
   useEffect(() => {
     const getCategories = async () => {
@@ -27,7 +27,7 @@ const CategoriesFilter = () => {
   }, []);
 
   const handleCategoryChange = (slug: string) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString());
     if (params.get("category") === slug) {
       params.delete("category");
     } else {
@@ -37,7 +37,7 @@ const CategoriesFilter = () => {
   };
 
   const handleReset = () => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString());
     params.delete("category");
     router.push(`/search?${params.toString()}`);
   };

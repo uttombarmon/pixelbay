@@ -36,10 +36,14 @@ export async function GET(req: Request) {
 
     // Price range filtering
     if (minPrice) {
-      whereConditions.push(gte(productVariants.price, parseFloat(minPrice)));
+      whereConditions.push(
+        gte(productVariants.price, parseFloat(minPrice).toString())
+      );
     }
     if (maxPrice) {
-      whereConditions.push(lte(productVariants.price, parseFloat(maxPrice)));
+      whereConditions.push(
+        lte(productVariants.price, parseFloat(maxPrice).toString())
+      );
     }
 
     // Default where condition (active products and variants)

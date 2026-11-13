@@ -52,19 +52,12 @@ export async function GET(req: NextRequest) {
     //   console.log("First product sample:", JSON.stringify(popularProducts[0], null, 2));
     // }
 
-    if (popularProducts && popularProducts.length > 0) {
-      return NextResponse.json(popularProducts, { 
-        status: 200,
-        headers: {
-          'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
-        },
-      });
-    }
-
-    return NextResponse.json(
-      { message: "No products found" },
-      { status: 404 }
-    );
+    return NextResponse.json(popularProducts, {
+      status: 200,
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+      },
+    });
   } catch (err) {
     console.error("Error fetching popular products:", err);
     return NextResponse.json(

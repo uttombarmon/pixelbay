@@ -12,7 +12,6 @@ import {
   Tv,
   Camera,
   ChevronRight,
-  LogOut,
   Search
 } from "lucide-react";
 
@@ -86,11 +85,8 @@ const MenuProducts = async ({ session }: { session: any }) => {
                 </span>
               </div>
             </Link>
-            <SignOutButton>
-              <div className="flex items-center gap-3 w-full py-3 px-4 rounded-xl text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all font-bold text-xs uppercase tracking-widest cursor-pointer">
-                <LogOut className="w-4 h-4" />
-                <span>Log Out</span>
-              </div>
+            <SignOutButton className="flex items-center gap-3 w-full py-3 px-4 rounded-xl text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all font-bold text-xs uppercase tracking-widest cursor-pointer">
+              <span>Log Out</span>
             </SignOutButton>
           </div>
         ) : (

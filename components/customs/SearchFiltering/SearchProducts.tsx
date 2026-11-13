@@ -9,12 +9,12 @@ const SearchProducts = () => {
   const [gadgets, setGadgets] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
+  const queryParams = searchParams?.toString() ?? "";
 
   useEffect(() => {
     const fetchGadgets = async () => {
       setLoading(true);
       try {
-        const queryParams = searchParams.toString();
         const response = await fetch(`${process.env.NEXT_PUBLIC_CLIENT_URL}/api/search?${queryParams}`);
         if (!response.ok) throw new Error("Search failed");
         const products = await response.json();
@@ -28,7 +28,7 @@ const SearchProducts = () => {
     };
 
     fetchGadgets();
-  }, [searchParams]);
+  }, [queryParams]);
 
   if (loading) {
     return (

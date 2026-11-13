@@ -148,7 +148,7 @@ export function ListItem({
   ...props
 }: React.ComponentPropsWithoutRef<"li"> & { href: string; title: string }) {
   return (
-    <li>
+    <li {...props}>
       <NavigationMenuLink asChild>
         <Link
           href={href}
@@ -156,7 +156,6 @@ export function ListItem({
             "block select-none space-y-1 rounded-2xl p-4 leading-none no-underline outline-none transition-all duration-300 group hover:bg-red-50 dark:hover:bg-red-950/20",
             className
           )}
-          {...props}
         >
           <div className="text-sm font-bold leading-none flex items-center justify-between group-hover:text-red-600 transition-colors">
             {title}
