@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiase max-w-7xl mx-auto`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-w-0`}
       >
         <Toaster />
         <ThemeProvider

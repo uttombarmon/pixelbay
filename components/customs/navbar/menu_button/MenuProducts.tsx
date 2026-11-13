@@ -15,7 +15,7 @@ import {
   Search
 } from "lucide-react";
 
-const MenuProducts = async ({ session }: { session: any }) => {
+const MenuProducts = ({ session }: { session: any }) => {
   return (
     <div className="flex flex-col min-h-full pb-10">
       {/* Mobile Search - Prominent at the top */}
